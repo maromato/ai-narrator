@@ -1,28 +1,25 @@
 # AI Narrator
 
-Generate a short narrated video (1080×1920 MP4) from a single topic string.
+TikTok向け縦型ショート動画（1080×1920）をトピック1つから自動生成します。
 
-**Pipeline:** Topic → LLM storyboard → AI images → TTS narration → FFmpeg video
+**パイプライン:** トピック → Claude（ストーリーボード） → 画像/動画生成 → TTS音声 → FFmpeg合成 → MP4
 
 ---
 
-## Requirements
+## 必要なもの
 
 - Python 3.11+
-- FFmpeg (with `ffprobe`)
-- API keys: Anthropic + OpenAI
+- FFmpeg（`ffprobe` 含む）
+- APIキー: Anthropic + OpenAI（静止画モード）、Kling（動画モード、任意）
 
 ```bash
 # macOS
 brew install ffmpeg
-
-# Check
-ffmpeg -version && ffprobe -version
 ```
 
 ---
 
-## Setup
+## セットアップ
 
 ```bash
 cd ai_narrator
@@ -30,99 +27,187 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
 cp .env.example .env
-# Edit .env and add your API keys:
+# .env にAPIキーを入力:
 #   ANTHROPIC_API_KEY=sk-ant-...
 #   OPENAI_API_KEY=sk-...
+#   KLING_API_KEY=...  # --mode video を使う場合のみ
 ```
 
 ---
 
-## Usage
+## 基本的な使い方
 
 ```bash
-# Mock mode — no API calls, free, tests the full pipeline
-python run.py --mock
+# モックモード（APIコールなし・無料）— 動作確認用
+.venv/bin/python run.py --mock
 
-# Default topic (live)
-python run.py
+# デフォルトトピックで実行
+.venv/bin/python run.py
 
-# Custom topic (live)
-python run.py --topic "Life in Feudal Japan"
+# トピックを指定
+.venv/bin/python run.py --topic "江戸時代の朝"
 
-# Custom config
-python run.py --mock --config config.json
-```
+# ジャンルを指定
+.venv/bin/python run.py --topic "古代ローマの崩壊" --genre history
 
-Output is saved to `output/<timestamp>/`:
+# 日本語ナレーション
+.venv/bin/python run.py --topic "桜の秘密" --genre japan_zen --lang ja
 
-```
-output/20261108_120000/
-├── storyboard.json   # 4-scene storyboard
-├── script.txt        # full narration script
-├── scene_1.png       # generated images
-├── scene_2.png
-├── scene_3.png
-├── scene_4.png
-├── narration_1.mp3   # per-scene TTS audio
-├── narration_2.mp3
-├── narration_3.mp3
-├── narration_4.mp3
-├── clip_1.mp4        # per-scene video clips
-├── clip_2.mp4
-├── clip_3.mp4
-├── clip_4.mp4
-├── final.mp4         # ← playable output
-└── report.json       # API usage + cost estimate
+# Claude にトピックを自動選択させる
+.venv/bin/python run.py --topic-from llm --genre romance --lang ja
+
+# トピック候補を表示して選ぶ（インタラクティブ）
+.venv/bin/python run.py --topic-from llm --genre romance --lang ja --interactive
 ```
 
 ---
 
-## Tests
+## 全オプション
+
+| オプション | デフォルト | 説明 |
+|---|---|---|
+| `--topic` | `"A morning in Ancient Rome"` | 動画のトピック |
+| `--genre` | `general` | 画像スタイルのジャンル（下記参照） |
+| `--lang` | `en` | ナレーション言語: `en` / `ja` |
+| `--mode` | `static` | `static`（静止画+Ken Burns）/ `video`（Kling動画生成） |
+| `--topic-from` | `manual` | `manual`（--topicを使用）/ `llm`（Claudeが自動提案） |
+| `--interactive` | off | `--topic-from llm` 時に候補を表示して選択 |
+| `--tts` | config準拠 | `openai` / `voicevox` |
+| `--tts-speaker` | `1` | Voicevox スピーカーID |
+| `--mock` | off | APIコールなし・無料のテストモード |
+| `--config` | `config.json` | 設定ファイルのパス |
+
+---
+
+## ジャンル一覧
+
+| ジャンル | 内容 | 画像スタイル |
+|---|---|---|
+| `general` | 汎用 | 映画トレーラー風 |
+| `history` | 歴史 | ハリウッド歴史映画風 |
+| `science` | 科学 | NASA/BBC Planet Earth風 |
+| `animals` | 動物 | Pixar/DreamWorks 3Dアニメ風 |
+| `religion` | 宗教・精神 | 神聖な光と壮大なスケール |
+| `lifestyle` | ライフスタイル | インスタ映えする日常 |
+| `selfhelp` | 自己啓発 | 大自然の中の孤独な人物 |
+| `workplace` | 職場・仕事 | リアルなビジネスシーン |
+| `japan_travel` | 日本旅行 | 日本の絶景・神社・温泉 |
+| `japan_zen` | 日本の禅・仏教 | 枯山水・竹林・静寂 |
+| `romance` | 恋愛・カップル | 日本人カップルの日常 |
+| `mens_life` | 男性向けライフ | 東京・都市の日本人男性 |
+
+---
+
+## TTS（音声合成）
+
+### OpenAI（デフォルト）
+```bash
+.venv/bin/python run.py --lang ja   # config.json の設定を使用
+```
+
+### Voicevox（無料・ローカル・自然な日本語）
+1. [voicevox.hiroshiba.jp](https://voicevox.hiroshiba.jp/) からインストール・起動
+2. オプションで指定:
+```bash
+.venv/bin/python run.py --tts voicevox --lang ja
+.venv/bin/python run.py --tts voicevox --tts-speaker 13 --lang ja  # スピーカー指定
+```
+
+**主なVoicevoxスピーカーID**
+
+| ID | キャラクター |
+|---|---|
+| 1 | ずんだもん（ノーマル） |
+| 3 | ずんだもん（喜び） |
+| 2 | 四国めたん |
+| 8 | 春日部つむぎ |
+| 13 | 青山龍星（落ち着いた男性） |
+
+---
+
+## 動画生成モード（Kling）
+
+静止画+Ken Burnsではなく、AIが動画クリップを生成します。
 
 ```bash
-pytest tests/ -v
+.venv/bin/python run.py --mode video --genre history --topic "古代ローマ"
 ```
 
-The `test_mock_pipeline_produces_mp4` test runs the full end-to-end pipeline in mock mode and verifies the MP4 is created.
+- `KLING_API_KEY` が必要です
+- 1クリップあたり約30〜60秒かかります（Klingの生成時間）
+- コスト: 5秒クリップ $0.25、10秒クリップ $0.50 程度
 
 ---
 
-## Configuration (`config.json`)
+## 出力ファイル
 
-| Section | Key | Default | Notes |
+```
+output/20261109_120000/
+├── storyboard.json     # 6シーンのストーリーボード（トーン・ハッシュタグ含む）
+├── script.txt          # 全体ナレーション
+├── scene_1.png         # 生成画像（staticモード）
+│   ...
+├── narration_1.mp3     # シーンごとの音声
+│   ...
+├── clip_1.mp4          # シーンごとの動画クリップ
+│   ...
+├── final.mp4           # ← 最終出力
+└── report.json         # API使用量・コスト・ハッシュタグ
+```
+
+---
+
+## 費用の目安（1本あたり）
+
+### 静止画モード（static）
+| サービス | 内容 | 費用 |
+|---|---|---|
+| Claude | ストーリーボード生成 | ~$0.02 |
+| gpt-image-2 low（×6） | 画像生成 | ~$0.07 |
+| OpenAI TTS（×6シーン） | 音声合成 | ~$0.01 |
+| **合計** | | **~$0.10** |
+
+### 動画モード（video / Kling）
+| サービス | 内容 | 費用 |
+|---|---|---|
+| Claude | ストーリーボード生成 | ~$0.02 |
+| Kling kling-v3（×6クリップ） | 動画生成 | ~$1.50〜 |
+| OpenAI TTS（×6シーン） | 音声合成 | ~$0.01 |
+| **合計** | | **~$1.55〜** |
+
+---
+
+## 設定ファイル（config.json）
+
+| セクション | キー | デフォルト | 説明 |
 |---|---|---|---|
-| `llm` | `model` | `claude-sonnet-4-6` | Claude model |
-| `image_gen` | `model` | `dall-e-3` | Image model |
-| `image_gen` | `quality` | `standard` | `standard` or `hd` |
-| `tts` | `voice` | `nova` | `alloy` / `echo` / `fable` / `onyx` / `nova` / `shimmer` |
-| `video` | `width`/`height` | `1080`/`1920` | Portrait format |
-| `video` | `fps` | `30` | Frame rate |
-| `video` | `crf` | `18` | Quality (lower = better) |
+| `llm` | `model` | `claude-sonnet-4-6` | Claudeモデル |
+| `llm` | `max_tokens` | `3500` | 最大トークン数 |
+| `image_gen` | `model` | `gpt-image-2` | 画像生成モデル |
+| `image_gen` | `quality` | `low` | `low` / `medium` / `high` |
+| `tts` | `provider` | `openai` | `openai` / `voicevox` |
+| `tts` | `model` | `tts-1` | `tts-1` / `tts-1-hd` |
+| `tts` | `voice` | `nova` | `alloy` / `echo` / `nova` / `onyx` / `shimmer` |
+| `video_gen` | `model` | `kling-v3` | Klingモデル |
+| `video` | `width`/`height` | `1080`/`1920` | 縦型フォーマット |
+| `video` | `fps` | `30` | フレームレート |
 
 ---
 
-## Architecture
+## アーキテクチャ
 
 ```
 run.py
-  └── src/pipeline.py           # orchestrates all steps
-        ├── src/adapters/llm.py       # Claude → storyboard JSON
-        ├── src/adapters/image_gen.py # DALL-E 3 → PNG images
-        ├── src/adapters/tts.py       # OpenAI TTS → MP3 audio
-        └── src/video.py              # FFmpeg → MP4 (Ken Burns + subtitles)
+  └── src/pipeline.py
+        ├── src/adapters/llm.py           # Claude → ストーリーボードJSON
+        ├── src/adapters/image_gen.py     # gpt-image-2 → PNG画像
+        ├── src/adapters/tts.py           # OpenAI TTS → MP3
+        ├── src/adapters/tts_voicevox.py  # Voicevox → WAV
+        ├── src/adapters/video_gen.py     # Kling → MP4クリップ
+        └── src/video.py                  # FFmpeg → 最終MP4
 
-mock/adapters.py               # Drop-in replacements for --mock mode
-src/storyboard.py              # JSON schema + dataclass
-src/report.py                  # Run report (cost, timing, paths)
+src/storyboard.py     # JSONスキーマ・ジャンルスタイル・プロンプト生成
+src/topic_selector.py # LLMによるトピック自動提案
+src/report.py         # 実行レポート（コスト・タイミング）
+mock/adapters.py      # --mock用ダミーアダプター
 ```
-
----
-
-## Estimated cost per video
-
-| Service | Usage | Est. cost |
-|---|---|---|
-| Claude (storyboard) | ~1,500 tokens | ~$0.02 |
-| DALL-E 3 standard (×4) | 4 images | ~$0.16 |
-| OpenAI TTS (×4 scenes) | ~300 chars | ~$0.005 |
-| **Total** | | **~$0.19** |
