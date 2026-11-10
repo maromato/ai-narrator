@@ -1,0 +1,15 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Environment
+.env
+
+# Generated output (videos, images, audio — too large for git)
+output/
+
+# macOS
+.DS_Store
