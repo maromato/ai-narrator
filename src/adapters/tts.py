@@ -12,6 +12,8 @@ _API_URL = "https://api.openai.com/v1/audio/speech"
 
 
 class OpenAITTSAdapter:
+    file_ext = "mp3"
+
     def __init__(self, config: dict):
         self.config = config
         self._api_key = os.environ["OPENAI_API_KEY"]

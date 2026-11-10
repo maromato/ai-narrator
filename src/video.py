@@ -186,6 +186,124 @@ def build_scene_clip(
     return output_path
 
 
+def _create_subtitle_overlay(subtitle: str, w: int, h: int, output_path: Path) -> Path:
+    """Create a transparent PNG with subtitle text for overlay onto video."""
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+
+    font_paths = [
+        "/System/Library/Fonts/ヒラギノ角ゴシック W9.ttc",
+        "/System/Library/Fonts/ヒラギノ角ゴシック W8.ttc",
+        "/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc",
+        "/System/Library/Fonts/Supplemental/Impact.ttf",
+        "/System/Library/Fonts/Helvetica.ttc",
+    ]
+    font_path_found = None
+    for fp in font_paths:
+        try:
+            ImageFont.truetype(fp, 10)
+            font_path_found = fp
+            break
+        except Exception:
+            pass
+
+    if all(ord(c) < 128 for c in subtitle):
+        subtitle = subtitle.upper()
+
+    max_text_width = int(w * 0.90)
+    font_size = max(36, h // 26)
+    font = ImageFont.load_default()
+    while font_size >= 28:
+        if font_path_found:
+            try:
+                font = ImageFont.truetype(font_path_found, font_size)
+            except Exception:
+                pass
+        bbox = draw.textbbox((0, 0), subtitle, font=font)
+        if bbox[2] - bbox[0] <= max_text_width:
+            break
+        font_size -= 4
+
+    bbox = draw.textbbox((0, 0), subtitle, font=font)
+    tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
+    x = (w - tw) // 2
+    y = int(h * 0.80)
+    padding = 18
+
+    box = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    box_draw = ImageDraw.Draw(box)
+    box_draw.rectangle(
+        [x - padding, y - padding, x + tw + padding, y + th + padding],
+        fill=(0, 0, 0, 160),
+    )
+    img = Image.alpha_composite(img, box)
+    draw = ImageDraw.Draw(img)
+
+    for ox, oy in [(-3, -3), (3, -3), (-3, 3), (3, 3)]:
+        draw.text((x + ox, y + oy), subtitle, font=font, fill=(0, 0, 0, 255))
+    draw.text((x, y), subtitle, font=font, fill=(255, 255, 255, 255))
+
+    img.save(str(output_path))
+    return output_path
+
+
+def mux_video_audio(
+    video_path: Path,
+    audio_path: Path,
+    output_path: Path,
+    config: dict,
+    subtitle: str = "",
+) -> Path:
+    """Mux a Kling-generated video with TTS audio → scene clip MP4."""
+    duration = get_audio_duration(audio_path)
+    w, h = config["width"], config["height"]
+
+    if subtitle:
+        with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
+            overlay_path = Path(tmp.name)
+        _create_subtitle_overlay(subtitle, w, h, overlay_path)
+
+        cmd = [
+            "ffmpeg", "-y",
+            "-i", str(video_path),
+            "-i", str(audio_path),
+            "-i", str(overlay_path),
+            "-filter_complex",
+            f"[0:v]scale={w}:{h}:force_original_aspect_ratio=increase,crop={w}:{h}[base];"
+            f"[base][2:v]overlay=0:0[vout]",
+            "-map", "[vout]", "-map", "1:a",
+            "-c:v", "libx264", "-preset", "fast",
+            "-crf", str(config.get("crf", 18)),
+            "-pix_fmt", "yuv420p",
+            "-c:a", "aac", "-b:a", "128k",
+            "-t", str(duration),
+            str(output_path),
+        ]
+        logger.info("Muxing video+audio+subtitle: %s (%.1fs)", output_path.name, duration)
+        try:
+            subprocess.run(cmd, check=True, capture_output=True)
+        finally:
+            overlay_path.unlink(missing_ok=True)
+    else:
+        cmd = [
+            "ffmpeg", "-y",
+            "-i", str(video_path),
+            "-i", str(audio_path),
+            "-vf", f"scale={w}:{h}:force_original_aspect_ratio=increase,crop={w}:{h}",
+            "-map", "0:v", "-map", "1:a",
+            "-c:v", "libx264", "-preset", "fast",
+            "-crf", str(config.get("crf", 18)),
+            "-pix_fmt", "yuv420p",
+            "-c:a", "aac", "-b:a", "128k",
+            "-t", str(duration),
+            str(output_path),
+        ]
+        logger.info("Muxing video+audio: %s (%.1fs)", output_path.name, duration)
+        subprocess.run(cmd, check=True, capture_output=True)
+
+    return output_path
+
+
 def concatenate_clips(clip_paths: list[Path], output_path: Path) -> Path:
     """Concatenate scene clips into the final video."""
     concat_list = output_path.parent / "concat.txt"

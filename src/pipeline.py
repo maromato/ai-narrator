@@ -29,6 +29,8 @@ def run(
     mock: bool = False,
     genre: str = "general",
     lang: str = "en",
+    mode: str = "static",
+    video_gen_adapter=None,
 ) -> tuple[Path, RunReport]:
     vid.check_ffmpeg()
 
@@ -53,39 +55,69 @@ def run(
     report.lang = lang
     logger.info("Storyboard saved with %d scenes", len(storyboard.scenes))
 
-    # ── Step 2: Images ────────────────────────────────────────────────────────
-    logger.info("[2/5] Generating images...")
-    image_paths: list[Path] = []
-    for scene in storyboard.scenes:
-        img_path = out_dir / f"scene_{scene.scene_id}.png"
-        image_adapter.generate_image(scene.image_prompt, img_path)
-        image_paths.append(img_path)
-    report.image_gen_usage = image_adapter.usage
+    if mode == "video":
+        # ── Video mode: Kling generates clips directly ─────────────────────
+        logger.info("[2/5] Generating TTS audio (needed first for duration)...")
+        audio_paths: list[Path] = []
+        for scene in storyboard.scenes:
+            ext = "wav" if mock else getattr(tts_adapter, "file_ext", "mp3")
+            audio_path = out_dir / f"narration_{scene.scene_id}.{ext}"
+            tts_adapter.synthesize(scene.narration, audio_path)
+            audio_paths.append(audio_path)
+        report.tts_usage = tts_adapter.usage
 
-    # ── Step 3: TTS ───────────────────────────────────────────────────────────
-    logger.info("[3/5] Generating narration audio...")
-    audio_paths: list[Path] = []
-    for scene in storyboard.scenes:
-        ext = "wav" if mock else "mp3"
-        audio_path = out_dir / f"narration_{scene.scene_id}.{ext}"
-        tts_adapter.synthesize(scene.narration, audio_path)
-        audio_paths.append(audio_path)
-    report.tts_usage = tts_adapter.usage
+        logger.info("[3/5] Generating video clips (Kling)...")
+        raw_video_paths: list[Path] = []
+        for scene, audio_path in zip(storyboard.scenes, audio_paths):
+            duration = vid.get_audio_duration(audio_path)
+            raw_path = out_dir / f"raw_{scene.scene_id}.mp4"
+            video_gen_adapter.generate_video(
+                prompt=scene.image_prompt,
+                output_path=raw_path,
+                duration=int(duration) + 1,
+            )
+            raw_video_paths.append(raw_path)
+        report.image_gen_usage = video_gen_adapter.usage
 
-    # ── Step 4: Scene clips ───────────────────────────────────────────────────
-    logger.info("[4/5] Rendering scene clips...")
-    clip_paths: list[Path] = []
-    for scene, img_path, audio_path in zip(storyboard.scenes, image_paths, audio_paths):
-        clip_path = out_dir / f"clip_{scene.scene_id}.mp4"
-        vid.build_scene_clip(
-            image_path=img_path,
-            audio_path=audio_path,
-            output_path=clip_path,
-            subtitle=scene.subtitle,
-            camera_effect=scene.camera_effect,
-            config=config["video"],
-        )
-        clip_paths.append(clip_path)
+        logger.info("[4/5] Muxing video + audio + subtitles...")
+        clip_paths: list[Path] = []
+        for scene, raw_path, audio_path in zip(storyboard.scenes, raw_video_paths, audio_paths):
+            clip_path = out_dir / f"clip_{scene.scene_id}.mp4"
+            vid.mux_video_audio(raw_path, audio_path, clip_path, config["video"], subtitle=scene.subtitle)
+            clip_paths.append(clip_path)
+
+    else:
+        # ── Static mode: image + Ken Burns (default) ───────────────────────
+        logger.info("[2/5] Generating images...")
+        image_paths: list[Path] = []
+        for scene in storyboard.scenes:
+            img_path = out_dir / f"scene_{scene.scene_id}.png"
+            image_adapter.generate_image(scene.image_prompt, img_path)
+            image_paths.append(img_path)
+        report.image_gen_usage = image_adapter.usage
+
+        logger.info("[3/5] Generating narration audio...")
+        audio_paths: list[Path] = []
+        for scene in storyboard.scenes:
+            ext = "wav" if mock else getattr(tts_adapter, "file_ext", "mp3")
+            audio_path = out_dir / f"narration_{scene.scene_id}.{ext}"
+            tts_adapter.synthesize(scene.narration, audio_path)
+            audio_paths.append(audio_path)
+        report.tts_usage = tts_adapter.usage
+
+        logger.info("[4/5] Rendering scene clips...")
+        clip_paths: list[Path] = []
+        for scene, img_path, audio_path in zip(storyboard.scenes, image_paths, audio_paths):
+            clip_path = out_dir / f"clip_{scene.scene_id}.mp4"
+            vid.build_scene_clip(
+                image_path=img_path,
+                audio_path=audio_path,
+                output_path=clip_path,
+                subtitle=scene.subtitle,
+                camera_effect=scene.camera_effect,
+                config=config["video"],
+            )
+            clip_paths.append(clip_path)
 
     # ── Step 5: Concatenate ───────────────────────────────────────────────────
     logger.info("[5/5] Concatenating clips...")

@@ -18,10 +18,25 @@ Requirements:
 - Should appeal to a {lang_audience} audience
 - Genre: {genre}
 - Avoid overly well-known topics (e.g. not just "The Fall of Rome" but something more specific or unexpected)
-
+{genre_hint}
 Return ONLY a valid JSON array of topic strings — no explanation, no markdown:
 ["topic 1", "topic 2", "topic 3", "topic 4", "topic 5"]
 """
+
+_GENRE_HINTS: dict[str, str] = {
+    "romance": (
+        "- Keep topics light, fun, and relatable — everyday couple moments, "
+        "cute ways to get attention, flirty texting habits, things that make hearts skip a beat. "
+        "Think 'how to make him think of you' not 'the philosophy of love'.\n"
+    ),
+    "mens_life": (
+        "- Topics must be light, fun, and instantly relatable to men aged 18-35 — "
+        "small daily habits, style/grooming quick wins, things women actually notice, "
+        "social situations guys mess up without knowing. "
+        "Think 'guys who do X are instantly more likeable' not abstract life philosophy. "
+        "Make it the kind of content men forward to their group chat.\n"
+    ),
+}
 
 _LANG_AUDIENCE = {
     "en": "English-speaking global",
@@ -36,10 +51,12 @@ class LLMTopicSelector:
 
     def suggest(self, genre: str = "general", lang: str = "en", count: int = 5) -> list[str]:
         lang_audience = _LANG_AUDIENCE.get(lang, "global")
+        genre_hint = _GENRE_HINTS.get(genre, "")
         prompt = _PROMPT.format(
             genre=genre,
             count=count,
             lang_audience=lang_audience,
+            genre_hint=genre_hint,
         )
         logger.info("Requesting %d topic suggestions (genre=%s, lang=%s)", count, genre, lang)
 
@@ -49,8 +66,11 @@ class LLMTopicSelector:
             messages=[{"role": "user", "content": prompt}],
         )
         raw = response.content[0].text.strip()
-        if raw.startswith("```"):
-            raw = raw.split("\n", 1)[1].rsplit("```", 1)[0].strip()
+        # Extract the JSON array robustly regardless of surrounding text
+        start = raw.find("[")
+        end = raw.rfind("]")
+        if start != -1 and end != -1:
+            raw = raw[start:end + 1]
 
         topics = json.loads(raw)
         logger.info("Got %d topic suggestions", len(topics))

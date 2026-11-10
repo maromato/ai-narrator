@@ -30,7 +30,7 @@ DEFAULT_GENRE = "general"
 DEFAULT_LANG = "en"
 CONFIG_PATH = Path(__file__).parent / "config.json"
 
-GENRES = ["general", "history", "science", "animals", "religion", "lifestyle", "selfhelp", "workplace", "japan_travel", "japan_zen"]
+GENRES = ["general", "history", "science", "animals", "religion", "lifestyle", "selfhelp", "workplace", "japan_travel", "japan_zen", "romance", "mens_life"]
 LANGS = ["en", "ja"]
 
 
@@ -45,12 +45,19 @@ def build_adapters(config: dict, mock: bool):
 
     from src.adapters.image_gen import DalleAdapter
     from src.adapters.llm import ClaudeAdapter
-    from src.adapters.tts import OpenAITTSAdapter
+
+    tts_provider = config.get("tts", {}).get("provider", "openai")
+    if tts_provider == "voicevox":
+        from src.adapters.tts_voicevox import VoicevoxAdapter
+        tts = VoicevoxAdapter(config["tts"])
+    else:
+        from src.adapters.tts import OpenAITTSAdapter
+        tts = OpenAITTSAdapter(config["tts"])
 
     return (
         ClaudeAdapter(config["llm"]),
         DalleAdapter(config["image_gen"]),
-        OpenAITTSAdapter(config["tts"]),
+        tts,
     )
 
 
@@ -63,6 +70,15 @@ def main() -> int:
     parser.add_argument(
         "--genre", default=DEFAULT_GENRE, choices=GENRES,
         help=f"Visual style genre (default: {DEFAULT_GENRE}). Choices: {', '.join(GENRES)}",
+    )
+    parser.add_argument(
+        "--mode", default="static", choices=["static", "video"],
+        help="static: image+KenBurns (default), video: AI video generation",
+    )
+    parser.add_argument(
+        "--video-provider", default="kling", choices=["kling"],
+        dest="video_provider",
+        help="Video generation provider when --mode video (default: kling)",
     )
     parser.add_argument(
         "--topic-from", default="manual", choices=["manual", "llm"],
@@ -78,6 +94,15 @@ def main() -> int:
         help=f"Narration language: en (English) or ja (Japanese). Default: {DEFAULT_LANG}",
     )
     parser.add_argument(
+        "--tts", default=None, choices=["openai", "voicevox"],
+        help="TTS provider override: openai or voicevox (default: use config.json)",
+    )
+    parser.add_argument(
+        "--tts-speaker", default=None, type=int,
+        dest="tts_speaker",
+        help="Voicevox speaker ID (default: 1)",
+    )
+    parser.add_argument(
         "--mock", action="store_true",
         help="Run in mock mode — no API calls, no cost",
     )
@@ -88,6 +113,10 @@ def main() -> int:
     args = parser.parse_args()
 
     config = load_config(Path(args.config))
+    if args.tts:
+        config["tts"]["provider"] = args.tts
+    if args.tts_speaker is not None:
+        config["tts"]["speaker"] = args.tts_speaker
     llm, img, tts = build_adapters(config, args.mock)
 
     # Resolve topic
@@ -110,9 +139,15 @@ def main() -> int:
     print(f"  Genre : {args.genre}")
     print(f"  Lang  : {args.lang}")
     print(f"  Mode  : {'MOCK (no API calls)' if args.mock else 'LIVE'}")
+    print(f"  Video : {args.mode}{' (' + args.video_provider + ')' if args.mode == 'video' else ' (static image)'}")
     print(f"{'='*60}\n")
 
     from src.pipeline import run
+
+    video_gen = None
+    if args.mode == "video" and not args.mock:
+        from src.adapters.video_gen import KlingAdapter
+        video_gen = KlingAdapter(config.get("video_gen", {}))
 
     try:
         video_path, report = run(
@@ -124,6 +159,8 @@ def main() -> int:
             mock=args.mock,
             genre=args.genre,
             lang=args.lang,
+            mode=args.mode,
+            video_gen_adapter=video_gen,
         )
     except Exception as e:
         logging.error("Pipeline failed: %s", e, exc_info=True)

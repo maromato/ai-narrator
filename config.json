@@ -16,12 +16,23 @@
     "voice": "nova",
     "speed": 1.0
   },
+  "tts_voicevox": {
+    "provider": "voicevox",
+    "speaker": 1,
+    "base_url": "http://localhost:50021"
+  },
   "video": {
     "width": 1080,
     "height": 1920,
     "fps": 30,
     "crf": 18,
     "zoom_max": 1.2
+  },
+  "video_gen": {
+    "provider": "kling",
+    "model": "kling-v3",
+    "mode": "std",
+    "aspect_ratio": "9:16"
   },
   "pipeline": {
     "max_retries": 3,

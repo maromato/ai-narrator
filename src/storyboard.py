@@ -114,6 +114,20 @@ GENRE_STYLES: dict[str, str] = {
         "ink wash painting meets high-end cinema photography, "
         "visually meditative and emotionally moving"
     ),
+    "romance": (
+        "warm and emotionally resonant cinematic photography, "
+        "beautiful young Japanese couple in intimate relatable everyday moments, "
+        "soft golden bokeh lighting, heartfelt and genuine emotions, "
+        "ultra-photorealistic 8K, visually tender and universally relatable — "
+        "the kind of image that makes viewers think 'this is exactly me'"
+    ),
+    "mens_life": (
+        "confident stylish young Japanese man in real-life situations, "
+        "cinematic urban photography set in Tokyo or modern Japanese city, "
+        "dramatic yet approachable lighting, "
+        "authentic emotional expressions — vulnerability, confidence, transformation, "
+        "ultra-photorealistic 8K, visually aspirational and deeply relatable to Japanese men aged 20-35"
+    ),
     "general": (
         "cinematic movie-trailer quality, ultra-photorealistic 8K, "
         "dramatic lighting, vivid colors, emotionally compelling composition"
@@ -188,9 +202,39 @@ def validate(data: dict) -> None:
     jsonschema.validate(instance=data, schema=SCHEMA)
 
 
+_NARRATIVE_STRUCTURES: dict[str, str] = {
+    "romance": (
+        "- Scene 1 (HOOK): Start with a relatable, funny, or 'omg that's me' moment about love or dating.\n"
+        "- Scene 2 (SETUP): Introduce the cute situation or problem — keep it light and fun.\n"
+        "- Scene 3 (THE TRICK): Share the first tip or insight with a playful twist.\n"
+        "- Scene 4 (SURPRISE): Drop a 'wait, really?' fact or unexpected technique.\n"
+        "- Scene 5 (PAYOFF): The satisfying moment — what happens when it works.\n"
+        "- Scene 6 (CTA): A fun, shareable closer like 'send this to your crush' or 'save for later'."
+    ),
+    "mens_life": (
+        "- Scene 1 (HOOK): Open with a bold 'guys who do this are instantly more attractive' or 'stop doing this' hook — make men nod immediately.\n"
+        "- Scene 2 (SETUP): Paint the relatable everyday situation — specific, funny, not preachy.\n"
+        "- Scene 3 (THE TIP): One simple, concrete thing to do differently — practical not philosophical.\n"
+        "- Scene 4 (SURPRISE): A 'wait, really?' fact or unexpected reason why it works.\n"
+        "- Scene 5 (PAYOFF): What actually changes — keep it fun and tangible, not motivational-speech.\n"
+        "- Scene 6 (CTA): A light closer like 'send this to a friend who needs it' or 'try this today'."
+    ),
+}
+
+_DEFAULT_NARRATIVE = (
+    "- Scene 1 (HOOK): Open with a shocking fact, provocative question, or dramatic visual. Must grab attention in the first 2 seconds.\n"
+    "- Scene 2 (CONTEXT): Set the stage — where, when, who, or what this is about.\n"
+    "- Scene 3 (DEVELOPMENT): Deepen the story. Introduce tension, surprise, or complexity.\n"
+    "- Scene 4 (REVELATION): Deliver the key insight, twist, or surprising truth.\n"
+    "- Scene 5 (CLIMAX): The emotional or intellectual peak of the story.\n"
+    "- Scene 6 (RESOLUTION): A powerful closing line that leaves the viewer thinking, moved, or wanting to share."
+)
+
+
 def build_prompt(topic: str, genre: str = "general", lang: str = "en") -> str:
     style = GENRE_STYLES.get(genre, GENRE_STYLES["general"])
     genre_label = genre.upper()
+    narrative_structure = _NARRATIVE_STRUCTURES.get(genre, _DEFAULT_NARRATIVE)
 
     if lang == "ja":
         lang_instruction = (
@@ -207,17 +251,12 @@ def build_prompt(topic: str, genre: str = "general", lang: str = "en") -> str:
         narration_rule = "Each narration ~4-6 seconds when spoken aloud (do NOT make them too long)."
 
     return f"""\
-You are a viral short-form video creator specializing in {genre_label} content.
+You are a viral short-form video creator specializing in {genre_label} content for TikTok.
 
 Create a 6-scene storyboard for a 30-second TikTok-style portrait video (1080×1920).
 
 NARRATIVE STRUCTURE — follow this order exactly:
-- Scene 1 (HOOK): Open with a shocking fact, provocative question, or dramatic visual. Must grab attention in the first 2 seconds.
-- Scene 2 (CONTEXT): Set the stage — where, when, who, or what this is about.
-- Scene 3 (DEVELOPMENT): Deepen the story. Introduce tension, surprise, or complexity.
-- Scene 4 (REVELATION): Deliver the key insight, twist, or surprising truth.
-- Scene 5 (CLIMAX): The emotional or intellectual peak of the story.
-- Scene 6 (RESOLUTION): A powerful closing line that leaves the viewer thinking, moved, or wanting to share.
+{narrative_structure}
 
 VISUAL STYLE for all images: {style}, vertical portrait composition (9:16), no text in image.
 
