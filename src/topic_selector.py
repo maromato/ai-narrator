@@ -24,16 +24,46 @@ Return ONLY a valid JSON array of topic strings — no explanation, no markdown:
 """
 
 _GENRE_HINTS: dict[str, str] = {
+    "history": (
+        "- Topics must be hyper-specific and surprising — not 'The Fall of Rome' but "
+        "'The 16-year-old nobody who was Rome's last emperor' or "
+        "'The single letter Julius Caesar ignored that got him killed'. "
+        "Focus on one person, one object, one day, one decision — not grand sweeping events. "
+        "The more specific and human, the better.\n"
+    ),
+    "science": (
+        "- Topics must be one extreme, jaw-dropping fact — either impossibly small or impossibly large scale. "
+        "Think 'the tardigrade that survived in space', 'the sound a black hole makes', "
+        "'what your body does in the first second after death'. "
+        "Must make viewers say 'wait, this is actually real?' — not textbook science, mind-bending reality.\n"
+    ),
     "animals": (
-        "- At least 2 of the topics must be about dogs — cute behaviors, surprising facts, "
-        "heartwarming stories, or things dogs do that most owners don't know. "
-        "The rest can be other animals.\n"
+        "- ALL topics must be about dogs. Focus on cuteness, charm, heartwarming intelligence, "
+        "and the deep emotional bond between dogs and humans. "
+        "Think 'why dogs tilt their head when you talk', 'the science behind a dog's happy face', "
+        "'dogs who waited years for owners'. Make viewers want to hug their dog immediately.\n"
     ),
     "academia": (
-        "- Topics should feel like 'elite secret knowledge' — psychology insights, decision-making science, "
-        "surprising things top universities research, counterintuitive life lessons from Nobel laureates. "
-        "Think 'Harvard researchers discovered that...' or 'what straight-A students do differently'. "
-        "Make it feel like insider knowledge most people never get access to.\n"
+        "- ALL topics must be specifically about Harvard University — Harvard secrets, "
+        "surprising Harvard research, famous Harvard dropouts and what they learned first, "
+        "what Harvard's most exclusive courses teach, little-known Harvard traditions. "
+        "Must feel like insider access to the world's most elite institution. "
+        "Think 'The Harvard study that changed how we understand happiness' or "
+        "'The one class Harvard teaches that no other school does'.\n"
+    ),
+    "finance": (
+        "- Topics must be practical money tips that feel urgent and immediately actionable — "
+        "'the savings trick most people learn too late', 'why keeping money in a regular savings account is a mistake', "
+        "'the tax deduction 90% of people miss'. "
+        "Make viewers feel they are getting access to knowledge that rich people already know. "
+        "Avoid generic advice — be specific with numbers and situations.\n"
+    ),
+    "psychology": (
+        "- Topics must be about surprising human behaviors or cognitive biases that viewers recognize in themselves — "
+        "'why you buy things you don't need', 'the reason you can't stop checking your phone', "
+        "'the psychological trick that makes people like you instantly'. "
+        "Must feel like a revelation about their own mind. "
+        "Reference real psychological effects by name when possible.\n"
     ),
     "romance": (
         "- Keep topics light, fun, and relatable — everyday couple moments, "

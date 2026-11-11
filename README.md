@@ -99,7 +99,9 @@ cp .env.example .env
 | `japan_zen` | 日本の禅・仏教 | 枯山水・竹林・静寂 |
 | `romance` | 恋愛・カップル | 日本人カップルの日常 |
 | `mens_life` | 男性向けライフ | 東京・都市の日本人男性 |
-| `academia` | ハーバード式・一流大学の知識 | アイビーリーグの図書館・講堂 |
+| `academia` | ハーバード大学の秘密・知識 | ハーバードのWidener図書館・Harvard Yard |
+| `finance` | お金・節約・投資Tips | 都市の金融シーン・お金の対比 |
+| `psychology` | 心理学・人間行動の秘密 | 感情的な人物ポートレート |
 
 ---
 

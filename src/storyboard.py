@@ -54,24 +54,24 @@ SCHEMA = {
 GENRE_STYLES: dict[str, str] = {
     "history": (
         "ultra-photorealistic 8K historical documentary photograph, "
-        "real people in accurate period costumes and architecture, "
-        "dramatic natural torchlight or golden-hour sunlight, "
-        "shot on location, emotionally expressive faces, shallow depth of field, "
-        "looks like an actual photograph taken in ancient times — not a painting or illustration"
+        "capturing one specific intimate human moment — a face, a hand, an object, a single scene — "
+        "not a grand battle but a close personal detail that makes history feel real and touchable, "
+        "dramatic natural torchlight or golden-hour sunlight, shallow depth of field, "
+        "looks like an actual photograph taken in that exact moment in history"
     ),
     "science": (
-        "ultra-photorealistic 8K real photograph, "
-        "actual NASA or BBC Planet Earth documentary photography style, "
-        "real macro close-up or real astronomical image, "
-        "dramatic natural lighting, vivid saturated colors, "
-        "looks like a genuine scientific photograph — not CGI or illustration"
+        "ultra-photorealistic 8K real scientific photograph, "
+        "one extreme close-up or one vast scale — either stunning macro (cells, crystals, insects) "
+        "or breathtaking astronomical scale (nebula, planet surface, deep ocean), "
+        "the kind of single image that makes viewers stop and whisper 'wait, this is real?' — "
+        "genuine NASA, BBC Planet Earth, or scientific journal photography quality"
     ),
     "animals": (
-        "ultra-photorealistic 8K wildlife documentary photograph, "
-        "real animal in natural habitat, National Geographic photography style, "
-        "dramatic natural lighting, shallow depth of field, "
-        "emotionally expressive animal faces captured in a real candid moment — "
-        "not illustrated, not animated, looks like an actual wildlife photo"
+        "ultra-photorealistic 8K real photograph of a dog, "
+        "irresistibly cute and emotionally expressive face — big eyes, floppy ears, tilted head, "
+        "warm soft natural light, shallow bokeh background, "
+        "the kind of dog photo that makes viewers say 'oh my god' and immediately want to share it — "
+        "pure joy, love, and adorableness captured in a real candid moment"
     ),
     "religion": (
         "ultra-photorealistic 8K real documentary photograph, "
@@ -126,10 +126,25 @@ GENRE_STYLES: dict[str, str] = {
     ),
     "academia": (
         "ultra-photorealistic 8K real photograph, "
-        "actual Ivy League or prestigious university setting — grand library, stone lecture hall, Gothic courtyard, "
-        "real atmospheric indoor lighting, genuine student or scholar in deep thought, "
-        "leather books, handwritten equations on chalkboard, "
-        "looks like a real documentary photograph — intellectually awe-inspiring"
+        "iconic Harvard University setting — Widener Library interior, Harvard Yard red-brick paths, "
+        "Memorial Hall stained glass, or a dimly lit Harvard study room at night, "
+        "leather-bound books, handwritten notes, single desk lamp casting warm light on equations, "
+        "lone scholar in deep intellectual focus — "
+        "looks like a real documentary photograph from inside Harvard's secret world"
+    ),
+    "finance": (
+        "ultra-photorealistic 8K real photograph, "
+        "visually striking money metaphor — hands holding cash, stock ticker screens reflecting on a face, "
+        "contrast between wealthy and ordinary life captured candidly, "
+        "dramatic urban financial district lighting or intimate home budget scene, "
+        "the kind of real image that makes viewers immediately think about their own money"
+    ),
+    "psychology": (
+        "ultra-photorealistic 8K real photograph, "
+        "a single human face or gesture expressing a complex emotion — surprise, realization, vulnerability, "
+        "intimate shallow depth of field, dramatic side-lighting revealing texture and feeling, "
+        "the kind of real portrait that makes viewers feel seen and understood — "
+        "not clinical, deeply human and emotionally resonant"
     ),
     "general": (
         "ultra-photorealistic 8K real photograph, "
@@ -206,13 +221,53 @@ def validate(data: dict) -> None:
 
 
 _NARRATIVE_STRUCTURES: dict[str, str] = {
+    "history": (
+        "- Scene 1 (HOOK): Open with one hyper-specific, surprising detail — not 'Rome fell' but 'the last Roman Emperor was 16 years old and nobody remembers his name'.\n"
+        "- Scene 2 (ZOOM IN): Focus on one real person, one object, or one single moment — make history feel human and close.\n"
+        "- Scene 3 (THE DETAIL): Reveal the specific fact or detail that changes how viewers see this moment.\n"
+        "- Scene 4 (REFRAME): 'What most people believe' vs 'what actually happened' — the surprising truth.\n"
+        "- Scene 5 (RESONANCE): Why this still matters today — connect the past to the viewer's present.\n"
+        "- Scene 6 (CLOSE): A single powerful line that makes viewers feel they just learned something nobody else knows."
+    ),
+    "science": (
+        "- Scene 1 (HOOK): Open with one image or fact so extreme it breaks the viewer's sense of scale — 'this photo is real'.\n"
+        "- Scene 2 (SCALE): Establish just how extreme this phenomenon is — make the viewer feel small or amazed.\n"
+        "- Scene 3 (THE MECHANISM): Explain the 'why' in one simple, vivid analogy — no jargon.\n"
+        "- Scene 4 (TWIST): The counterintuitive implication — something that challenges what viewers assumed was true.\n"
+        "- Scene 5 (WONDER): The bigger picture — what this means for life, the universe, or humanity.\n"
+        "- Scene 6 (CLOSE): A closing line that leaves viewers staring at the sky or their own hand differently."
+    ),
+    "animals": (
+        "- Scene 1 (HOOK): Open with the most irresistibly cute or surprising dog moment — the 'oh my god' image.\n"
+        "- Scene 2 (CHARM): Show the dog's personality — the tilt, the look, the expression that melts hearts.\n"
+        "- Scene 3 (SURPRISING FACT): One amazing thing dogs do that most people don't know — make it feel like a gift.\n"
+        "- Scene 4 (EMOTION): The moment that shows the depth of a dog's love or intelligence — genuinely moving.\n"
+        "- Scene 5 (BOND): The connection between dog and human — make viewers feel it in their chest.\n"
+        "- Scene 6 (CTA): A warm closer like 'hug your dog tonight' or 'share this with someone who needs a smile'."
+    ),
     "academia": (
-        "- Scene 1 (HOOK): Open with a 'Harvard teaches this but nobody talks about it' or 'top students all do this one thing' hook.\n"
-        "- Scene 2 (SETUP): Introduce the concept — make it feel like insider knowledge from elite circles.\n"
-        "- Scene 3 (THE INSIGHT): The core idea explained simply — smart but accessible, not a lecture.\n"
-        "- Scene 4 (SURPRISE): A counterintuitive twist or 'even experts get this wrong' moment.\n"
-        "- Scene 5 (APPLICATION): How to apply this in real life — make it immediately useful.\n"
-        "- Scene 6 (CTA): A curiosity-driven closer like 'save this, most people never learn it' or 'share with someone smart'."
+        "- Scene 1 (HOOK): Open with a Harvard-specific hook — 'Harvard's most secret course', 'what Harvard teaches on day 1 that changes everything', or a surprising Harvard fact.\n"
+        "- Scene 2 (HARVARD CONTEXT): Ground it in Harvard specifically — the library, the professor, the research lab.\n"
+        "- Scene 3 (THE KNOWLEDGE): The core insight — smart but accessible, like a brilliant friend explaining it.\n"
+        "- Scene 4 (SURPRISING TWIST): The counterintuitive part — 'even most Harvard graduates get this wrong'.\n"
+        "- Scene 5 (APPLICATION): How to use this in real life — immediately actionable.\n"
+        "- Scene 6 (CTA): 'Save this — most people never get access to what Harvard teaches' or 'share with someone you want to impress'."
+    ),
+    "finance": (
+        "- Scene 1 (HOOK): Open with a money fact that makes viewers feel urgent — 'most people lose $X doing this without knowing'.\n"
+        "- Scene 2 (SETUP): The relatable financial situation — specific, not generic.\n"
+        "- Scene 3 (THE TRICK): One concrete, actionable money move — simple enough to do today.\n"
+        "- Scene 4 (THE MATH): Show the numbers — make the impact real and tangible.\n"
+        "- Scene 5 (RESULT): What changes when you apply this — be specific about the outcome.\n"
+        "- Scene 6 (CTA): 'Save this before you forget' or 'send to someone who needs this'."
+    ),
+    "psychology": (
+        "- Scene 1 (HOOK): Open with a behavior or feeling viewers recognize in themselves — 'you've done this without realizing why'.\n"
+        "- Scene 2 (THE PHENOMENON): Name the psychological effect — make it feel like finally having a word for something.\n"
+        "- Scene 3 (THE SCIENCE): The research behind it — one study, one finding, explained simply.\n"
+        "- Scene 4 (DEEPER TRUTH): The uncomfortable or surprising implication — 'your brain is doing this right now'.\n"
+        "- Scene 5 (REFRAME): How knowing this changes how you see yourself or others.\n"
+        "- Scene 6 (CTA): 'Share with someone who needs to understand themselves better' or 'save this for when you need it'."
     ),
     "romance": (
         "- Scene 1 (HOOK): Start with a relatable, funny, or 'omg that's me' moment about love or dating.\n"
