@@ -32,6 +32,8 @@ def run(
     mode: str = "static",
     video_gen_adapter=None,
     subtitle: bool = True,
+    bgm_adapter=None,
+    bgm_volume: float = 0.2,
 ) -> tuple[Path, RunReport]:
     vid.check_ffmpeg()
 
@@ -122,10 +124,21 @@ def run(
 
     # ── Step 5: Concatenate ───────────────────────────────────────────────────
     logger.info("[5/5] Concatenating clips...")
-    final_path = out_dir / "final.mp4"
-    vid.concatenate_clips(clip_paths, final_path)
+    concat_path = out_dir / ("final_no_bgm.mp4" if bgm_adapter else "final.mp4")
+    vid.concatenate_clips(clip_paths, concat_path)
 
     total_duration = sum(vid.get_audio_duration(a) for a in audio_paths)
+
+    # ── Step 6: BGM (optional) ────────────────────────────────────────────────
+    final_path = out_dir / "final.mp4"
+    if bgm_adapter:
+        logger.info("[6/6] Adding BGM...")
+        bgm_path = out_dir / "bgm.mp3"
+        bgm_adapter.get_bgm(total_duration, genre, bgm_path)
+        vid.add_bgm(concat_path, bgm_path, final_path, volume=bgm_volume)
+    else:
+        final_path = concat_path
+
     report.output_video = str(final_path)
     report.video_duration_seconds = total_duration
     report.finish()

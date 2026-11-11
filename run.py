@@ -103,6 +103,18 @@ def main() -> int:
         help="Voicevox speaker ID (default: 1)",
     )
     parser.add_argument(
+        "--bgm", default=None, metavar="FILE",
+        help="Path to a local audio file to use as background music",
+    )
+    parser.add_argument(
+        "--bgm-ai", action="store_true", dest="bgm_ai",
+        help="Generate background music via Mubert AI (requires MUBERT_API_KEY)",
+    )
+    parser.add_argument(
+        "--bgm-volume", default=0.2, type=float, dest="bgm_volume",
+        help="BGM volume relative to narration (default: 0.2 = 20%%)",
+    )
+    parser.add_argument(
         "--no-subtitle", action="store_true", dest="no_subtitle",
         help="Disable subtitle overlay on video",
     )
@@ -211,6 +223,15 @@ def main() -> int:
         from src.adapters.video_gen import KlingAdapter
         video_gen = KlingAdapter(config.get("video_gen", {}))
 
+    bgm = None
+    if not args.mock:
+        if args.bgm:
+            from src.adapters.bgm import LocalBGMAdapter
+            bgm = LocalBGMAdapter(args.bgm)
+        elif args.bgm_ai:
+            from src.adapters.bgm import MubertBGMAdapter
+            bgm = MubertBGMAdapter(config.get("bgm", {}))
+
     try:
         video_path, report = run(
             topic=topic,
@@ -224,6 +245,8 @@ def main() -> int:
             mode=args.mode,
             video_gen_adapter=video_gen,
             subtitle=not args.no_subtitle,
+            bgm_adapter=bgm,
+            bgm_volume=args.bgm_volume,
         )
     except Exception as e:
         logging.error("Pipeline failed: %s", e, exc_info=True)

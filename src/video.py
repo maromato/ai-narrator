@@ -325,5 +325,24 @@ def concatenate_clips(clip_paths: list[Path], output_path: Path) -> Path:
     return output_path
 
 
+def add_bgm(video_path: Path, bgm_path: Path, output_path: Path, volume: float = 0.2) -> Path:
+    """Mix background music into a video. BGM is looped to match video duration."""
+    logger.info("Adding BGM: %s (volume=%.2f)", bgm_path.name, volume)
+    cmd = [
+        "ffmpeg", "-y",
+        "-i", str(video_path),
+        "-stream_loop", "-1", "-i", str(bgm_path),
+        "-filter_complex",
+        f"[1:a]volume={volume}[bgm];[0:a][bgm]amix=inputs=2:duration=first:dropout_transition=2[aout]",
+        "-map", "0:v", "-map", "[aout]",
+        "-c:v", "copy",
+        "-c:a", "aac", "-b:a", "128k",
+        str(output_path),
+    ]
+    subprocess.run(cmd, check=True, capture_output=True)
+    logger.info("BGM added → %s", output_path)
+    return output_path
+
+
 def check_ffmpeg() -> None:
     _require_ffmpeg()

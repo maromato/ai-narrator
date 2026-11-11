@@ -34,6 +34,11 @@
     "mode": "std",
     "aspect_ratio": "9:16"
   },
+  "bgm": {
+    "provider": "mubert",
+    "email": "your@email.com",
+    "volume": 0.2
+  },
   "pipeline": {
     "max_retries": 3,
     "retry_wait_min": 2,
