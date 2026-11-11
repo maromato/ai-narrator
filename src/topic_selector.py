@@ -24,6 +24,11 @@ Return ONLY a valid JSON array of topic strings — no explanation, no markdown:
 """
 
 _GENRE_HINTS: dict[str, str] = {
+    "animals": (
+        "- At least 2 of the topics must be about dogs — cute behaviors, surprising facts, "
+        "heartwarming stories, or things dogs do that most owners don't know. "
+        "The rest can be other animals.\n"
+    ),
     "academia": (
         "- Topics should feel like 'elite secret knowledge' — psychology insights, decision-making science, "
         "surprising things top universities research, counterintuitive life lessons from Nobel laureates. "
