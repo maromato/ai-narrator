@@ -78,6 +78,14 @@ _GENRE_HINTS: dict[str, str] = {
         "cute ways to get attention, flirty texting habits, things that make hearts skip a beat. "
         "Think 'how to make him think of you' not 'the philosophy of love'.\n"
     ),
+    "japan_travel": (
+        "- Topics must be hidden gems, lesser-known places, or underrated experiences in Japan — "
+        "not Shibuya crossing or Mount Fuji, but secret onsen towns, forgotten castle towns, "
+        "rural villages with incredible food, festivals only locals know, "
+        "neighborhoods even most Tokyo residents have never visited. "
+        "Must make international viewers think 'I had no idea this existed in Japan — I need to go'. "
+        "Bright, exciting, story-driven — not a travel guide, a personal discovery.\n"
+    ),
     "mens_life": (
         "- Topics must be light, fun, and instantly relatable to men aged 18-35 — "
         "small daily habits, style/grooming quick wins, things women actually notice, "

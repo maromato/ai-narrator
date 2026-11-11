@@ -101,9 +101,11 @@ GENRE_STYLES: dict[str, str] = {
     ),
     "japan_travel": (
         "ultra-photorealistic 8K real travel photograph of Japan, "
-        "actual location — Kyoto temple, Tokyo street, mountain onsen, rural countryside, "
-        "magical real atmospheric light — golden hour mist, cherry blossom petals, autumn color, fresh snow, "
-        "shot on professional camera, wide angle, the kind of real photo that makes viewers want to book a flight"
+        "a hidden or lesser-known location — secret mountain onsen, quiet rural village, "
+        "misty bamboo forest path, lantern-lit old merchant street, "
+        "warm bright cheerful atmosphere — soft golden morning light or glowing sunset, "
+        "inviting and joyful, not dramatic or mysterious, "
+        "the kind of real photo that makes viewers immediately open Google Maps to find this place"
     ),
     "japan_zen": (
         "ultra-photorealistic 8K real photograph of Japanese Zen environment, "
@@ -284,6 +286,14 @@ _NARRATIVE_STRUCTURES: dict[str, str] = {
         "- Scene 4 (DEEPER TRUTH): The uncomfortable or surprising implication — 'your brain is doing this right now'.\n"
         "- Scene 5 (REFRAME): How knowing this changes how you see yourself or others.\n"
         "- Scene 6 (CTA): 'Share with someone who needs to understand themselves better' or 'save this for when you need it'."
+    ),
+    "japan_travel": (
+        "- Scene 1 (HOOK): Open with a stunning image of a place most viewers have never heard of — 'you've never seen Japan like this'.\n"
+        "- Scene 2 (WHERE IS THIS): Reveal the location with delight — the name, the region, why it's special and still under the radar.\n"
+        "- Scene 3 (THE EXPERIENCE): What it feels, smells, sounds like to actually be there — make it sensory and vivid.\n"
+        "- Scene 4 (THE STORY): A piece of local history, legend, or culture that gives this place soul — why locals love it.\n"
+        "- Scene 5 (THE MOMENT): The one experience you can only have here — the onsen at dawn, the festival, the hidden dish.\n"
+        "- Scene 6 (CTA): A warm, excited closer like 'add this to your Japan list' or 'save this for your next trip'."
     ),
     "romance": (
         "- Scene 1 (HOOK): Start with a relatable, funny, or 'omg that's me' moment about love or dating.\n"
