@@ -30,7 +30,7 @@ DEFAULT_GENRE = "general"
 DEFAULT_LANG = "en"
 CONFIG_PATH = Path(__file__).parent / "config.json"
 
-GENRES = ["general", "history", "science", "animals", "religion", "lifestyle", "selfhelp", "workplace", "japan_travel", "japan_zen", "romance", "mens_life", "academia", "finance", "psychology"]
+GENRES = ["general", "history", "science", "animals", "religion", "lifestyle", "selfhelp", "workplace", "japan_travel", "japan_zen", "romance", "mens_life", "academia", "elite_edu", "finance", "psychology"]
 LANGS = ["en", "ja"]
 
 

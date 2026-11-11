@@ -132,6 +132,14 @@ GENRE_STYLES: dict[str, str] = {
         "lone scholar in deep intellectual focus — "
         "looks like a real documentary photograph from inside Harvard's secret world"
     ),
+    "elite_edu": (
+        "ultra-photorealistic 8K real photograph, "
+        "prestigious university campus — Harvard, MIT, or Stanford — "
+        "students in focused study sessions, whiteboards filled with frameworks, "
+        "collaborative group discussions in modern innovation labs or historic reading rooms, "
+        "warm academic lighting, aspirational yet approachable atmosphere — "
+        "the kind of image that makes viewers think 'I want to learn like this'"
+    ),
     "finance": (
         "ultra-photorealistic 8K real photograph, "
         "visually striking money metaphor — hands holding cash, stock ticker screens reflecting on a face, "
@@ -252,6 +260,14 @@ _NARRATIVE_STRUCTURES: dict[str, str] = {
         "- Scene 4 (SURPRISING TWIST): The counterintuitive part — 'even most Harvard graduates get this wrong'.\n"
         "- Scene 5 (APPLICATION): How to use this in real life — immediately actionable.\n"
         "- Scene 6 (CTA): 'Save this — most people never get access to what Harvard teaches' or 'share with someone you want to impress'."
+    ),
+    "elite_edu": (
+        "- Scene 1 (HOOK): Open with an elite-university-sourced insight — 'MIT teaches this on day 1', 'Stanford's #1 study rule', or 'Harvard MBAs all do this differently'.\n"
+        "- Scene 2 (THE METHOD): Introduce the specific technique, framework, or mindset — name it, make it feel like a system.\n"
+        "- Scene 3 (THE SCIENCE): Why it works — the research or logic behind it, explained simply.\n"
+        "- Scene 4 (REAL EXAMPLE): A concrete example of someone applying it — results, transformation, before/after.\n"
+        "- Scene 5 (YOUR TURN): How to apply it starting today — specific, step-by-step, no excuses.\n"
+        "- Scene 6 (CTA): 'Save this and try it this week' or 'share with someone who wants to level up'."
     ),
     "finance": (
         "- Scene 1 (HOOK): Open with a money fact that makes viewers feel urgent — 'most people lose $X doing this without knowing'.\n"

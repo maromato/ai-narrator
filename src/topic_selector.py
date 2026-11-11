@@ -51,6 +51,14 @@ _GENRE_HINTS: dict[str, str] = {
         "Think 'The Harvard study that changed how we understand happiness' or "
         "'The one class Harvard teaches that no other school does'.\n"
     ),
+    "elite_edu": (
+        "- Topics must be practical knowledge from Harvard, MIT, or Stanford — "
+        "study techniques backed by research, business frameworks taught in top MBA programs, "
+        "productivity systems used by elite students, thinking models from Nobel laureates. "
+        "Think 'The MIT study method that beats cramming', 'Stanford's design thinking applied to everyday decisions', "
+        "'The one habit Harvard MBA graduates share'. "
+        "Must feel immediately useful and aspirationally elite — knowledge that gives viewers a real edge.\n"
+    ),
     "finance": (
         "- Topics must be practical money tips that feel urgent and immediately actionable — "
         "'the savings trick most people learn too late', 'why keeping money in a regular savings account is a mistake', "
