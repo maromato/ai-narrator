@@ -111,12 +111,13 @@ def main() -> int:
         help="Run batch mode from a YAML file (e.g. topics.yaml)",
     )
     parser.add_argument(
-        "--batch-genre", default=None, choices=GENRES, dest="batch_genre",
-        help="Auto-batch: generate multiple videos for this genre using LLM topics",
+        "--batch-genre", default=None, nargs="+", dest="batch_genre",
+        metavar="GENRE",
+        help="Auto-batch: one or more genres (e.g. --batch-genre romance mens_life academia)",
     )
     parser.add_argument(
         "--batch-count", default=5, type=int, dest="batch_count",
-        help="Number of videos to generate in auto-batch mode (default: 5)",
+        help="Number of videos per genre in auto-batch mode (default: 5)",
     )
     parser.add_argument(
         "--mock", action="store_true",
@@ -147,19 +148,31 @@ def main() -> int:
             print(f"  Mode  : {'MOCK' if args.mock else 'LIVE'}")
             print(f"{'='*60}\n")
         else:
-            jobs = jobs_from_genre(
-                genre=args.batch_genre,
-                lang=args.lang,
-                count=args.batch_count,
-                model=config["llm"]["model"],
-            )
+            invalid = [g for g in args.batch_genre if g not in GENRES]
+            if invalid:
+                print(f"Error: unknown genre(s): {', '.join(invalid)}")
+                print(f"Valid genres: {', '.join(GENRES)}")
+                return 1
+
+            jobs = []
+            for genre in args.batch_genre:
+                jobs += jobs_from_genre(
+                    genre=genre,
+                    lang=args.lang,
+                    count=args.batch_count,
+                    model=config["llm"]["model"],
+                )
+
+            genres_str = ", ".join(args.batch_genre)
+            total = len(args.batch_genre) * args.batch_count
             print(f"\n{'='*60}")
             print(f"  AI Narrator — Batch Mode (Auto)")
-            print(f"  Genre : {args.batch_genre}  Lang: {args.lang}  Count: {args.batch_count}")
+            print(f"  Genres: {genres_str}")
+            print(f"  Lang  : {args.lang}  {args.batch_count} videos/genre  Total: {total}")
             print(f"  Mode  : {'MOCK' if args.mock else 'LIVE'}")
             print(f"{'='*60}\n")
             for i, j in enumerate(jobs, 1):
-                print(f"  {i}. {j.topic}")
+                print(f"  {i:2}. [{j.genre}] {j.topic}")
             print()
 
         results = run_batch(jobs, config, mock=args.mock)
