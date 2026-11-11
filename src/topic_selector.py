@@ -24,6 +24,12 @@ Return ONLY a valid JSON array of topic strings — no explanation, no markdown:
 """
 
 _GENRE_HINTS: dict[str, str] = {
+    "academia": (
+        "- Topics should feel like 'elite secret knowledge' — psychology insights, decision-making science, "
+        "surprising things top universities research, counterintuitive life lessons from Nobel laureates. "
+        "Think 'Harvard researchers discovered that...' or 'what straight-A students do differently'. "
+        "Make it feel like insider knowledge most people never get access to.\n"
+    ),
     "romance": (
         "- Keep topics light, fun, and relatable — everyday couple moments, "
         "cute ways to get attention, flirty texting habits, things that make hearts skip a beat. "

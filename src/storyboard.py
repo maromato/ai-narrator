@@ -128,6 +128,13 @@ GENRE_STYLES: dict[str, str] = {
         "authentic emotional expressions — vulnerability, confidence, transformation, "
         "ultra-photorealistic 8K, visually aspirational and deeply relatable to Japanese men aged 20-35"
     ),
+    "academia": (
+        "prestigious Ivy League university cinematic photography, "
+        "dramatic atmospheric lighting inside grand lecture halls, libraries, or Gothic stone courtyards, "
+        "leather-bound books, chalkboards filled with equations, lone scholar in deep thought, "
+        "ultra-photorealistic 8K, intellectually awe-inspiring — "
+        "the kind of image that makes viewers feel they are glimpsing a secret world of elite knowledge"
+    ),
     "general": (
         "cinematic movie-trailer quality, ultra-photorealistic 8K, "
         "dramatic lighting, vivid colors, emotionally compelling composition"
@@ -203,6 +210,14 @@ def validate(data: dict) -> None:
 
 
 _NARRATIVE_STRUCTURES: dict[str, str] = {
+    "academia": (
+        "- Scene 1 (HOOK): Open with a 'Harvard teaches this but nobody talks about it' or 'top students all do this one thing' hook.\n"
+        "- Scene 2 (SETUP): Introduce the concept — make it feel like insider knowledge from elite circles.\n"
+        "- Scene 3 (THE INSIGHT): The core idea explained simply — smart but accessible, not a lecture.\n"
+        "- Scene 4 (SURPRISE): A counterintuitive twist or 'even experts get this wrong' moment.\n"
+        "- Scene 5 (APPLICATION): How to apply this in real life — make it immediately useful.\n"
+        "- Scene 6 (CTA): A curiosity-driven closer like 'save this, most people never learn it' or 'share with someone smart'."
+    ),
     "romance": (
         "- Scene 1 (HOOK): Start with a relatable, funny, or 'omg that's me' moment about love or dating.\n"
         "- Scene 2 (SETUP): Introduce the cute situation or problem — keep it light and fun.\n"
