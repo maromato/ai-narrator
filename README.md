@@ -74,6 +74,9 @@ cp .env.example .env
 | `--interactive` | off | `--topic-from llm` 時に候補を表示して選択 |
 | `--tts` | config準拠 | `openai` / `voicevox` |
 | `--tts-speaker` | `1` | Voicevox スピーカーID |
+| `--bgm` | なし | ローカル音楽ファイルのパス（例: bgm.mp3） |
+| `--bgm-ai` | off | Mubert APIでBGM自動生成 |
+| `--bgm-volume` | `0.2` | BGM音量（0.0〜1.0） |
 | `--no-subtitle` | off | 字幕オーバーレイを無効化 |
 | `--mock` | off | APIコールなし・無料のテストモード |
 | `--config` | `config.json` | 設定ファイルのパス |
@@ -134,6 +137,47 @@ cp .env.example .env
 # 本数を指定
 .venv/bin/python run.py --batch-genre animals --lang ja --batch-count 3
 ```
+
+---
+
+## BGM（バックグラウンドミュージック）
+
+### ローカルファイルを使用
+```bash
+.venv/bin/python run.py --genre romance --lang ja --bgm bgm.mp3
+.venv/bin/python run.py --genre romance --lang ja --bgm bgm.mp3 --bgm-volume 0.15
+```
+
+### Mubert AIで自動生成
+ジャンルに合わせて自動的にBGMが生成されます。
+
+1. [mubert.com](https://mubert.com) でアカウント作成・APIキー取得
+2. `.env` に追加: `MUBERT_API_KEY=...`
+3. `config.json` の `bgm.email` を自分のメールアドレスに変更
+
+```bash
+.venv/bin/python run.py --genre romance --lang ja --bgm-ai
+```
+
+**ジャンル別BGMスタイル**
+
+| ジャンル | BGMスタイル |
+|---|---|
+| `history` | epic orchestral |
+| `science` | ambient electronic |
+| `animals` | nature acoustic |
+| `religion` | meditation spiritual |
+| `lifestyle` | chill lofi |
+| `selfhelp` | motivational uplifting |
+| `workplace` | focus productivity |
+| `japan_travel` | japanese ambient |
+| `japan_zen` | zen meditation |
+| `romance` | romantic soft pop |
+| `mens_life` | urban hip hop |
+| `academia` | classical piano |
+| `general` | cinematic background |
+
+BGMなし（デフォルト）の場合はオプション不要です。
 
 ---
 
