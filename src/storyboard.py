@@ -53,91 +53,87 @@ SCHEMA = {
 # Genre → visual style prefix injected into every image prompt
 GENRE_STYLES: dict[str, str] = {
     "history": (
-        "epic Hollywood historical epic cinematic style, "
-        "ultra-photorealistic 8K, dramatic golden-hour or torchlit lighting, "
-        "emotionally expressive faces, accurate period costumes and architecture, "
-        "depth of field, movie still quality, intense atmosphere — "
-        "like a frame from Gladiator or Kingdom of Heaven"
+        "ultra-photorealistic 8K historical documentary photograph, "
+        "real people in accurate period costumes and architecture, "
+        "dramatic natural torchlight or golden-hour sunlight, "
+        "shot on location, emotionally expressive faces, shallow depth of field, "
+        "looks like an actual photograph taken in ancient times — not a painting or illustration"
     ),
     "science": (
-        "stunning science visualization, ultra-high-definition photorealistic, "
-        "dramatic contrast and vivid saturated colors, "
-        "awe-inspiring scale — vast cosmos or extreme macro close-up, "
-        "cinematic lighting, BBC Planet Earth / NASA photography quality, "
-        "visually breathtaking and emotionally powerful"
+        "ultra-photorealistic 8K real photograph, "
+        "actual NASA or BBC Planet Earth documentary photography style, "
+        "real macro close-up or real astronomical image, "
+        "dramatic natural lighting, vivid saturated colors, "
+        "looks like a genuine scientific photograph — not CGI or illustration"
     ),
     "animals": (
-        "Pixar / DreamWorks 3D animation style, ultra-detailed expressive character design, "
-        "warm cinematic lighting, rich lush natural environment, "
-        "emotionally resonant facial expressions, soft volumetric light, "
-        "vibrant color palette, movie-quality render"
+        "ultra-photorealistic 8K wildlife documentary photograph, "
+        "real animal in natural habitat, National Geographic photography style, "
+        "dramatic natural lighting, shallow depth of field, "
+        "emotionally expressive animal faces captured in a real candid moment — "
+        "not illustrated, not animated, looks like an actual wildlife photo"
     ),
     "religion": (
-        "epic sacred cinematic photography, divine volumetric god-rays piercing through clouds, "
-        "monumental awe-inspiring scale, deeply emotional and spiritual atmosphere, "
-        "rich warm golden tones, dramatic chiaroscuro, "
-        "cinematic composition that evokes wonder and reverence — "
-        "like a visual effects scene from Ben-Hur or The Ten Commandments reimagined in 8K"
+        "ultra-photorealistic 8K real documentary photograph, "
+        "actual sacred site — ancient temple, cathedral, holy landscape, "
+        "real god-rays or golden-hour light captured on camera, "
+        "deeply atmospheric and spiritual, genuine human devotion or awe, "
+        "looks like a real photograph — not VFX or illustration"
     ),
     "lifestyle": (
-        "modern aesthetic lifestyle photography, ultra-clean minimalist composition, "
-        "warm soft natural lighting, cozy and aspirational atmosphere, "
-        "Instagram-meets-cinema quality, beautiful everyday moments, "
-        "rich warm tones, shallow depth of field, emotionally inviting"
+        "ultra-photorealistic 8K lifestyle photography, "
+        "real person in a beautiful everyday moment, "
+        "warm soft natural window light, shallow bokeh background, "
+        "authentic candid feel — not posed stock photo, "
+        "the kind of real photo that stops you while scrolling"
     ),
     "selfhelp": (
-        "cinematic motivational photography, lone figure against vast inspiring landscape, "
-        "golden hour light symbolizing hope and transformation, "
-        "powerful silhouettes, uplifting and emotional atmosphere, "
-        "ultra-photorealistic 8K, visually metaphorical — "
-        "like a movie poster for personal triumph"
+        "ultra-photorealistic 8K real outdoor photograph, "
+        "lone real person against a vast natural landscape — mountain summit, open road, wide ocean, "
+        "genuine golden hour or dawn light, powerful emotional atmosphere, "
+        "looks like an actual photograph taken on location — not illustration or compositing"
     ),
     "workplace": (
-        "dynamic modern workplace cinematic photography, "
-        "confident expressive professionals in real human moments, "
-        "dramatic office or urban environment lighting, "
-        "emotionally authentic — not stock photo, ultra-photorealistic 8K, "
-        "storytelling composition that captures tension or breakthrough"
+        "ultra-photorealistic 8K real workplace photograph, "
+        "real people in genuine human moments — focus, tension, breakthrough, collaboration, "
+        "authentic office or urban environment with natural dramatic lighting, "
+        "candid documentary style — not posed, not stock photo"
     ),
     "japan_travel": (
-        "breathtaking cinematic photography of Japan, ultra-photorealistic 8K, "
-        "magical atmospheric lighting — golden hour, morning mist, cherry blossoms, autumn leaves or snow, "
-        "serene and awe-inspiring Japanese landscapes, ancient temples, hidden onsen, "
-        "rich cultural details, wide-angle cinematic composition, "
-        "the kind of image that makes viewers immediately want to book a flight to Japan"
+        "ultra-photorealistic 8K real travel photograph of Japan, "
+        "actual location — Kyoto temple, Tokyo street, mountain onsen, rural countryside, "
+        "magical real atmospheric light — golden hour mist, cherry blossom petals, autumn color, fresh snow, "
+        "shot on professional camera, wide angle, the kind of real photo that makes viewers want to book a flight"
     ),
     "japan_zen": (
-        "deeply atmospheric Japanese Zen aesthetic, cinematic ultra-photorealistic 8K, "
-        "minimalist sacred beauty — stone gardens, moss-covered temples, candlelit meditation halls, "
-        "soft volumetric morning light filtering through bamboo or shoji screens, "
-        "profound stillness and spiritual depth, "
-        "ink wash painting meets high-end cinema photography, "
-        "visually meditative and emotionally moving"
+        "ultra-photorealistic 8K real photograph of Japanese Zen environment, "
+        "actual stone garden, moss temple, bamboo grove, or candlelit meditation hall, "
+        "real soft morning light filtering through shoji screens or bamboo, "
+        "profound stillness and silence captured on camera — "
+        "looks like a genuine photograph, not a painting or digital art"
     ),
     "romance": (
-        "warm and emotionally resonant cinematic photography, "
+        "ultra-photorealistic 8K real photograph, "
         "beautiful young Japanese couple in intimate relatable everyday moments, "
-        "soft golden bokeh lighting, heartfelt and genuine emotions, "
-        "ultra-photorealistic 8K, visually tender and universally relatable — "
-        "the kind of image that makes viewers think 'this is exactly me'"
+        "soft natural golden bokeh lighting, heartfelt genuine emotions, "
+        "candid documentary style — the kind of real photo that makes viewers think 'this is exactly me'"
     ),
     "mens_life": (
-        "confident stylish young Japanese man in real-life situations, "
-        "cinematic urban photography set in Tokyo or modern Japanese city, "
-        "dramatic yet approachable lighting, "
-        "authentic emotional expressions — vulnerability, confidence, transformation, "
-        "ultra-photorealistic 8K, visually aspirational and deeply relatable to Japanese men aged 20-35"
+        "ultra-photorealistic 8K real photograph, "
+        "confident stylish young Japanese man in authentic real-life situation in Tokyo or modern Japanese city, "
+        "dramatic natural or street lighting, genuine emotional expression — "
+        "candid documentary style, not posed, deeply relatable to men aged 20-35"
     ),
     "academia": (
-        "prestigious Ivy League university cinematic photography, "
-        "dramatic atmospheric lighting inside grand lecture halls, libraries, or Gothic stone courtyards, "
-        "leather-bound books, chalkboards filled with equations, lone scholar in deep thought, "
-        "ultra-photorealistic 8K, intellectually awe-inspiring — "
-        "the kind of image that makes viewers feel they are glimpsing a secret world of elite knowledge"
+        "ultra-photorealistic 8K real photograph, "
+        "actual Ivy League or prestigious university setting — grand library, stone lecture hall, Gothic courtyard, "
+        "real atmospheric indoor lighting, genuine student or scholar in deep thought, "
+        "leather books, handwritten equations on chalkboard, "
+        "looks like a real documentary photograph — intellectually awe-inspiring"
     ),
     "general": (
-        "cinematic movie-trailer quality, ultra-photorealistic 8K, "
-        "dramatic lighting, vivid colors, emotionally compelling composition"
+        "ultra-photorealistic 8K real photograph, "
+        "dramatic natural lighting, vivid colors, emotionally compelling real-world scene"
     ),
 }
 
