@@ -12,6 +12,7 @@ Usage:
 import argparse
 import json
 import logging
+import os
 import sys
 from pathlib import Path
 
@@ -101,6 +102,10 @@ def main() -> int:
         "--tts-speaker", default=None, type=int,
         dest="tts_speaker",
         help="Voicevox speaker ID (default: 1)",
+    )
+    parser.add_argument(
+        "--ab-variants", default=1, type=int, dest="ab_variants", metavar="N",
+        help="Generate N storyboard variants and pick the best scoring one (default: 1 = off)",
     )
     parser.add_argument(
         "--bgm", default=None, metavar="FILE",
@@ -220,6 +225,9 @@ def main() -> int:
 
     video_gen = None
     if args.mode == "video" and not args.mock:
+        if not os.environ.get("KLING_API_KEY"):
+            logging.error("KLING_API_KEY is not set. Add it to .env or use --mode static.")
+            return 1
         from src.adapters.video_gen import KlingAdapter
         video_gen = KlingAdapter(config.get("video_gen", {}))
 
@@ -247,6 +255,7 @@ def main() -> int:
             subtitle=not args.no_subtitle,
             bgm_adapter=bgm,
             bgm_volume=args.bgm_volume,
+            ab_variants=args.ab_variants,
         )
     except Exception as e:
         logging.error("Pipeline failed: %s", e, exc_info=True)

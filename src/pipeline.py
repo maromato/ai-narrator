@@ -9,6 +9,7 @@ Steps:
   5. Concatenate clips → final.mp4
   6. Save run report
 """
+import json
 import logging
 from datetime import datetime
 from pathlib import Path
@@ -34,6 +35,7 @@ def run(
     subtitle: bool = True,
     bgm_adapter=None,
     bgm_volume: float = 0.2,
+    ab_variants: int = 1,
 ) -> tuple[Path, RunReport]:
     vid.check_ffmpeg()
 
@@ -44,9 +46,45 @@ def run(
     report = RunReport(run_id=run_id, topic=topic, mock_mode=mock)
     logger.info("Run ID: %s | Topic: %s | Genre: %s | Lang: %s | Mock: %s", run_id, topic, genre, lang, mock)
 
-    # ── Step 1: Storyboard ────────────────────────────────────────────────────
-    logger.info("[1/5] Generating storyboard...")
-    storyboard: Storyboard = llm_adapter.generate_storyboard(topic, genre, lang)
+    # ── Step 1: Storyboard (with optional A/B test) ───────────────────────────
+    if ab_variants > 1 and not mock:
+        logger.info("[1/5] Generating %d storyboard variants (A/B test)...", ab_variants)
+        from src.evaluator import StoryboardEvaluator
+        evaluator = StoryboardEvaluator()
+        candidates: list[Storyboard] = []
+        ab_scores: list[dict] = []
+        for i in range(ab_variants):
+            logger.info("  Variant %d/%d...", i + 1, ab_variants)
+            sb = llm_adapter.generate_storyboard(topic, genre, lang)
+            score = evaluator.evaluate(sb.to_dict(), genre)
+            candidates.append(sb)
+            ab_scores.append(score)
+            logger.info("  → score=%.2f | %s", score["final_score"], score["verdict"])
+
+        best_idx = max(range(len(ab_scores)), key=lambda i: ab_scores[i]["final_score"])
+        storyboard = candidates[best_idx]
+        logger.info("Selected variant %d (score=%.2f): %s",
+                    best_idx + 1, ab_scores[best_idx]["final_score"], storyboard.topic)
+
+        # Save A/B comparison report
+        ab_report = [
+            {
+                "variant": i + 1,
+                "topic": s["topic"],
+                "final_score": s["final_score"],
+                "content_score": s["content_score"],
+                "verdict": s["verdict"],
+                "selected": i == best_idx,
+            }
+            for i, s in enumerate(ab_scores)
+        ]
+        (out_dir / "ab_results.json").write_text(
+            json.dumps(ab_report, indent=2, ensure_ascii=False)
+        )
+    else:
+        logger.info("[1/5] Generating storyboard...")
+        storyboard: Storyboard = llm_adapter.generate_storyboard(topic, genre, lang)
+
     storyboard.save(out_dir / "storyboard.json")
     (out_dir / "script.txt").write_text(storyboard.script)
     report.output_storyboard = str(out_dir / "storyboard.json")

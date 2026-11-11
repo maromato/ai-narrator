@@ -23,6 +23,7 @@ class BatchJob:
     mode: str = "static"
     subtitle: bool = True
     tts: str = ""
+    ab_variants: int = 1
     tts_speaker: int = 1
 
 
@@ -48,6 +49,7 @@ def load_jobs_from_yaml(path: Path) -> list[BatchJob]:
             subtitle=item.get("subtitle", True),
             tts=item.get("tts", ""),
             tts_speaker=item.get("tts_speaker", 1),
+            ab_variants=item.get("ab_variants", 1),
         ))
     return jobs
 
@@ -109,6 +111,7 @@ def run_batch(
                 mode=job.mode,
                 video_gen_adapter=video_gen,
                 subtitle=job.subtitle,
+                ab_variants=job.ab_variants,
             )
             results.append(BatchResult(
                 job=job,
