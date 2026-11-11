@@ -107,6 +107,18 @@ def main() -> int:
         help="Disable subtitle overlay on video",
     )
     parser.add_argument(
+        "--batch", default=None, metavar="YAML",
+        help="Run batch mode from a YAML file (e.g. topics.yaml)",
+    )
+    parser.add_argument(
+        "--batch-genre", default=None, choices=GENRES, dest="batch_genre",
+        help="Auto-batch: generate multiple videos for this genre using LLM topics",
+    )
+    parser.add_argument(
+        "--batch-count", default=5, type=int, dest="batch_count",
+        help="Number of videos to generate in auto-batch mode (default: 5)",
+    )
+    parser.add_argument(
         "--mock", action="store_true",
         help="Run in mock mode — no API calls, no cost",
     )
@@ -121,6 +133,39 @@ def main() -> int:
         config["tts"]["provider"] = args.tts
     if args.tts_speaker is not None:
         config["tts"]["speaker"] = args.tts_speaker
+
+    # ── Batch mode ────────────────────────────────────────────────────────────
+    if args.batch or args.batch_genre:
+        from src.batch import jobs_from_genre, load_jobs_from_yaml, print_summary, run_batch
+
+        if args.batch:
+            jobs = load_jobs_from_yaml(Path(args.batch))
+            print(f"\n{'='*60}")
+            print(f"  AI Narrator — Batch Mode (YAML)")
+            print(f"  File  : {args.batch}")
+            print(f"  Jobs  : {len(jobs)}")
+            print(f"  Mode  : {'MOCK' if args.mock else 'LIVE'}")
+            print(f"{'='*60}\n")
+        else:
+            jobs = jobs_from_genre(
+                genre=args.batch_genre,
+                lang=args.lang,
+                count=args.batch_count,
+                model=config["llm"]["model"],
+            )
+            print(f"\n{'='*60}")
+            print(f"  AI Narrator — Batch Mode (Auto)")
+            print(f"  Genre : {args.batch_genre}  Lang: {args.lang}  Count: {args.batch_count}")
+            print(f"  Mode  : {'MOCK' if args.mock else 'LIVE'}")
+            print(f"{'='*60}\n")
+            for i, j in enumerate(jobs, 1):
+                print(f"  {i}. {j.topic}")
+            print()
+
+        results = run_batch(jobs, config, mock=args.mock)
+        print_summary(results)
+        return 0 if all(r.success for r in results) else 1
+
     llm, img, tts = build_adapters(config, args.mock)
 
     # Resolve topic

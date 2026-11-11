@@ -1,0 +1,30 @@
+# AI Narrator — バッチジョブ定義ファイル
+#
+# 各エントリで指定できる項目:
+#   topic       : トピック文字列（省略時は topic_from: llm で自動選択）
+#   topic_from  : manual / llm（topic 未指定時は自動で llm）
+#   genre       : general / history / science / animals / religion /
+#                 lifestyle / selfhelp / workplace / japan_travel / japan_zen /
+#                 romance / mens_life / academia
+#   lang        : en / ja
+#   mode        : static（デフォルト）/ video（Kling使用）
+#   subtitle    : true（デフォルト）/ false
+#   tts         : openai（デフォルト）/ voicevox
+#   tts_speaker : Voicevox スピーカーID（デフォルト: 1）
+
+- topic: "なぜ犬は飼い主の帰宅がわかるのか"
+  genre: animals
+  lang: ja
+
+- topic_from: llm
+  genre: romance
+  lang: ja
+
+- topic: "The Fall of the Roman Empire"
+  genre: history
+  lang: en
+
+- topic_from: llm
+  genre: academia
+  lang: ja
+  subtitle: false

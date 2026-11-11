@@ -100,6 +100,43 @@ cp .env.example .env
 
 ---
 
+## バッチ処理
+
+### YAMLファイルで一括生成
+
+```bash
+.venv/bin/python run.py --batch topics.yaml
+.venv/bin/python run.py --batch topics.yaml --mock  # 動作確認
+```
+
+`topics.yaml` の書き方：
+```yaml
+- topic: "なぜ犬は飼い主の帰宅がわかるのか"
+  genre: animals
+  lang: ja
+
+- topic_from: llm        # Claude がトピックを自動選択
+  genre: romance
+  lang: ja
+
+- topic: "The Fall of Rome"
+  genre: history
+  lang: en
+  subtitle: false        # 字幕なし
+```
+
+### ジャンル指定で自動一括生成
+
+```bash
+# romance ジャンルで5本自動生成（デフォルト）
+.venv/bin/python run.py --batch-genre romance --lang ja
+
+# 本数を指定
+.venv/bin/python run.py --batch-genre animals --lang ja --batch-count 3
+```
+
+---
+
 ## TTS（音声合成）
 
 ### OpenAI（デフォルト）
