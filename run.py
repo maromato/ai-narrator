@@ -103,6 +103,10 @@ def main() -> int:
         help="Voicevox speaker ID (default: 1)",
     )
     parser.add_argument(
+        "--no-subtitle", action="store_true", dest="no_subtitle",
+        help="Disable subtitle overlay on video",
+    )
+    parser.add_argument(
         "--mock", action="store_true",
         help="Run in mock mode — no API calls, no cost",
     )
@@ -161,6 +165,7 @@ def main() -> int:
             lang=args.lang,
             mode=args.mode,
             video_gen_adapter=video_gen,
+            subtitle=not args.no_subtitle,
         )
     except Exception as e:
         logging.error("Pipeline failed: %s", e, exc_info=True)

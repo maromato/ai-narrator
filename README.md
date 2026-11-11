@@ -74,6 +74,7 @@ cp .env.example .env
 | `--interactive` | off | `--topic-from llm` 時に候補を表示して選択 |
 | `--tts` | config準拠 | `openai` / `voicevox` |
 | `--tts-speaker` | `1` | Voicevox スピーカーID |
+| `--no-subtitle` | off | 字幕オーバーレイを無効化 |
 | `--mock` | off | APIコールなし・無料のテストモード |
 | `--config` | `config.json` | 設定ファイルのパス |
 

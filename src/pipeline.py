@@ -31,6 +31,7 @@ def run(
     lang: str = "en",
     mode: str = "static",
     video_gen_adapter=None,
+    subtitle: bool = True,
 ) -> tuple[Path, RunReport]:
     vid.check_ffmpeg()
 
@@ -83,7 +84,7 @@ def run(
         clip_paths: list[Path] = []
         for scene, raw_path, audio_path in zip(storyboard.scenes, raw_video_paths, audio_paths):
             clip_path = out_dir / f"clip_{scene.scene_id}.mp4"
-            vid.mux_video_audio(raw_path, audio_path, clip_path, config["video"], subtitle=scene.subtitle)
+            vid.mux_video_audio(raw_path, audio_path, clip_path, config["video"], subtitle=scene.subtitle if subtitle else "")
             clip_paths.append(clip_path)
 
     else:
@@ -113,7 +114,7 @@ def run(
                 image_path=img_path,
                 audio_path=audio_path,
                 output_path=clip_path,
-                subtitle=scene.subtitle,
+                subtitle=scene.subtitle if subtitle else "",
                 camera_effect=scene.camera_effect,
                 config=config["video"],
             )
