@@ -188,8 +188,9 @@ GENRE_STYLES: dict[str, str] = {
     ),
     "drama_bl": (
         "ultra-cinematic 8K Boys Love drama still frame, "
-        "two exceptionally handsome Japanese men in their early-to-mid twenties (20-26 years old) — "
-        "beautiful faces, clear skin, slender yet athletic build, deeply expressive eyes — "
+        "two beautiful Japanese men in their early-to-mid twenties (20-26 years old) — "
+        "one tall and quietly handsome with sharp features and a cool gaze, "
+        "the other boyishly cute with soft round eyes, gentle smile, and an innocent warmth — "
         "in intimate quietly charged scenes: shared umbrella on a rainy rooftop, late-night library, "
         "accidental shoulder touch on a train, one tending the other's wound in soft lamplight — "
         "soft pastel and cool blue-grey color grade, achingly tender close-ups, "
@@ -197,10 +198,11 @@ GENRE_STYLES: dict[str, str] = {
     ),
     "drama_korean_bl": (
         "ultra-cinematic 8K Korean BL drama still frame, "
-        "two strikingly handsome Korean men in their twenties (20-29 years old) — "
-        "sharp jawlines, flawless skin, intense smoldering eyes, tall athletic physique — "
+        "two beautiful Korean men in their twenties (20-29 years old) — "
+        "one powerfully handsome with sharp jawline, smoldering eyes and commanding presence, "
+        "the other adorably cute with doe eyes, soft features, and an endearing flustered expression — "
         "in intense emotionally charged scenes: office rooftop under neon city lights, "
-        "rain-soaked late-night confession, modern office, one stepping dangerously close to the other — "
+        "rain-soaked late-night confession, modern office, one stepping close to the other — "
         "desaturated teal-and-rose color grade, anamorphic lens flare, "
         "every frame crackles with tension — vertical portrait 9:16 cinematic composition"
     ),
