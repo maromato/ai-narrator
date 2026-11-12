@@ -173,7 +173,8 @@ GENRE_STYLES: dict[str, str] = {
         "exceptionally handsome Korean male lead and strikingly beautiful Korean female lead — "
         "visually stunning faces with flawless skin, strong jawline, expressive eyes — "
         "in emotionally charged scenes: rain-soaked streets at night, luxury penthouse with Han River view, "
-        "rooftop under neon signs, tearful close-ups in golden hour backlight — "
+        "rooftop under neon signs, tearful close-ups in golden hour backlight, "
+        "or an achingly beautiful first kiss — lips barely touching, eyes fluttering closed, "
         "anamorphic lens flare, shallow depth of field, desaturated teal-and-orange color grade, "
         "every frame looks like a drama poster shot — vertical portrait 9:16 cinematic composition"
     ),
@@ -182,7 +183,8 @@ GENRE_STYLES: dict[str, str] = {
         "strikingly handsome Japanese man and breathtakingly beautiful Japanese woman — "
         "perfect features, luminous skin, deeply expressive eyes — "
         "in intimate emotionally charged scenes: cherry blossom petals on a station platform, "
-        "rainy window of a late-night cafe, golden sunset on a riverside path, dim city-glow bedroom — "
+        "rainy window of a late-night cafe, golden sunset on a riverside path, dim city-glow bedroom, "
+        "or a tender kiss in soft backlight — eyes closed, foreheads almost touching — "
         "warm amber and soft rose color grade, shallow depth of field, "
         "every frame breathes quiet longing — vertical portrait 9:16 cinematic composition"
     ),
@@ -192,7 +194,8 @@ GENRE_STYLES: dict[str, str] = {
         "one tall and quietly handsome with sharp features and a cool gaze, "
         "the other boyishly cute with soft round eyes, gentle smile, and an innocent warmth — "
         "in intimate quietly charged scenes: shared umbrella on a rainy rooftop, late-night library, "
-        "accidental shoulder touch on a train, one tending the other's wound in soft lamplight — "
+        "accidental shoulder touch on a train, one tending the other's wound in soft lamplight, "
+        "or a breathless first kiss — the taller one cupping the smaller's face gently, both eyes closed — "
         "soft pastel and cool blue-grey color grade, achingly tender close-ups, "
         "every frame feels like a manga panel come to life — vertical portrait 9:16 cinematic composition"
     ),
@@ -202,7 +205,8 @@ GENRE_STYLES: dict[str, str] = {
         "one powerfully handsome with sharp jawline, smoldering eyes and commanding presence, "
         "the other adorably cute with doe eyes, soft features, and an endearing flustered expression — "
         "in intense emotionally charged scenes: office rooftop under neon city lights, "
-        "rain-soaked late-night confession, modern office, one stepping close to the other — "
+        "rain-soaked late-night confession, modern office, one stepping close to the other, "
+        "or an intense kiss against a rain-streaked window — one hand on the wall, the other on a cheek — "
         "desaturated teal-and-rose color grade, anamorphic lens flare, "
         "every frame crackles with tension — vertical portrait 9:16 cinematic composition"
     ),
@@ -370,7 +374,7 @@ _NARRATIVE_STRUCTURES: dict[str, str] = {
         "- Scene 2 (惹かれる心): 距離が縮まる場面。言葉ではなく、視線・仕草・沈黙で気持ちを伝える。\n"
         "- Scene 3 (すれ違い): 誤解・秘密・身分差など、二人を引き裂く葛藤が表面化する。\n"
         "- Scene 4 (転換点): 感情が爆発する瞬間——雨の中の言葉、病院の廊下、屋上での叫び。\n"
-        "- Scene 5 (クライマックス): 告白・抱擁・別れ——二人の関係が決定的に変わる感情の頂点。\n"
+        "- Scene 5 (キス・クライマックス): 二人が唇を重ねる——初めてのキス、あるいは止められなかったキス。その瞬間の息遣い、震える手、閉じた瞳を丁寧に描く。\n"
         "- Scene 6 (余韻): 次の展開を予感させる余韻。セリフや表情で視聴者の心を引き留める。"
     ),
     "drama_romance": (
@@ -378,7 +382,7 @@ _NARRATIVE_STRUCTURES: dict[str, str] = {
         "- Scene 2 (距離が縮まる): 偶然の接触、共有する時間、小さな優しさ——言葉より先に心が動く。\n"
         "- Scene 3 (迷い): 好きだと気づいた瞬間に生まれる躊躇。傷つくのが怖い、失いたくない。\n"
         "- Scene 4 (限界): 抑えていた感情がついにあふれ出す——涙か、怒りか、静かな告白か。\n"
-        "- Scene 5 (クライマックス): 二人の距離が、物理的にも感情的にも一番近づく瞬間。\n"
+        "- Scene 5 (キス・クライマックス): そっと唇が重なる——柔らかく、静かで、世界が止まる瞬間。触れた瞬間の体温、止まった呼吸を丁寧に描く。\n"
         "- Scene 6 (余韻): 朝の光の中、変わった何か。言葉にしなくていい、伝わっているから。"
     ),
     "drama_bl": (
@@ -386,7 +390,7 @@ _NARRATIVE_STRUCTURES: dict[str, str] = {
         "- Scene 2 (近づく): 意図せず縮まる距離。触れそうで触れない、目が合いすぎる、心が騒ぐ。\n"
         "- Scene 3 (葛藤): これは友情か、それとも——自分の感情に名前をつけることへの恐れ。\n"
         "- Scene 4 (亀裂と転換): 誤解、すれ違い、あるいは第三者の存在が二人の間に影を落とす。\n"
-        "- Scene 5 (クライマックス): もう隠せない感情が言葉になる、あるいは沈黙のまま伝わる瞬間。\n"
+        "- Scene 5 (キス・クライマックス): もう止められなかった——そっと顔を傾けて唇が触れる。驚き、震え、それでも離れられない。その一瞬を息が詰まるほど丁寧に描く。\n"
         "- Scene 6 (余韻): 何かが変わった朝。二人の間にある新しい静けさと、その先への予感。"
     ),
     "drama_korean_bl": (
@@ -394,7 +398,7 @@ _NARRATIVE_STRUCTURES: dict[str, str] = {
         "- Scene 2 (隙を見せる瞬間): 鎧の下の素顔が一瞬だけ見える。強いはずの男が弱さを見せる、その瞬間に相手の何かが動く。\n"
         "- Scene 3 (距離が消える): 危機、怪我、雨——状況が二人を否応なく近づける。触れた体温が、すべてを変える。\n"
         "- Scene 4 (引き裂かれる): 秘密・過去・身分差・会社の権力——感情を認めた瞬間に最大の障壁が現れる。\n"
-        "- Scene 5 (クライマックス): 追いかける、壁に手をつく、雨の中で名前を呼ぶ——もう止められない感情の爆発。\n"
+        "- Scene 5 (キス・クライマックス): 壁に追い詰め、雨の中で引き寄せ——唇が重なる。激しくも、どこか縋るような、初めてのキスを描く。\n"
         "- Scene 6 (余韻): 嵐の後の静寂。変わった力関係、変わらない感情、次話への引き。"
     ),
 }
