@@ -28,6 +28,11 @@ RPM_FACTORS: dict[str, float] = {
     "animals":     0.90,
     "religion":    0.85,
     "general":     1.00,
+    "beauty":      1.05,
+    "drama_kdrama":  1.10,
+    "drama_romance": 1.05,
+    "drama_bl":         1.05,
+    "drama_korean_bl":  1.10,
 }
 
 _EVAL_PROMPT = """\

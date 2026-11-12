@@ -2,10 +2,13 @@
 import json
 import logging
 import os
+from pathlib import Path
 
 import anthropic
 
 logger = logging.getLogger(__name__)
+
+DEFAULT_HISTORY_PATH = Path(__file__).parent.parent / "used_topics.json"
 
 _PROMPT = """\
 You are a TikTok content strategist specializing in {genre} content.
@@ -18,7 +21,7 @@ Requirements:
 - Should appeal to a {lang_audience} audience
 - Genre: {genre}
 - Avoid overly well-known topics (e.g. not just "The Fall of Rome" but something more specific or unexpected)
-{genre_hint}
+{genre_hint}{avoid_hint}
 Return ONLY a valid JSON array of topic strings — no explanation, no markdown:
 ["topic 1", "topic 2", "topic 3", "topic 4", "topic 5"]
 """
@@ -48,8 +51,10 @@ _GENRE_HINTS: dict[str, str] = {
         "surprising Harvard research, famous Harvard dropouts and what they learned first, "
         "what Harvard's most exclusive courses teach, little-known Harvard traditions. "
         "Must feel like insider access to the world's most elite institution. "
-        "Think 'The Harvard study that changed how we understand happiness' or "
-        "'The one class Harvard teaches that no other school does'.\n"
+        "Think 'The secret entrance exam Harvard uses that never appears on the application' or "
+        "'The one class Harvard teaches that no other school does'. "
+        "Do NOT suggest anything related to happiness research or the 75-year happiness study — that topic is overused. "
+        "Do NOT suggest anything related to the library, rare books, or cursed books — that angle is overused.\n"
     ),
     "elite_edu": (
         "- Topics must be practical knowledge from Harvard, MIT, or Stanford — "
@@ -60,11 +65,12 @@ _GENRE_HINTS: dict[str, str] = {
         "Must feel immediately useful and aspirationally elite — knowledge that gives viewers a real edge.\n"
     ),
     "finance": (
-        "- Topics must be practical money tips that feel urgent and immediately actionable — "
-        "'the savings trick most people learn too late', 'why keeping money in a regular savings account is a mistake', "
-        "'the tax deduction 90% of people miss'. "
-        "Make viewers feel they are getting access to knowledge that rich people already know. "
-        "Avoid generic advice — be specific with numbers and situations.\n"
+        "- Topics must be about wealth-building, investor mindsets, and billionaire habits — "
+        "'the one habit self-made billionaires share', 'what rich people do with their first ¥1M that others don't', "
+        "'the investment move most beginners make too late'. "
+        "Make viewers feel they are getting secret access to how the wealthy actually think and act. "
+        "Be specific with numbers and real investor names where possible. "
+        "Do NOT suggest ふるさと納税 or basic savings tips — focus on wealth creation, not frugality.\n"
     ),
     "psychology": (
         "- Topics must be about surprising human behaviors or cognitive biases that viewers recognize in themselves — "
@@ -74,9 +80,17 @@ _GENRE_HINTS: dict[str, str] = {
         "Reference real psychological effects by name when possible.\n"
     ),
     "romance": (
-        "- Keep topics light, fun, and relatable — everyday couple moments, "
-        "cute ways to get attention, flirty texting habits, things that make hearts skip a beat. "
-        "Think 'how to make him think of you' not 'the philosophy of love'.\n"
+        "- Topics should mix light romantic tension with mildly suggestive angles — "
+        "flirty everyday moments, the psychology of physical attraction, "
+        "things couples do that secretly drive each other crazy, "
+        "the science behind a touch that sends a shiver, "
+        "what makes someone irresistible at close distance. "
+        "Think 'the spot men instinctively touch first and what it means', "
+        "'why skin contact before sleep changes the relationship', "
+        "'the 3-second eye contact rule that creates instant chemistry'. "
+        "Keep it suggestive and charged — not explicit, but the kind of content that makes viewers "
+        "blush slightly and immediately save to watch again. "
+        "Avoid anything graphic — the tension is in what's implied, not stated.\n"
     ),
     "japan_travel": (
         "- Topics must be hidden gems, lesser-known places, or underrated experiences in Japan — "
@@ -84,7 +98,8 @@ _GENRE_HINTS: dict[str, str] = {
         "rural villages with incredible food, festivals only locals know, "
         "neighborhoods even most Tokyo residents have never visited. "
         "Must make international viewers think 'I had no idea this existed in Japan — I need to go'. "
-        "Bright, exciting, story-driven — not a travel guide, a personal discovery.\n"
+        "Bright, exciting, story-driven — not a travel guide, a personal discovery. "
+        "Do NOT suggest 白川郷 — that destination is overused.\n"
     ),
     "mens_life": (
         "- Topics must be light, fun, and instantly relatable to men aged 18-35 — "
@@ -92,6 +107,44 @@ _GENRE_HINTS: dict[str, str] = {
         "social situations guys mess up without knowing. "
         "Think 'guys who do X are instantly more likeable' not abstract life philosophy. "
         "Make it the kind of content men forward to their group chat.\n"
+    ),
+    "drama_kdrama": (
+        "- Each topic is a one-line drama premise (ワンライン) for a 30-second mini Korean drama episode.\n"
+        "- Must have a clear emotional conflict and two characters with chemistry.\n"
+        "- Think: 財閥御曹司×平凡な女性、記憶喪失、身分差の禁断愛、幼馴染との再会、病院での偶然の出会い.\n"
+        "- The premise must be instantly addictive — viewers should feel 'next episode please' after 30 seconds.\n"
+        "- Avoid slice-of-life — every premise needs a dramatic hook: a secret, a misunderstanding, a forbidden feeling.\n"
+        "- Write the topic AS the drama premise in Japanese, e.g. '財閥の御曹司に契約結婚を迫られた地下アイドルの30日間'.\n"
+    ),
+    "drama_romance": (
+        "- Each topic is a one-line premise for a 30-second Japanese romantic mini drama.\n"
+        "- Focus on quiet, emotionally resonant romance — not K-drama grandiosity but Japanese restraint and longing.\n"
+        "- Think: 幼馴染との再会、片思いが両思いになる瞬間、別れた恋人との偶然の再会、同僚への秘めた想い.\n"
+        "- The best premises are specific and bittersweet — 'ずっと好きだったと言えないまま、彼女は明日転勤する'.\n"
+        "- Write the topic AS the drama premise in Japanese.\n"
+    ),
+    "drama_bl": (
+        "- Each topic is a one-line BL (Boys Love) drama premise for a 30-second mini episode.\n"
+        "- Both protagonists MUST be young Japanese men in their 20s (university students, young adults, early-career).\n"
+        "- Think: 大学の先輩×後輩、幼馴染の再会、同じアパートの住人、バイト仲間、部活のライバル.\n"
+        "- The premise must feel tender and charged — the kind that makes BL fans' hearts ache.\n"
+        "- Write the topic AS the drama premise in Japanese, e.g. '嫌いなはずの幼馴染が、雨の夜だけ優しくなる理由'.\n"
+    ),
+    "drama_korean_bl": (
+        "- Each topic is a one-line Korean BL drama premise for a 30-second intense mini episode.\n"
+        "- Both protagonists MUST be young Korean men in their 20s (young professionals, rookies, university students).\n"
+        "- Think: 新人社員×同期のライバル、大学のサークル先輩×後輩、20代の若き起業家×幼馴染.\n"
+        "- The premise needs charged energy and emotional tension — forbidden feelings between young men.\n"
+        "- Must have a dramatic hook: rivalry, a shared secret, enemies-to-lovers, or an unexpected reunion.\n"
+        "- Write the topic AS the drama premise in Japanese, e.g. '同期だと思っていた男が、実は3年前に俺の心を壊した人物だった'.\n"
+    ),
+    "beauty": (
+        "- Topics must be surprising beauty secrets, little-known skincare facts, or 'you've been doing this wrong' revelations — "
+        "'the one ingredient dermatologists say is worth every yen', 'why your moisturiser is making your skin worse', "
+        "'the 30-second Japanese skincare step that changes everything'. "
+        "Mix science-backed facts with aspirational J-beauty or K-beauty wisdom. "
+        "Make viewers feel they are getting access to a pro's insider routine. "
+        "Specific ingredients, textures, or techniques beat vague advice every time.\n"
     ),
 }
 
@@ -102,36 +155,91 @@ _LANG_AUDIENCE = {
 
 
 class LLMTopicSelector:
-    def __init__(self, model: str = "claude-sonnet-4-6"):
+    def __init__(self, model: str = "claude-sonnet-4-6", history_path: Path | None = None):
         self.client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
         self.model = model
+        self.history_path = history_path or DEFAULT_HISTORY_PATH
 
-    def suggest(self, genre: str = "general", lang: str = "en", count: int = 5) -> list[str]:
+    # ── History helpers ───────────────────────────────────────────────────────
+
+    def _load_history(self) -> list[dict]:
+        if self.history_path.exists():
+            try:
+                return json.loads(self.history_path.read_text())
+            except Exception:
+                return []
+        return []
+
+    def record(self, topic: str, genre: str, lang: str) -> None:
+        """Persist a used topic so future suggestions avoid it."""
+        history = self._load_history()
+        history.append({"topic": topic, "genre": genre, "lang": lang})
+        self.history_path.write_text(json.dumps(history, indent=2, ensure_ascii=False))
+        logger.debug("Recorded topic to history: %s", topic)
+
+    # ── Core methods ──────────────────────────────────────────────────────────
+
+    def suggest(self, genre: str = "general", lang: str = "en", count: int = 5, use_trends: bool = False) -> list[str]:
         lang_audience = _LANG_AUDIENCE.get(lang, "global")
         genre_hint = _GENRE_HINTS.get(genre, "")
+
+        # Build avoid-hint from history (last 50 entries for this genre+lang)
+        history = self._load_history()
+        past = [
+            e["topic"] for e in history
+            if e.get("genre") == genre and e.get("lang") == lang
+        ][-50:]
+        if past:
+            lines = "\n".join(f"  × {t}" for t in past)
+            avoid_hint = f"\n- ALREADY USED — do NOT repeat or make variations of these:\n{lines}\n"
+            logger.info("Excluding %d previously used topics from suggestions", len(past))
+        else:
+            avoid_hint = ""
+
+        # Optionally seed with Google Trends rising queries
+        trend_hint = ""
+        if use_trends:
+            from src.adapters.trend_research import GoogleNewsTrendResearcher
+            researcher = GoogleNewsTrendResearcher()
+            rising = researcher.fetch(genre=genre, lang=lang)
+            if rising:
+                lines = "\n".join(f"  → {q}" for q in rising)
+                trend_hint = (
+                    f"\n- TRENDING NOW on Japanese social media (use as creative inspiration"
+                    f" — adapt angle, do not copy directly):\n{lines}\n"
+                )
+                logger.info("Injected %d trend seeds into prompt", len(rising))
+
         prompt = _PROMPT.format(
             genre=genre,
             count=count,
             lang_audience=lang_audience,
             genre_hint=genre_hint,
+            avoid_hint=avoid_hint + trend_hint,
         )
         logger.info("Requesting %d topic suggestions (genre=%s, lang=%s)", count, genre, lang)
 
-        response = self.client.messages.create(
-            model=self.model,
-            max_tokens=512,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        raw = response.content[0].text.strip()
-        # Extract the JSON array robustly regardless of surrounding text
-        start = raw.find("[")
-        end = raw.rfind("]")
-        if start != -1 and end != -1:
-            raw = raw[start:end + 1]
+        last_error: Exception | None = None
+        for attempt in range(1, 4):
+            try:
+                response = self.client.messages.create(
+                    model=self.model,
+                    max_tokens=512,
+                    messages=[{"role": "user", "content": prompt}],
+                )
+                raw = response.content[0].text.strip()
+                start = raw.find("[")
+                end = raw.rfind("]")
+                if start != -1 and end != -1:
+                    raw = raw[start:end + 1]
+                topics = json.loads(raw)
+                logger.info("Got %d topic suggestions (attempt %d)", len(topics), attempt)
+                return topics
+            except json.JSONDecodeError as e:
+                last_error = e
+                logger.warning("JSON parse failed (attempt %d/3): %s — retrying", attempt, e)
 
-        topics = json.loads(raw)
-        logger.info("Got %d topic suggestions", len(topics))
-        return topics
+        raise ValueError(f"Topic suggestion failed after 3 attempts: {last_error}")
 
     def select(
         self,
@@ -139,12 +247,14 @@ class LLMTopicSelector:
         lang: str = "en",
         interactive: bool = False,
         count: int = 5,
+        use_trends: bool = False,
     ) -> str:
-        topics = self.suggest(genre=genre, lang=lang, count=count)
+        topics = self.suggest(genre=genre, lang=lang, count=count, use_trends=use_trends)
 
         if not interactive:
             chosen = topics[0]
             logger.info("Auto-selected topic: %s", chosen)
+            self.record(chosen, genre, lang)
             return chosen
 
         # Interactive: show numbered list and prompt user
@@ -157,9 +267,12 @@ class LLMTopicSelector:
         while True:
             raw = input("Select topic number (0 to enter manually): ").strip()
             if raw == "0":
-                return input("Enter your topic: ").strip()
+                chosen = input("Enter your topic: ").strip()
+                self.record(chosen, genre, lang)
+                return chosen
             if raw.isdigit() and 1 <= int(raw) <= len(topics):
                 chosen = topics[int(raw) - 1]
                 logger.info("User selected topic: %s", chosen)
+                self.record(chosen, genre, lang)
                 return chosen
             print(f"Please enter a number between 0 and {len(topics)}.")

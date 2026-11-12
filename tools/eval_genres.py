@@ -34,6 +34,11 @@ ALL_GENRES = [
     "romance", "mens_life",
     "academia", "elite_edu",
     "finance", "psychology",
+    "beauty",
+    "drama_kdrama",
+    "drama_romance",
+    "drama_bl",
+    "drama_korean_bl",
     "general",
 ]
 
@@ -45,13 +50,13 @@ def generate_storyboard(topic: str, genre: str, lang: str, config: dict) -> dict
     return sb.to_dict()
 
 
-def suggest_topics(genre: str, lang: str, count: int, model: str) -> list[str]:
+def suggest_topics(genre: str, lang: str, count: int, model: str, use_trends: bool = False) -> list[str]:
     from src.topic_selector import LLMTopicSelector
     selector = LLMTopicSelector(model=model)
-    return selector.suggest(genre=genre, lang=lang, count=count)
+    return selector.suggest(genre=genre, lang=lang, count=count, use_trends=use_trends)
 
 
-def run_evaluation(genres: list[str], count: int, lang: str, config: dict) -> list[dict]:
+def run_evaluation(genres: list[str], count: int, lang: str, config: dict, use_trends: bool = False) -> list[dict]:
     from src.evaluator import StoryboardEvaluator
     evaluator = StoryboardEvaluator(model=config["llm"]["model"])
 
@@ -64,7 +69,7 @@ def run_evaluation(genres: list[str], count: int, lang: str, config: dict) -> li
         logger.info("Genre: %s — generating %d topics...", genre, count)
 
         try:
-            topics = suggest_topics(genre, lang, count, config["llm"]["model"])
+            topics = suggest_topics(genre, lang, count, config["llm"]["model"], use_trends=use_trends)
         except Exception as e:
             logger.error("Topic suggestion failed for %s: %s", genre, e)
             continue
@@ -146,6 +151,8 @@ def main():
                         help="Save full results to JSON file")
     parser.add_argument("--config", default="config.json",
                         help="Path to config.json")
+    parser.add_argument("--trends", action="store_true",
+                        help="Seed topic suggestions with Google News trends")
     args = parser.parse_args()
 
     config = json.loads(Path(args.config).read_text())
@@ -154,9 +161,10 @@ def main():
     print(f"  AI Narrator — Genre Evaluation")
     print(f"  Genres : {len(args.genres)}  ×  {args.count} storyboards  =  {len(args.genres) * args.count} total")
     print(f"  Lang   : {args.lang}")
+    print(f"  Trends : {'ON (Google News)' if args.trends else 'OFF'}")
     print(f"{'='*70}\n")
 
-    results = run_evaluation(args.genres, args.count, args.lang, config)
+    results = run_evaluation(args.genres, args.count, args.lang, config, use_trends=args.trends)
 
     if not results:
         print("No results collected.")

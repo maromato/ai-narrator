@@ -31,7 +31,7 @@ DEFAULT_GENRE = "general"
 DEFAULT_LANG = "en"
 CONFIG_PATH = Path(__file__).parent / "config.json"
 
-GENRES = ["general", "history", "science", "animals", "religion", "lifestyle", "selfhelp", "workplace", "japan_travel", "japan_zen", "romance", "mens_life", "academia", "elite_edu", "finance", "psychology"]
+GENRES = ["general", "history", "science", "animals", "religion", "lifestyle", "selfhelp", "workplace", "japan_travel", "japan_zen", "romance", "mens_life", "academia", "elite_edu", "finance", "psychology", "beauty", "drama_kdrama", "drama_romance", "drama_bl", "drama_korean_bl"]
 LANGS = ["en", "ja"]
 
 
@@ -137,6 +137,10 @@ def main() -> int:
         help="Number of videos per genre in auto-batch mode (default: 5)",
     )
     parser.add_argument(
+        "--trends", action="store_true",
+        help="Seed topic suggestions with Google Trends rising queries (requires network)",
+    )
+    parser.add_argument(
         "--mock", action="store_true",
         help="Run in mock mode — no API calls, no cost",
     )
@@ -178,6 +182,7 @@ def main() -> int:
                     lang=args.lang,
                     count=args.batch_count,
                     model=config["llm"]["model"],
+                    use_trends=args.trends,
                 )
 
             genres_str = ", ".join(args.batch_genre)
@@ -210,6 +215,7 @@ def main() -> int:
                 genre=args.genre,
                 lang=args.lang,
                 interactive=args.interactive,
+                use_trends=args.trends,
             )
 
     print(f"\n{'='*60}")

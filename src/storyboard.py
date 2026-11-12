@@ -126,6 +126,13 @@ GENRE_STYLES: dict[str, str] = {
         "dramatic natural or street lighting, genuine emotional expression — "
         "candid documentary style, not posed, deeply relatable to men aged 20-35"
     ),
+    "beauty": (
+        "ultra-photorealistic 8K beauty photograph, "
+        "radiant Japanese woman with flawless skin in a minimal clean aesthetic setting — "
+        "soft diffused natural window light or softbox, pastel or pure white background, "
+        "close-up textures of dewy skin, luxury skincare products or cosmetics artfully arranged, "
+        "K-beauty or J-beauty inspired palette — serene, aspirational, deeply satisfying to look at"
+    ),
     "academia": (
         "ultra-photorealistic 8K real photograph, "
         "iconic Harvard University setting — Widener Library interior, Harvard Yard red-brick paths, "
@@ -159,6 +166,39 @@ GENRE_STYLES: dict[str, str] = {
     "general": (
         "ultra-photorealistic 8K real photograph, "
         "dramatic natural lighting, vivid colors, emotionally compelling real-world scene"
+    ),
+    "drama_kdrama": (
+        "ultra-cinematic 8K Korean drama still frame, "
+        "beautiful Korean characters in emotionally charged scenes — rain-soaked streets at night, "
+        "hospital corridors with fluorescent light, luxury penthouse with Han River view, "
+        "rooftop under neon signs, tearful close-ups in golden hour backlight — "
+        "anamorphic lens flare, shallow depth of field, desaturated teal-and-orange color grade, "
+        "every frame looks like a drama poster shot — vertical portrait 9:16 cinematic composition"
+    ),
+    "drama_romance": (
+        "ultra-cinematic 8K Japanese romantic drama still frame, "
+        "beautiful Japanese characters in intimate emotionally charged scenes — "
+        "cherry blossom petals falling on a station platform, rainy window of a late-night cafe, "
+        "golden sunset on a riverside path, dim bedroom lit only by city glow, "
+        "warm amber and soft rose color grade, shallow depth of field, "
+        "every frame breathes quiet longing — vertical portrait 9:16 cinematic composition"
+    ),
+    "drama_bl": (
+        "ultra-cinematic 8K Boys Love drama still frame, "
+        "two beautiful Japanese men in their early-to-mid twenties (20-26 years old) in intimate quietly charged scenes — "
+        "shared umbrella on a rainy school rooftop, side-by-side in a late-night library, "
+        "accidental shoulder touch on a train, one tending the other's wound in soft lamplight, "
+        "soft pastel and cool blue-grey color grade, achingly tender close-ups, "
+        "every frame feels like a manga panel come to life — vertical portrait 9:16 cinematic composition"
+    ),
+    "drama_korean_bl": (
+        "ultra-cinematic 8K Korean BL drama still frame, "
+        "two strikingly handsome Korean men in their twenties (20-29 years old) in intense emotionally charged scenes — "
+        "office rooftop confrontation under neon city lights, rain-soaked late-night confession, "
+        "modern office with floor-to-ceiling windows, hospital corridor face-off, "
+        "charged glances across a desk, one stepping close to the other in dim light — "
+        "desaturated teal-and-rose color grade, anamorphic lens flare, "
+        "every frame crackles with tension — vertical portrait 9:16 cinematic composition"
     ),
 }
 
@@ -311,6 +351,46 @@ _NARRATIVE_STRUCTURES: dict[str, str] = {
         "- Scene 5 (PAYOFF): What actually changes — keep it fun and tangible, not motivational-speech.\n"
         "- Scene 6 (CTA): A light closer like 'send this to a friend who needs it' or 'try this today'."
     ),
+    "beauty": (
+        "- Scene 1 (HOOK): Open with a surprising beauty secret or 'you've been doing this wrong' revelation — make viewers stop scrolling.\n"
+        "- Scene 2 (PROBLEM): Show the relatable struggle — dull skin, uneven tone, a product everyone buys but few use correctly.\n"
+        "- Scene 3 (THE SECRET): Reveal the insider tip, ingredient, or technique that changes everything.\n"
+        "- Scene 4 (SCIENCE): One satisfying fact about why it works — dermatologist-backed or traditional wisdom.\n"
+        "- Scene 5 (TRANSFORMATION): The before/after moment or the 'this is the result' payoff — make it aspirational.\n"
+        "- Scene 6 (CTA): A save-worthy closer like 'bookmark this routine' or 'try this tonight'."
+    ),
+    "drama_kdrama": (
+        "- Scene 1 (運命の出会い): 二人が初めて交差する瞬間。偶然か必然か——読者が息を呑む出会いの瞬間を描く。\n"
+        "- Scene 2 (惹かれる心): 距離が縮まる場面。言葉ではなく、視線・仕草・沈黙で気持ちを伝える。\n"
+        "- Scene 3 (すれ違い): 誤解・秘密・身分差など、二人を引き裂く葛藤が表面化する。\n"
+        "- Scene 4 (転換点): 感情が爆発する瞬間——雨の中の言葉、病院の廊下、屋上での叫び。\n"
+        "- Scene 5 (クライマックス): 告白・抱擁・別れ——二人の関係が決定的に変わる感情の頂点。\n"
+        "- Scene 6 (余韻): 次の展開を予感させる余韻。セリフや表情で視聴者の心を引き留める。"
+    ),
+    "drama_romance": (
+        "- Scene 1 (出会い直し): すでに知っている二人が、ある瞬間に「特別な人」として見え始める場面。\n"
+        "- Scene 2 (距離が縮まる): 偶然の接触、共有する時間、小さな優しさ——言葉より先に心が動く。\n"
+        "- Scene 3 (迷い): 好きだと気づいた瞬間に生まれる躊躇。傷つくのが怖い、失いたくない。\n"
+        "- Scene 4 (限界): 抑えていた感情がついにあふれ出す——涙か、怒りか、静かな告白か。\n"
+        "- Scene 5 (クライマックス): 二人の距離が、物理的にも感情的にも一番近づく瞬間。\n"
+        "- Scene 6 (余韻): 朝の光の中、変わった何か。言葉にしなくていい、伝わっているから。"
+    ),
+    "drama_bl": (
+        "- Scene 1 (気づき): 何度も会っているのに、今日だけ違って見えた——その瞬間を丁寧に描く。\n"
+        "- Scene 2 (近づく): 意図せず縮まる距離。触れそうで触れない、目が合いすぎる、心が騒ぐ。\n"
+        "- Scene 3 (葛藤): これは友情か、それとも——自分の感情に名前をつけることへの恐れ。\n"
+        "- Scene 4 (亀裂と転換): 誤解、すれ違い、あるいは第三者の存在が二人の間に影を落とす。\n"
+        "- Scene 5 (クライマックス): もう隠せない感情が言葉になる、あるいは沈黙のまま伝わる瞬間。\n"
+        "- Scene 6 (余韻): 何かが変わった朝。二人の間にある新しい静けさと、その先への予感。"
+    ),
+    "drama_korean_bl": (
+        "- Scene 1 (対立する二人): 反目し合う、あるいは圧倒的な力差がある二人の最初の衝突。緊張感と引力を同時に描く。\n"
+        "- Scene 2 (隙を見せる瞬間): 鎧の下の素顔が一瞬だけ見える。強いはずの男が弱さを見せる、その瞬間に相手の何かが動く。\n"
+        "- Scene 3 (距離が消える): 危機、怪我、雨——状況が二人を否応なく近づける。触れた体温が、すべてを変える。\n"
+        "- Scene 4 (引き裂かれる): 秘密・過去・身分差・会社の権力——感情を認めた瞬間に最大の障壁が現れる。\n"
+        "- Scene 5 (クライマックス): 追いかける、壁に手をつく、雨の中で名前を呼ぶ——もう止められない感情の爆発。\n"
+        "- Scene 6 (余韻): 嵐の後の静寂。変わった力関係、変わらない感情、次話への引き。"
+    ),
 }
 
 _DEFAULT_NARRATIVE = (
@@ -324,6 +404,7 @@ _DEFAULT_NARRATIVE = (
 
 
 def build_prompt(topic: str, genre: str = "general", lang: str = "en") -> str:
+    is_drama = genre.startswith("drama_")
     style = GENRE_STYLES.get(genre, GENRE_STYLES["general"])
     genre_label = genre.upper()
     narrative_structure = _NARRATIVE_STRUCTURES.get(genre, _DEFAULT_NARRATIVE)
@@ -331,21 +412,44 @@ def build_prompt(topic: str, genre: str = "general", lang: str = "en") -> str:
     if lang == "ja":
         lang_instruction = (
             "- narration と subtitle は必ず日本語で書くこと。\n"
-            "- subtitle は最大12文字、インパクトのある日本語フレーズ。\n"
             "- image_prompt は英語のまま（画像生成AIのため）。\n"
             "- script（全体ナレーション）も日本語で書くこと。"
         )
-        subtitle_rule = "字幕（subtitle）は最大12文字の日本語、感情的でインパクトのあるフレーズ。"
-        narration_rule = "narration は日本語で1〜3文、読み上げ時4〜6秒程度。"
+        if is_drama:
+            subtitle_rule = "字幕（subtitle）は最大20文字の日本語。ドラマのキャッチコピーや印象的なセリフ・情景描写。"
+            narration_rule = "narration は日本語で2〜4文、小説の地の文または三人称ナレーター視点で書く。読み上げ時4〜6秒。"
+        else:
+            subtitle_rule = "字幕（subtitle）は最大12文字の日本語、感情的でインパクトのあるフレーズ。"
+            narration_rule = "narration は日本語で1〜3文、読み上げ時4〜6秒程度。"
     else:
         lang_instruction = ""
-        subtitle_rule = "Subtitles must be ALL CAPS, max 6 words, punchy and emotional."
-        narration_rule = "Each narration ~4-6 seconds when spoken aloud (do NOT make them too long)."
+        if is_drama:
+            subtitle_rule = "Subtitles are drama title-card style — max 8 words, emotionally charged, like a novel chapter title."
+            narration_rule = "Narration is literary prose, third-person omniscient, ~4-6 seconds per scene."
+        else:
+            subtitle_rule = "Subtitles must be ALL CAPS, max 6 words, punchy and emotional."
+            narration_rule = "Each narration ~4-6 seconds when spoken aloud (do NOT make them too long)."
+
+    if is_drama:
+        creator_role = f"You are a Korean drama scriptwriter and narrator creating a 30-second mini drama episode in {genre_label} style."
+        format_note = "30-second mini drama episode (portrait 1080×1920)"
+        extra_rules = (
+            "- narration must read like literary novel prose or drama voiceover — NOT educational facts.\n"
+            "- Each scene should deepen emotion and move the story forward.\n"
+            "- hashtags: 5 drama-relevant tags (e.g. #韓ドラ #ドラマ #恋愛 #短編ドラマ #縦型ドラマ).\n"
+        )
+    else:
+        creator_role = f"You are a viral short-form video creator specializing in {genre_label} content for TikTok."
+        format_note = "30-second TikTok-style portrait video (1080×1920)"
+        extra_rules = (
+            "- hashtags: 5 relevant tags including platform-appropriate ones (e.g. #LearnOnTikTok).\n"
+            "- The story must feel genuinely compelling — not like a Wikipedia summary.\n"
+        )
 
     return f"""\
-You are a viral short-form video creator specializing in {genre_label} content for TikTok.
+{creator_role}
 
-Create a 6-scene storyboard for a 30-second TikTok-style portrait video (1080×1920).
+Create a 6-scene storyboard for a {format_note}.
 
 NARRATIVE STRUCTURE — follow this order exactly:
 {narrative_structure}
@@ -377,9 +481,7 @@ Rules:
 - Vary camera_effect — no two consecutive scenes the same effect.
 - {subtitle_rule}
 - image_prompt must always be in English and specify the visual style and vertical/portrait framing.
-- hashtags: 5 relevant tags including platform-appropriate ones (e.g. #LearnOnTikTok).
-- No field may be null or empty.
-- The story must feel genuinely compelling — not like a Wikipedia summary.
+{extra_rules}- No field may be null or empty.
 {lang_instruction}
 Topic: {topic}"""
 

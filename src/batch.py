@@ -54,10 +54,10 @@ def load_jobs_from_yaml(path: Path) -> list[BatchJob]:
     return jobs
 
 
-def jobs_from_genre(genre: str, lang: str, count: int, model: str) -> list[BatchJob]:
+def jobs_from_genre(genre: str, lang: str, count: int, model: str, use_trends: bool = False) -> list[BatchJob]:
     """Auto-generate jobs using LLM topic suggestions."""
     selector = LLMTopicSelector(model=model)
-    topics = selector.suggest(genre=genre, lang=lang, count=count)
+    topics = selector.suggest(genre=genre, lang=lang, count=count, use_trends=use_trends)
     return [BatchJob(topic=t, genre=genre, lang=lang) for t in topics]
 
 
@@ -90,6 +90,7 @@ def run_batch(
                 else:
                     selector = LLMTopicSelector(model=config["llm"]["model"])
                     job.topic = selector.select(genre=job.genre, lang=job.lang)
+                    # record() is called inside select(); nothing extra needed here
                 logger.info("Topic resolved: %s", job.topic)
 
             llm, img, tts = build_adapters(job_config, mock)

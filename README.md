@@ -1,6 +1,6 @@
 # AI Narrator
 
-TikTok向け縦型ショート動画（1080×1920）をトピック1つから自動生成します。
+TikTok向け縦型ショート動画（1080×1920）および30秒ミニドラマをトピック1つから自動生成します。
 
 **パイプライン:** トピック → Claude（ストーリーボード） → 画像/動画生成 → TTS音声 → FFmpeg合成 → MP4
 
@@ -56,6 +56,9 @@ cp .env.example .env
 # Claude にトピックを自動選択させる
 .venv/bin/python run.py --topic-from llm --genre romance --lang ja
 
+# Google News トレンドを参考にトピックを生成（APIキー不要）
+.venv/bin/python run.py --topic-from llm --genre finance --lang ja --trends
+
 # トピック候補を表示して選ぶ（インタラクティブ）
 .venv/bin/python run.py --topic-from llm --genre romance --lang ja --interactive
 ```
@@ -72,6 +75,8 @@ cp .env.example .env
 | `--mode` | `static` | `static`（静止画+Ken Burns）/ `video`（Kling動画生成） |
 | `--topic-from` | `manual` | `manual`（--topicを使用）/ `llm`（Claudeが自動提案） |
 | `--interactive` | off | `--topic-from llm` 時に候補を表示して選択 |
+| `--trends` | off | Google News トレンドをシードにトピック生成 |
+| `--ab-variants` | `1` | ストーリーボードをN個生成してスコアの高いものを採用 |
 | `--tts` | config準拠 | `openai` / `voicevox` |
 | `--tts-speaker` | `1` | Voicevox スピーカーID |
 | `--bgm` | なし | ローカル音楽ファイルのパス（例: bgm.mp3） |
@@ -85,24 +90,52 @@ cp .env.example .env
 
 ## ジャンル一覧
 
+### TikTok 情報・教育系
+
 | ジャンル | 内容 | 画像スタイル |
 |---|---|---|
 | `general` | 汎用 | 映画トレーラー風 |
 | `history` | 歴史 | ハリウッド歴史映画風 |
 | `science` | 科学 | NASA/BBC Planet Earth風 |
-| `animals` | 動物 | Pixar/DreamWorks 3Dアニメ風 |
+| `animals` | 動物（犬中心） | 感動的なドキュメンタリー |
 | `religion` | 宗教・精神 | 神聖な光と壮大なスケール |
-| `lifestyle` | ライフスタイル | インスタ映えする日常 |
+| `lifestyle` | 健康・生活習慣 | インスタ映えする日常 |
 | `selfhelp` | 自己啓発 | 大自然の中の孤独な人物 |
-| `workplace` | 職場・仕事 | リアルなビジネスシーン |
-| `japan_travel` | 日本旅行 | 日本の絶景・神社・温泉 |
-| `japan_zen` | 日本の禅・仏教 | 枯山水・竹林・静寂 |
-| `romance` | 恋愛・カップル | 日本人カップルの日常 |
+| `workplace` | 副業・仕事術 | リアルなビジネスシーン |
+| `japan_travel` | 日本旅行・秘境 | 日本の絶景・神社・温泉 |
+| `japan_zen` | 日本の禅・文化 | 枯山水・竹林・静寂 |
+| `romance` | 恋愛（科学×駆け引き） | 日本人カップルの日常 |
 | `mens_life` | 男性向けライフ | 東京・都市の日本人男性 |
-| `academia` | ハーバード大学の秘密・小ネタ | ハーバードのWidener図書館・Harvard Yard |
-| `elite_edu` | 一流大学の勉強法・ビジネス術 | Harvard/MIT/Stanfordのキャンパス・研究室 |
-| `finance` | お金・節約・投資Tips | 都市の金融シーン・お金の対比 |
-| `psychology` | 心理学・人間行動の秘密 | 感情的な人物ポートレート |
+| `beauty` | 美容・スキンケア | J/Kビューティー・白背景 |
+| `academia` | ハーバード大学の秘密・小ネタ | Harvard Yard・研究室 |
+| `elite_edu` | 一流大学の勉強法・思考法 | Harvard/MIT/Stanfordキャンパス |
+| `finance` | 富裕層の習慣・投資家思考 | 都市の金融シーン |
+| `psychology` | 心理学・認知バイアス | 感情的な人物ポートレート |
+
+### ミニドラマ系（30秒ショートドラマ）
+
+| ジャンル | 内容 | 画像スタイル |
+|---|---|---|
+| `drama_kdrama` | 韓ドラ風男女恋愛（財閥・記憶喪失・身分差） | 雨・夜景・ティール＆オレンジ |
+| `drama_romance` | 日本ロマンス（静かな恋愛・余白重視） | 桜・夕焼け・アンバー |
+| `drama_bl` | 日本BL（20代・スローバーン・胸キュン） | ソフトパステル・ブルーグレー |
+| `drama_korean_bl` | 韓国BL（20代・ライバル・禁断の感情） | ネオン・ティール＆ローズ |
+
+---
+
+## トレンド機能
+
+Google News RSS をシードにしてトピックを生成します。APIキー不要。
+
+```bash
+# 単発
+.venv/bin/python run.py --topic-from llm --genre academia --lang ja --trends
+
+# バッチ
+.venv/bin/python run.py --batch-genre academia finance psychology --lang ja --trends
+```
+
+使用済みトピックは `used_topics.json` に自動保存され、次回の生成から除外されます。
 
 ---
 
@@ -134,12 +167,34 @@ cp .env.example .env
 ### ジャンル指定で自動一括生成
 
 ```bash
-# romance ジャンルで5本自動生成（デフォルト）
-.venv/bin/python run.py --batch-genre romance --lang ja
+# 複数ジャンルで一括生成
+.venv/bin/python run.py --batch-genre academia finance psychology \
+  --lang ja --batch-count 3 --trends
 
-# 本数を指定
-.venv/bin/python run.py --batch-genre animals --lang ja --batch-count 3
+# A/Bテスト付き（2バリアント生成してスコアの高い方を採用）
+.venv/bin/python run.py --batch-genre drama_kdrama drama_bl \
+  --lang ja --batch-count 2 --ab-variants 2
 ```
+
+---
+
+## ジャンル評価ツール
+
+全ジャンルのストーリーボードをClaudeで自動評価し、TikTok効果スコアでランキングします。
+
+```bash
+# 全ジャンル評価（3本ずつ）
+.venv/bin/python tools/eval_genres.py --lang ja --top 4 --out results.json
+
+# トレンド機能つき
+.venv/bin/python tools/eval_genres.py --lang ja --trends --top 4
+
+# 特定ジャンルだけ
+.venv/bin/python tools/eval_genres.py --lang ja --genres academia finance --count 3 --trends
+```
+
+**評価基準（各1〜10点）:** hook_power / shareability / specificity / emotional_impact / tiktok_fit / replay_value
+**final_score = 平均点 × RPM係数**（academia: ×1.35、finance: ×1.30、psychology: ×1.25 など）
 
 ---
 
@@ -152,35 +207,12 @@ cp .env.example .env
 ```
 
 ### Mubert AIで自動生成
-ジャンルに合わせて自動的にBGMが生成されます。
-
 1. [mubert.com](https://mubert.com) でアカウント作成・APIキー取得
 2. `.env` に追加: `MUBERT_API_KEY=...`
-3. `config.json` の `bgm.email` を自分のメールアドレスに変更
 
 ```bash
 .venv/bin/python run.py --genre romance --lang ja --bgm-ai
 ```
-
-**ジャンル別BGMスタイル**
-
-| ジャンル | BGMスタイル |
-|---|---|
-| `history` | epic orchestral |
-| `science` | ambient electronic |
-| `animals` | nature acoustic |
-| `religion` | meditation spiritual |
-| `lifestyle` | chill lofi |
-| `selfhelp` | motivational uplifting |
-| `workplace` | focus productivity |
-| `japan_travel` | japanese ambient |
-| `japan_zen` | zen meditation |
-| `romance` | romantic soft pop |
-| `mens_life` | urban hip hop |
-| `academia` | classical piano |
-| `general` | cinematic background |
-
-BGMなし（デフォルト）の場合はオプション不要です。
 
 ---
 
@@ -196,7 +228,7 @@ BGMなし（デフォルト）の場合はオプション不要です。
 2. オプションで指定:
 ```bash
 .venv/bin/python run.py --tts voicevox --lang ja
-.venv/bin/python run.py --tts voicevox --tts-speaker 13 --lang ja  # スピーカー指定
+.venv/bin/python run.py --tts voicevox --tts-speaker 13 --lang ja
 ```
 
 **主なVoicevoxスピーカーID**
@@ -216,11 +248,11 @@ BGMなし（デフォルト）の場合はオプション不要です。
 静止画+Ken Burnsではなく、AIが動画クリップを生成します。
 
 ```bash
-.venv/bin/python run.py --mode video --genre history --topic "古代ローマ"
+.venv/bin/python run.py --mode video --genre drama_kdrama --topic "財閥御曹司との契約結婚"
 ```
 
 - `KLING_API_KEY` が必要です
-- 1クリップあたり約30〜60秒かかります（Klingの生成時間）
+- 1クリップあたり約30〜60秒かかります
 - コスト: 5秒クリップ $0.25、10秒クリップ $0.50 程度
 
 ---
@@ -257,7 +289,7 @@ output/20261109_120000/
 | サービス | 内容 | 費用 |
 |---|---|---|
 | Claude | ストーリーボード生成 | ~$0.02 |
-| Kling kling-v3（×6クリップ） | 動画生成 | ~$1.50〜 |
+| Kling（×6クリップ） | 動画生成 | ~$1.50〜 |
 | OpenAI TTS（×6シーン） | 音声合成 | ~$0.01 |
 | **合計** | | **~$1.55〜** |
 
@@ -285,15 +317,19 @@ output/20261109_120000/
 ```
 run.py
   └── src/pipeline.py
-        ├── src/adapters/llm.py           # Claude → ストーリーボードJSON
-        ├── src/adapters/image_gen.py     # gpt-image-2 → PNG画像
-        ├── src/adapters/tts.py           # OpenAI TTS → MP3
-        ├── src/adapters/tts_voicevox.py  # Voicevox → WAV
-        ├── src/adapters/video_gen.py     # Kling → MP4クリップ
-        └── src/video.py                  # FFmpeg → 最終MP4
+        ├── src/adapters/llm.py              # Claude → ストーリーボードJSON
+        ├── src/adapters/image_gen.py        # gpt-image-2 → PNG画像
+        ├── src/adapters/tts.py              # OpenAI TTS → MP3
+        ├── src/adapters/tts_voicevox.py     # Voicevox → WAV
+        ├── src/adapters/video_gen.py        # Kling → MP4クリップ
+        ├── src/adapters/trend_research.py   # Google News RSS → トレンドシード
+        └── src/video.py                     # FFmpeg → 最終MP4
 
 src/storyboard.py     # JSONスキーマ・ジャンルスタイル・プロンプト生成
-src/topic_selector.py # LLMによるトピック自動提案
+src/topic_selector.py # LLMによるトピック自動提案・使用済み履歴管理
+src/evaluator.py      # Claude によるストーリーボード自動評価
+src/batch.py          # バッチ処理オーケストレーション
 src/report.py         # 実行レポート（コスト・タイミング）
+tools/eval_genres.py  # ジャンル評価ツール
 mock/adapters.py      # --mock用ダミーアダプター
 ```
