@@ -116,7 +116,8 @@ GENRE_STYLES: dict[str, str] = {
     ),
     "romance": (
         "ultra-photorealistic 8K real photograph, "
-        "beautiful young Japanese couple in intimate relatable everyday moments, "
+        "strikingly handsome Japanese man and breathtakingly beautiful Japanese woman — "
+        "perfect features, luminous skin, expressive eyes — in intimate relatable everyday moments, "
         "soft natural golden bokeh lighting, heartfelt genuine emotions, "
         "candid documentary style — the kind of real photo that makes viewers think 'this is exactly me'"
     ),
@@ -169,34 +170,37 @@ GENRE_STYLES: dict[str, str] = {
     ),
     "drama_kdrama": (
         "ultra-cinematic 8K Korean drama still frame, "
-        "beautiful Korean characters in emotionally charged scenes — rain-soaked streets at night, "
-        "hospital corridors with fluorescent light, luxury penthouse with Han River view, "
+        "exceptionally handsome Korean male lead and strikingly beautiful Korean female lead — "
+        "visually stunning faces with flawless skin, strong jawline, expressive eyes — "
+        "in emotionally charged scenes: rain-soaked streets at night, luxury penthouse with Han River view, "
         "rooftop under neon signs, tearful close-ups in golden hour backlight — "
         "anamorphic lens flare, shallow depth of field, desaturated teal-and-orange color grade, "
         "every frame looks like a drama poster shot — vertical portrait 9:16 cinematic composition"
     ),
     "drama_romance": (
         "ultra-cinematic 8K Japanese romantic drama still frame, "
-        "beautiful Japanese characters in intimate emotionally charged scenes — "
-        "cherry blossom petals falling on a station platform, rainy window of a late-night cafe, "
-        "golden sunset on a riverside path, dim bedroom lit only by city glow, "
+        "strikingly handsome Japanese man and breathtakingly beautiful Japanese woman — "
+        "perfect features, luminous skin, deeply expressive eyes — "
+        "in intimate emotionally charged scenes: cherry blossom petals on a station platform, "
+        "rainy window of a late-night cafe, golden sunset on a riverside path, dim city-glow bedroom — "
         "warm amber and soft rose color grade, shallow depth of field, "
         "every frame breathes quiet longing — vertical portrait 9:16 cinematic composition"
     ),
     "drama_bl": (
         "ultra-cinematic 8K Boys Love drama still frame, "
-        "two beautiful Japanese men in their early-to-mid twenties (20-26 years old) in intimate quietly charged scenes — "
-        "shared umbrella on a rainy school rooftop, side-by-side in a late-night library, "
-        "accidental shoulder touch on a train, one tending the other's wound in soft lamplight, "
+        "two exceptionally handsome Japanese men in their early-to-mid twenties (20-26 years old) — "
+        "beautiful faces, clear skin, slender yet athletic build, deeply expressive eyes — "
+        "in intimate quietly charged scenes: shared umbrella on a rainy rooftop, late-night library, "
+        "accidental shoulder touch on a train, one tending the other's wound in soft lamplight — "
         "soft pastel and cool blue-grey color grade, achingly tender close-ups, "
         "every frame feels like a manga panel come to life — vertical portrait 9:16 cinematic composition"
     ),
     "drama_korean_bl": (
         "ultra-cinematic 8K Korean BL drama still frame, "
-        "two strikingly handsome Korean men in their twenties (20-29 years old) in intense emotionally charged scenes — "
-        "office rooftop confrontation under neon city lights, rain-soaked late-night confession, "
-        "modern office with floor-to-ceiling windows, hospital corridor face-off, "
-        "charged glances across a desk, one stepping close to the other in dim light — "
+        "two strikingly handsome Korean men in their twenties (20-29 years old) — "
+        "sharp jawlines, flawless skin, intense smoldering eyes, tall athletic physique — "
+        "in intense emotionally charged scenes: office rooftop under neon city lights, "
+        "rain-soaked late-night confession, modern office, one stepping dangerously close to the other — "
         "desaturated teal-and-rose color grade, anamorphic lens flare, "
         "every frame crackles with tension — vertical portrait 9:16 cinematic composition"
     ),
