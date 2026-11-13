@@ -83,8 +83,16 @@ _GENRE_QUERIES: dict[str, dict[str, list[str]]] = {
         "en": ["TikTok viral facts 2026", "shocking facts trending"],
     },
     "beauty": {
-        "ja": ["スキンケア 美肌 秘訣", "コスメ 話題 2026", "美容 皮膚科 おすすめ", "メイク テク 時短"],
-        "en": ["skincare secrets dermatologist", "beauty tips viral 2026"],
+        "ja": ["スキンケア 美肌 秘訣", "美容外科 話題 2026", "ヘアスタイル 垢抜け 2026", "アンチエイジング 最新", "ファッション 時短 垢抜け"],
+        "en": ["skincare secrets dermatologist", "anti-aging treatment 2026", "beauty tips viral 2026"],
+    },
+    "kdrama_intro": {
+        "ja": ["韓国ドラマ おすすめ 2026", "韓ドラ 話題 最新", "韓国ドラマ 胸キュン ランキング", "Netflix 韓ドラ バズ 2026"],
+        "en": ["Korean drama must watch 2026", "best kdrama trending now"],
+    },
+    "bl_intro": {
+        "ja": ["BL ドラマ おすすめ 2026", "ボーイズラブ 女子ウケ 話題", "BL 漫画 アニメ 2026", "BL 胸キュン シーン"],
+        "en": ["BL drama recommendation 2026", "boys love manga anime viral"],
     },
     "finance2": {
         "ja": ["機関投資家 戦略 2026", "ヘッジファンド 手法 空売り", "オプション取引 上級", "億り人 投資術 爆益"],

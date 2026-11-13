@@ -128,11 +128,29 @@ GENRE_STYLES: dict[str, str] = {
         "candid documentary style, not posed, deeply relatable to men aged 20-35"
     ),
     "beauty": (
-        "ultra-photorealistic 8K beauty photograph, "
-        "radiant Japanese woman with flawless skin in a minimal clean aesthetic setting — "
-        "soft diffused natural window light or softbox, pastel or pure white background, "
-        "close-up textures of dewy skin, luxury skincare products or cosmetics artfully arranged, "
+        "ultra-photorealistic 8K beauty and fashion photograph, "
+        "radiant Japanese or Korean woman — flawless skin, perfectly styled hair, elegant fashion — "
+        "or close-up of luxury beauty tools, cosmetic products, a stunning hair transformation, "
+        "or an aesthetic clinic's minimalist treatment room, "
+        "soft diffused natural window light or softbox, clean minimal aesthetic, pastel or white background, "
         "K-beauty or J-beauty inspired palette — serene, aspirational, deeply satisfying to look at"
+    ),
+    "kdrama_intro": (
+        "ultra-cinematic 8K Korean drama promotional still, "
+        "iconic K-drama visual aesthetic — Han River night view, luxury penthouse rooftop, "
+        "rain-soaked Seoul streets with neon reflections, cherry blossom campus paths, "
+        "or a chaebol's modern minimalist office — "
+        "rich teal-and-orange cinematic color grade, anamorphic lens flare, "
+        "the kind of frame that stops you mid-scroll and makes you search for the show immediately — "
+        "vertical portrait 9:16 cinematic composition"
+    ),
+    "bl_intro": (
+        "ultra-cinematic 8K Boys Love drama promotional still, "
+        "two beautiful young Asian men in intimate emotionally charged moments — "
+        "one quietly handsome with cool composure, the other soft and endearingly vulnerable — "
+        "dreamy pastel and soft lavender color palette, backlighting creating a romantic glow, "
+        "the kind of promotional frame that makes BL fans clutch their hearts and "
+        "immediately add it to their watchlist — vertical portrait 9:16 cinematic composition"
     ),
     "academia": (
         "ultra-photorealistic 8K real photograph, "
@@ -373,12 +391,28 @@ _NARRATIVE_STRUCTURES: dict[str, str] = {
         "- Scene 6 (CTA): A light closer like 'send this to a friend who needs it' or 'try this today'."
     ),
     "beauty": (
-        "- Scene 1 (HOOK): Open with a surprising beauty secret or 'you've been doing this wrong' revelation — make viewers stop scrolling.\n"
-        "- Scene 2 (PROBLEM): Show the relatable struggle — dull skin, uneven tone, a product everyone buys but few use correctly.\n"
-        "- Scene 3 (THE SECRET): Reveal the insider tip, ingredient, or technique that changes everything.\n"
-        "- Scene 4 (SCIENCE): One satisfying fact about why it works — dermatologist-backed or traditional wisdom.\n"
+        "- Scene 1 (HOOK): Open with a surprising beauty secret, transformation result, or 'you've been doing this wrong' revelation — make viewers stop scrolling.\n"
+        "- Scene 2 (PROBLEM): Show the relatable struggle — a skin issue, a hair dilemma, a fashion mistake, or an aging concern most people face.\n"
+        "- Scene 3 (THE SECRET): Reveal the insider tip, ingredient, technique, procedure, or style hack that changes everything.\n"
+        "- Scene 4 (SCIENCE OR EXPERT): One satisfying fact about why it works — dermatologist-backed, stylist-approved, or clinical research.\n"
         "- Scene 5 (TRANSFORMATION): The before/after moment or the 'this is the result' payoff — make it aspirational.\n"
-        "- Scene 6 (CTA): A save-worthy closer like 'bookmark this routine' or 'try this tonight'."
+        "- Scene 6 (CTA): A save-worthy closer like 'bookmark this' or 'try this tonight'."
+    ),
+    "kdrama_intro": (
+        "- Scene 1 (HOOK): Open with the drama's most viral, talked-about, or visually stunning moment — make viewers feel they're missing out.\n"
+        "- Scene 2 (STORY SETUP): The premise in one irresistible line — the leads, the central conflict, the reason viewers can't stop watching.\n"
+        "- Scene 3 (THE CHEMISTRY): The lead pair's dynamic — their tension, their charm, the moment that made fans lose their minds.\n"
+        "- Scene 4 (THE SCENE): The scene or plot twist everyone is talking about — tease without fully spoiling.\n"
+        "- Scene 5 (WHY WATCH NOW): The emotional payoff — why this drama specifically hits different right now.\n"
+        "- Scene 6 (CTA): 'Add this to your watchlist tonight' or 'send to your K-drama partner'."
+    ),
+    "bl_intro": (
+        "- Scene 1 (HOOK): Open with the BL content's most squeal-worthy or emotionally devastating moment — 'this BL wrecked me'.\n"
+        "- Scene 2 (STORY SETUP): Who are the two leads, what is their relationship, why is their dynamic irresistible.\n"
+        "- Scene 3 (THE CHEMISTRY): The moment BL fans live for — the pining, the almost-touch, the first confession, or the charged look.\n"
+        "- Scene 4 (THE SCENE): The scene everyone screenshots and saves — describe it vividly enough that viewers must find it.\n"
+        "- Scene 5 (WHY IT HITS): What makes this BL special — the writing, the performances, the emotional depth, what makes it different.\n"
+        "- Scene 6 (CTA): 'Read/watch this immediately' or 'tag your BL partner in crime'."
     ),
     "finance2": (
         "- Scene 1 (HOOK): 機関投資家・ヘッジファンド・億り人だけが知っている衝撃の事実で掴む。『99%の個人投資家が知らない』角度から入る。\n"

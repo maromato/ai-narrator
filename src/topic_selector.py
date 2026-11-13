@@ -149,12 +149,31 @@ _GENRE_HINTS: dict[str, str] = {
         "- Write the topic AS the drama premise in Japanese, e.g. '同期だと思っていた男が、実は3年前に俺の心を壊した人物だった'.\n"
     ),
     "beauty": (
-        "- Topics must be surprising beauty secrets, little-known skincare facts, or 'you've been doing this wrong' revelations — "
-        "'the one ingredient dermatologists say is worth every yen', 'why your moisturiser is making your skin worse', "
-        "'the 30-second Japanese skincare step that changes everything'. "
+        "- Topics must span the full beauty spectrum — skincare, cosmetic procedures, hair, fashion, and anti-aging — not just skincare alone. "
+        "Think: 'the one ingredient dermatologists say is worth every yen', 'why your moisturiser is making your skin worse', "
+        "'the Korean clinic procedure going viral in 2026', 'the hairstyle that takes 10 years off instantly', "
+        "'the fashion rule that makes any outfit look expensive', 'the anti-aging habit dermatologists swear by'. "
         "Mix science-backed facts with aspirational J-beauty or K-beauty wisdom. "
-        "Make viewers feel they are getting access to a pro's insider routine. "
-        "Specific ingredients, textures, or techniques beat vague advice every time.\n"
+        "Make viewers feel they are getting access to a pro's insider knowledge. "
+        "Specific over vague: ingredients, procedures, techniques, or styles beat general advice every time.\n"
+    ),
+    "kdrama_intro": (
+        "- Topics must be about REAL trending Korean dramas — introducing, recommending, or spotlighting what makes them unmissable. "
+        "Think: '今すぐ観るべき韓ドラ：財閥御曹司と庶民女性の化学反応が止まらない理由', "
+        "'Netflixで話題沸騰中の韓ドラがとにかくエモすぎる件', "
+        "'このシーンで沼落ちする：2026年最強の韓ドラ胸キュン瞬間TOP3'. "
+        "Be specific about the drama, the leads, the chemistry, the must-watch moment. "
+        "Make viewers feel they MUST watch it immediately — FOMO is the hook. "
+        "Write topics as a recommendation hook in Japanese.\n"
+    ),
+    "bl_intro": (
+        "- Topics must be about BL (Boys Love) content that appeals to women — recommending BL dramas, manga, webtoons, or spotlighting iconic BL moments. "
+        "Think: '女子が絶対ハマる：感情破壊系BLドラマTOP3の共通点', "
+        "'このBLの沼にハマったら抜け出せない：2026年最強スロー展開BL', "
+        "'BLファンが全員泣いたあのシーン：感情的に崩壊したBLベスト3'. "
+        "Target: women (20s-40s) who love BL — make topics feel like recommendations from a passionate BL fan friend. "
+        "Be specific about what makes the content special — the pairing, the trope, the scene, the emotional gut punch. "
+        "Write topics as enthusiastic fan recommendations in Japanese.\n"
     ),
 }
 

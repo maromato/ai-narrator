@@ -39,6 +39,8 @@ ALL_GENRES = [
     "drama_romance",
     "drama_bl",
     "drama_korean_bl",
+    "kdrama_intro",
+    "bl_intro",
     "general",
 ]
 
