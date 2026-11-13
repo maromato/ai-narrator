@@ -168,6 +168,15 @@ GENRE_STYLES: dict[str, str] = {
         "ultra-photorealistic 8K real photograph, "
         "dramatic natural lighting, vivid colors, emotionally compelling real-world scene"
     ),
+    "finance2": (
+        "ultra-photorealistic 8K real photograph, "
+        "expert trader or institutional investor in their element — "
+        "multiple Bloomberg terminal screens glowing with charts and data, "
+        "trading floor at market open, hedge fund war room, "
+        "or a lone analyst at 2am surrounded by candlestick charts and research reports — "
+        "dramatic high-contrast lighting, teal screen glow on focused face, "
+        "the kind of image that makes viewers feel they are inside a world most people never see"
+    ),
     "drama_kdrama": (
         "ultra-cinematic 8K Korean drama still frame, "
         "exceptionally handsome Korean male lead and strikingly beautiful Korean female lead — "
@@ -370,6 +379,14 @@ _NARRATIVE_STRUCTURES: dict[str, str] = {
         "- Scene 4 (SCIENCE): One satisfying fact about why it works — dermatologist-backed or traditional wisdom.\n"
         "- Scene 5 (TRANSFORMATION): The before/after moment or the 'this is the result' payoff — make it aspirational.\n"
         "- Scene 6 (CTA): A save-worthy closer like 'bookmark this routine' or 'try this tonight'."
+    ),
+    "finance2": (
+        "- Scene 1 (HOOK): 機関投資家・ヘッジファンド・億り人だけが知っている衝撃の事実で掴む。『99%の個人投資家が知らない』角度から入る。\n"
+        "- Scene 2 (SETUP): その手法・戦略の背景と仕組みを簡潔に説明。なぜ機能するのか、なぜ一般に知られていないのか。\n"
+        "- Scene 3 (MECHANICS): 具体的な数字・銘柄・タイミング・指標を使って戦略の核心を解説。抽象論NG、実戦レベルの具体性。\n"
+        "- Scene 4 (PROOF): 実際の事例、歴史的データ、著名投資家の実績で裏付ける。バフェット・ソロス・レイ・ダリオ等の具体的な動きを引用。\n"
+        "- Scene 5 (RISK/EDGE): この手法のリスクと、それでも使う理由（エッジ）を正直に伝える。プロが実際に使う条件と撤退ライン。\n"
+        "- Scene 6 (CTA): 今すぐ確認・実行できる具体的なアクション。保存必須の内容で締める。"
     ),
     "drama_kdrama": (
         "- Scene 1 (運命の出会い): 二人が初めて交差する瞬間。偶然か必然か——読者が息を呑む出会いの瞬間を描く。\n"

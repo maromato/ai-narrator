@@ -33,7 +33,7 @@ ALL_GENRES = [
     "japan_travel", "japan_zen",
     "romance", "mens_life",
     "academia", "elite_edu",
-    "finance", "psychology",
+    "finance", "finance2", "psychology",
     "beauty",
     "drama_kdrama",
     "drama_romance",

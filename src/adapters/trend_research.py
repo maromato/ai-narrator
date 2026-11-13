@@ -86,6 +86,10 @@ _GENRE_QUERIES: dict[str, dict[str, list[str]]] = {
         "ja": ["スキンケア 美肌 秘訣", "コスメ 話題 2026", "美容 皮膚科 おすすめ", "メイク テク 時短"],
         "en": ["skincare secrets dermatologist", "beauty tips viral 2026"],
     },
+    "finance2": {
+        "ja": ["機関投資家 戦略 2026", "ヘッジファンド 手法 空売り", "オプション取引 上級", "億り人 投資術 爆益"],
+        "en": ["hedge fund strategy 2026", "institutional investor tactics", "options trading advanced"],
+    },
     "drama_kdrama": {
         "ja": ["韓国ドラマ 話題 2026", "韓ドラ 胸キュン", "財閥 恋愛 ドラマ", "韓国 縦型ドラマ バズ"],
         "en": ["Korean drama trending 2026", "kdrama romance viral"],

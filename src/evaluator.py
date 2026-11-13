@@ -29,6 +29,7 @@ RPM_FACTORS: dict[str, float] = {
     "religion":    0.85,
     "general":     1.00,
     "beauty":      1.05,
+    "finance2":    1.40,
     "drama_kdrama":  1.10,
     "drama_romance": 1.05,
     "drama_bl":         1.05,

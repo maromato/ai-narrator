@@ -108,6 +108,16 @@ _GENRE_HINTS: dict[str, str] = {
         "Think 'guys who do X are instantly more likeable' not abstract life philosophy. "
         "Make it the kind of content men forward to their group chat.\n"
     ),
+    "finance2": (
+        "- Topics must be advanced, expert-level investment strategies that serious investors actually use — "
+        "NOT beginner tips. Target: experienced traders and investors aged 30-50 who already know the basics.\n"
+        "- Think: セクターローテーションの実践タイミング、空売りの仕掛け方と損切りライン、"
+        "オプションのデルタヘッジ戦略、機関投資家が決算前にやること、"
+        "レイ・ダリオのオールウェザー戦略の日本株版、信用取引の逆張り手法.\n"
+        "- Must include specific numbers, indicators, or named strategies — vague advice scores zero.\n"
+        "- The hook must feel like forbidden insider knowledge: 'プロが絶対に言わない' or '機関投資家だけが知る'.\n"
+        "- Write topics in Japanese, specific enough that a professional would want to watch.\n"
+    ),
     "drama_kdrama": (
         "- Each topic is a one-line drama premise (ワンライン) for a 30-second mini Korean drama episode.\n"
         "- Must have a clear emotional conflict and two characters with chemistry.\n"
