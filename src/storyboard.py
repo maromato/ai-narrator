@@ -182,33 +182,35 @@ GENRE_STYLES: dict[str, str] = {
         "ultra-cinematic 8K Japanese romantic drama still frame, "
         "strikingly handsome Japanese man and breathtakingly beautiful Japanese woman — "
         "perfect features, luminous skin, deeply expressive eyes — "
-        "in intimate emotionally charged scenes: cherry blossom petals on a station platform, "
-        "rainy window of a late-night cafe, golden sunset on a riverside path, dim city-glow bedroom, "
-        "or a tender kiss in soft backlight — eyes closed, foreheads almost touching — "
+        "in sensually charged intimate scenes: dim city-glow bedroom with disheveled sheets, "
+        "a tender kiss deepening in soft backlight, flushed cheeks and parted lips after a kiss, "
+        "his hand sliding to her waist pulling her close, her fingers curling into his shirt, "
+        "foreheads pressed together catching breath — tastefully suggestive, never explicit — "
         "warm amber and soft rose color grade, shallow depth of field, "
-        "every frame breathes quiet longing — vertical portrait 9:16 cinematic composition"
+        "every frame smolders with restrained desire — vertical portrait 9:16 cinematic composition"
     ),
     "drama_bl": (
         "ultra-cinematic 8K Boys Love drama still frame, "
         "two beautiful Japanese men in their early-to-mid twenties (20-26 years old) — "
         "one tall and quietly handsome with sharp features and a cool gaze, "
         "the other boyishly cute with soft round eyes, gentle smile, and an innocent warmth — "
-        "in intimate quietly charged scenes: shared umbrella on a rainy rooftop, late-night library, "
-        "accidental shoulder touch on a train, one tending the other's wound in soft lamplight, "
-        "or a breathless first kiss — the taller one cupping the smaller's face gently, both eyes closed — "
+        "in sensually charged intimate scenes: the taller pressing the smaller against a wall, "
+        "a breathless kiss with collar undone and hair disheveled, "
+        "lying side by side in dim lamplight their faces inches apart, "
+        "one's hand trembling as it reaches for the other's — tastefully suggestive, never explicit — "
         "soft pastel and cool blue-grey color grade, achingly tender close-ups, "
-        "every frame feels like a manga panel come to life — vertical portrait 9:16 cinematic composition"
+        "every frame smolders with unspoken longing — vertical portrait 9:16 cinematic composition"
     ),
     "drama_korean_bl": (
         "ultra-cinematic 8K Korean BL drama still frame, "
         "two beautiful Korean men in their twenties (20-29 years old) — "
         "one powerfully handsome with sharp jawline, smoldering eyes and commanding presence, "
         "the other adorably cute with doe eyes, soft features, and an endearing flustered expression — "
-        "in intense emotionally charged scenes: office rooftop under neon city lights, "
-        "rain-soaked late-night confession, modern office, one stepping close to the other, "
-        "or an intense kiss against a rain-streaked window — one hand on the wall, the other on a cheek — "
+        "in intensely sensual scenes: pinned against a rain-streaked window after a heated kiss, "
+        "shirt collar pulled open and chest flushed, the smaller one looking up with parted lips, "
+        "tangled together in the backseat of a car under neon light — tastefully suggestive, never explicit — "
         "desaturated teal-and-rose color grade, anamorphic lens flare, "
-        "every frame crackles with tension — vertical portrait 9:16 cinematic composition"
+        "every frame crackles with barely restrained desire — vertical portrait 9:16 cinematic composition"
     ),
 }
 
@@ -379,27 +381,27 @@ _NARRATIVE_STRUCTURES: dict[str, str] = {
     ),
     "drama_romance": (
         "- Scene 1 (出会い直し): すでに知っている二人が、ある瞬間に「特別な人」として見え始める場面。\n"
-        "- Scene 2 (距離が縮まる): 偶然の接触、共有する時間、小さな優しさ——言葉より先に心が動く。\n"
-        "- Scene 3 (迷い): 好きだと気づいた瞬間に生まれる躊躇。傷つくのが怖い、失いたくない。\n"
-        "- Scene 4 (限界): 抑えていた感情がついにあふれ出す——涙か、怒りか、静かな告白か。\n"
-        "- Scene 5 (キス・クライマックス): そっと唇が重なる——柔らかく、静かで、世界が止まる瞬間。触れた瞬間の体温、止まった呼吸を丁寧に描く。\n"
-        "- Scene 6 (余韻): 朝の光の中、変わった何か。言葉にしなくていい、伝わっているから。"
+        "- Scene 2 (距離が縮まる): 偶然の接触、共有する時間——言葉より先に体が反応する。指が触れた瞬間、心臓が跳ねる。\n"
+        "- Scene 3 (迷い): 好きだと気づいた瞬間に生まれる躊躇。傷つくのが怖い、でも体が引き寄せられる。\n"
+        "- Scene 4 (限界): 抑えていた感情と欲望がついにあふれ出す——気づけば彼の腕の中にいた。\n"
+        "- Scene 5 (キス・クライマックス): 唇が重なり、腰に回る腕の力が増す。甘く、熱く、息ができない——世界が二人だけになる瞬間。直接的な描写は避けつつ、官能的な緊張感を最大限に高める。\n"
+        "- Scene 6 (余韻): 乱れた髪、上気した頬、明け方の光。言葉より雄弁な沈黙と、その先への予感。"
     ),
     "drama_bl": (
-        "- Scene 1 (気づき): 何度も会っているのに、今日だけ違って見えた——その瞬間を丁寧に描く。\n"
-        "- Scene 2 (近づく): 意図せず縮まる距離。触れそうで触れない、目が合いすぎる、心が騒ぐ。\n"
-        "- Scene 3 (葛藤): これは友情か、それとも——自分の感情に名前をつけることへの恐れ。\n"
-        "- Scene 4 (亀裂と転換): 誤解、すれ違い、あるいは第三者の存在が二人の間に影を落とす。\n"
-        "- Scene 5 (キス・クライマックス): もう止められなかった——そっと顔を傾けて唇が触れる。驚き、震え、それでも離れられない。その一瞬を息が詰まるほど丁寧に描く。\n"
-        "- Scene 6 (余韻): 何かが変わった朝。二人の間にある新しい静けさと、その先への予感。"
+        "- Scene 1 (気づき): 何度も会っているのに、今日だけ違って見えた——その視線が、肌に触れるみたいだった。\n"
+        "- Scene 2 (近づく): 触れそうで触れない距離。吐息が届く近さで目が合う——心臓が、うるさい。\n"
+        "- Scene 3 (葛藤): これは友情か、それとも——気づいてしまったら、もう戻れない。\n"
+        "- Scene 4 (亀裂と転換): 第三者の影、すれ違い——そして限界が来る。もう隠せなかった。\n"
+        "- Scene 5 (キス・クライマックス): 壁に押し当てられて、唇が重なる——思ったより、ずっと熱かった。シャツの裾を握る手が震えている。直接的な描写は避けつつ、甘く官能的な緊張感を描く。\n"
+        "- Scene 6 (余韻): 乱れた息、離れない視線——夜明けの光の中で、二人の間に新しい距離感が生まれた。"
     ),
     "drama_korean_bl": (
-        "- Scene 1 (対立する二人): 反目し合う、あるいは圧倒的な力差がある二人の最初の衝突。緊張感と引力を同時に描く。\n"
-        "- Scene 2 (隙を見せる瞬間): 鎧の下の素顔が一瞬だけ見える。強いはずの男が弱さを見せる、その瞬間に相手の何かが動く。\n"
-        "- Scene 3 (距離が消える): 危機、怪我、雨——状況が二人を否応なく近づける。触れた体温が、すべてを変える。\n"
-        "- Scene 4 (引き裂かれる): 秘密・過去・身分差・会社の権力——感情を認めた瞬間に最大の障壁が現れる。\n"
-        "- Scene 5 (キス・クライマックス): 壁に追い詰め、雨の中で引き寄せ——唇が重なる。激しくも、どこか縋るような、初めてのキスを描く。\n"
-        "- Scene 6 (余韻): 嵐の後の静寂。変わった力関係、変わらない感情、次話への引き。"
+        "- Scene 1 (対立する二人): 反目し合う二人。だが視線が絡むたびに、妙な熱が残る。\n"
+        "- Scene 2 (隙を見せる瞬間): 強い男が、一瞬だけ崩れる——その瞬間に何かが火花を散らす。\n"
+        "- Scene 3 (距離が消える): 状況が二人を密着させる。触れた体温の濃さに、息が詰まる。\n"
+        "- Scene 4 (引き裂かれる): 感情を認めた瞬間に障壁が現れる。でも体はもう、正直だった。\n"
+        "- Scene 5 (キス・クライマックス): 壁に追い詰め、雨の中で引き寄せ——唇が激しく重なる。シャツの胸元が乱れ、吐息が混ざり合う——直接的な描写は避けつつ、ギリギリまで官能的な緊張感を描く。\n"
+        "- Scene 6 (余韻): 嵐の後の静寂。上気した肌、乱れた呼吸——そして、次の嵐への予感。"
     ),
 }
 
