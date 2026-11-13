@@ -174,7 +174,7 @@ GENRE_STYLES: dict[str, str] = {
         "visually stunning faces with flawless skin, strong jawline, expressive eyes — "
         "in emotionally charged scenes: rain-soaked streets at night, luxury penthouse with Han River view, "
         "rooftop under neon signs, tearful close-ups in golden hour backlight, "
-        "or an achingly beautiful first kiss — lips barely touching, eyes fluttering closed, "
+        "occasionally an achingly beautiful first kiss — lips barely touching, eyes fluttering closed, "
         "anamorphic lens flare, shallow depth of field, desaturated teal-and-orange color grade, "
         "every frame looks like a drama poster shot — vertical portrait 9:16 cinematic composition"
     ),
@@ -374,7 +374,7 @@ _NARRATIVE_STRUCTURES: dict[str, str] = {
         "- Scene 2 (惹かれる心): 距離が縮まる場面。言葉ではなく、視線・仕草・沈黙で気持ちを伝える。\n"
         "- Scene 3 (すれ違い): 誤解・秘密・身分差など、二人を引き裂く葛藤が表面化する。\n"
         "- Scene 4 (転換点): 感情が爆発する瞬間——雨の中の言葉、病院の廊下、屋上での叫び。\n"
-        "- Scene 5 (キス・クライマックス): 二人が唇を重ねる——初めてのキス、あるいは止められなかったキス。その瞬間の息遣い、震える手、閉じた瞳を丁寧に描く。\n"
+        "- Scene 5 (クライマックス): 告白・抱擁・キス・別れ——どれでもよい。二人の関係が決定的に変わる感情の頂点を描く。キスシーンは必須ではない。\n"
         "- Scene 6 (余韻): 次の展開を予感させる余韻。セリフや表情で視聴者の心を引き留める。"
     ),
     "drama_romance": (
