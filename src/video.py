@@ -200,7 +200,7 @@ def _burn_subtitle(image_path: Path, subtitle: str, output_path: Path,
                 subtitle = subtitle.upper()
 
             font = _fit_font(draw, subtitle, int(w * 0.88),
-                             start_size=max(80, h // 18), min_size=40, font_path=font_path)
+                             start_size=max(64, h // 22), min_size=36, font_path=font_path)
             bbox = draw.textbbox((0, 0), subtitle, font=font)
             tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
             x = (w - tw) // 2
@@ -214,7 +214,7 @@ def _burn_subtitle(image_path: Path, subtitle: str, output_path: Path,
 
             title_color = _GENRE_TITLE_COLORS.get(genre, _GENRE_TITLE_COLORS["general"])
             max_w = int(w * 0.86)
-            hfont_size = max(52, h // 22)  # smaller = less cramped
+            hfont_size = max(42, h // 28)  # smaller = less cramped
             hfont = ImageFont.load_default()
             if font_path:
                 try:
@@ -314,7 +314,7 @@ def _create_subtitle_overlay(subtitle: str, w: int, h: int, output_path: Path,
         if all(ord(c) < 128 for c in subtitle):
             subtitle = subtitle.upper()
         font = _fit_font(draw, subtitle, int(w * 0.88),
-                         start_size=max(80, h // 18), min_size=40, font_path=font_path)
+                         start_size=max(64, h // 22), min_size=36, font_path=font_path)
         bbox = draw.textbbox((0, 0), subtitle, font=font)
         tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
         x = (w - tw) // 2
@@ -326,7 +326,7 @@ def _create_subtitle_overlay(subtitle: str, w: int, h: int, output_path: Path,
             hook_title = hook_title.upper()
         title_color = _GENRE_TITLE_COLORS.get(genre, _GENRE_TITLE_COLORS["general"])
         max_w = int(w * 0.86)
-        hfont_size = max(52, h // 22)
+        hfont_size = max(42, h // 28)
         hfont = ImageFont.load_default()
         if font_path:
             try:
