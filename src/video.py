@@ -65,72 +65,103 @@ def _zoompan_expr(effect: str, frames: int, zoom_max: float = 1.2) -> str:
         return f"z='{zoom_max}':x='{pan_range}*(1-on/{frames})':y='{cy}'"
 
 
-def _burn_subtitle(image_path: Path, subtitle: str, output_path: Path) -> Path:
-    """Burn subtitle text onto image using PIL (no libfreetype/drawtext needed)."""
-    with Image.open(image_path).convert("RGB") as img:
-        w, h = img.size
-        draw = ImageDraw.Draw(img)
+_FONT_PATHS = [
+    "/System/Library/Fonts/ヒラギノ角ゴシック W9.ttc",
+    "/System/Library/Fonts/ヒラギノ角ゴシック W8.ttc",
+    "/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc",
+    "/System/Library/Fonts/Supplemental/Impact.ttf",
+    "/System/Library/Fonts/Helvetica.ttc",
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+    "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+]
 
-        font_paths = [
-            "/System/Library/Fonts/ヒラギノ角ゴシック W9.ttc",
-            "/System/Library/Fonts/ヒラギノ角ゴシック W8.ttc",
-            "/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc",
-            "/System/Library/Fonts/Supplemental/Impact.ttf",
-            "/System/Library/Fonts/Helvetica.ttc",
-            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-            "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
-        ]
-        font_path_found = None
-        for fp in font_paths:
+_OUTLINE_OFFSETS = [
+    (-5, 0), (5, 0), (0, -5), (0, 5),
+    (-4, -4), (4, -4), (-4, 4), (4, 4),
+]
+
+
+def _find_font() -> str | None:
+    for fp in _FONT_PATHS:
+        try:
+            ImageFont.truetype(fp, 10)
+            return fp
+        except Exception:
+            pass
+    return None
+
+
+def _fit_font(draw: ImageDraw.ImageDraw, text: str, max_width: int,
+              start_size: int, min_size: int, font_path: str | None) -> ImageFont.FreeTypeFont:
+    font = ImageFont.load_default()
+    size = start_size
+    while size >= min_size:
+        if font_path:
             try:
-                ImageFont.truetype(fp, 10)
-                font_path_found = fp
-                break
+                font = ImageFont.truetype(font_path, size)
             except Exception:
                 pass
+        bbox = draw.textbbox((0, 0), text, font=font)
+        if bbox[2] - bbox[0] <= max_width:
+            break
+        size -= 4
+    return font
 
-        # Only uppercase for ASCII text (skip for Japanese)
-        if all(ord(c) < 128 for c in subtitle):
-            subtitle = subtitle.upper()
 
-        # Auto-shrink font to fit within 90% of image width
-        max_text_width = int(w * 0.90)
-        font_size = max(36, h // 26)
-        font = ImageFont.load_default()
-        while font_size >= 28:
-            if font_path_found:
-                try:
-                    font = ImageFont.truetype(font_path_found, font_size)
-                except Exception:
-                    pass
-            bbox = draw.textbbox((0, 0), subtitle, font=font)
-            tw = bbox[2] - bbox[0]
-            if tw <= max_text_width:
-                break
-            font_size -= 4
+def _draw_outlined_text(draw: ImageDraw.ImageDraw, pos: tuple[int, int], text: str,
+                        font, fill: tuple, outline: tuple = (0, 0, 0, 255)) -> None:
+    x, y = pos
+    for ox, oy in _OUTLINE_OFFSETS:
+        draw.text((x + ox, y + oy), text, font=font, fill=outline)
+    draw.text((x, y), text, font=font, fill=fill)
 
-        bbox = draw.textbbox((0, 0), subtitle, font=font)
-        tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
-        x = (w - tw) // 2
-        y = int(h * 0.80)
-        padding = 18
 
-        # Semi-transparent background box
-        overlay = Image.new("RGBA", img.size, (0, 0, 0, 0))
-        box_draw = ImageDraw.Draw(overlay)
-        box_draw.rectangle(
-            [x - padding, y - padding, x + tw + padding, y + th + padding],
-            fill=(0, 0, 0, 160),
-        )
-        img = Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
+def _burn_subtitle(image_path: Path, subtitle: str, output_path: Path,
+                   hook_title: str = "") -> Path:
+    """Burn subtitle (and optional hook title) onto image — TikTok viral style."""
+    with Image.open(image_path).convert("RGBA") as img:
+        w, h = img.size
         draw = ImageDraw.Draw(img)
+        font_path = _find_font()
 
-        # Outline + text for TikTok-style pop
-        for ox, oy in [(-3, -3), (3, -3), (-3, 3), (3, 3)]:
-            draw.text((x + ox, y + oy), subtitle, font=font, fill=(0, 0, 0, 255))
-        draw.text((x, y), subtitle, font=font, fill=(255, 255, 255, 255))
+        # ── Subtitle (bottom area, white + thick black outline, no box) ──────
+        if subtitle:
+            if all(ord(c) < 128 for c in subtitle):
+                subtitle = subtitle.upper()
 
-        img.save(str(output_path))
+            font = _fit_font(draw, subtitle, int(w * 0.88),
+                             start_size=max(80, h // 18), min_size=40, font_path=font_path)
+            bbox = draw.textbbox((0, 0), subtitle, font=font)
+            tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
+            x = (w - tw) // 2
+            y = int(h * 0.84) - th // 2
+            _draw_outlined_text(draw, (x, y), subtitle, font, fill=(255, 255, 255, 255))
+
+        # ── Hook title card (top area, yellow + thick black outline) ─────────
+        if hook_title:
+            if all(ord(c) < 128 for c in hook_title):
+                hook_title = hook_title.upper()
+
+            hfont = _fit_font(draw, hook_title, int(w * 0.88),
+                              start_size=max(90, h // 14), min_size=50, font_path=font_path)
+            hbbox = draw.textbbox((0, 0), hook_title, font=hfont)
+            htw, hth = hbbox[2] - hbbox[0], hbbox[3] - hbbox[1]
+            hx = (w - htw) // 2
+            hy = int(h * 0.09)
+            padding = 20
+            # Tight dark band behind title
+            band = Image.new("RGBA", img.size, (0, 0, 0, 0))
+            band_draw = ImageDraw.Draw(band)
+            band_draw.rectangle(
+                [hx - padding, hy - padding, hx + htw + padding, hy + hth + padding],
+                fill=(0, 0, 0, 180),
+            )
+            img = Image.alpha_composite(img, band)
+            draw = ImageDraw.Draw(img)
+            _draw_outlined_text(draw, (hx, hy), hook_title, hfont,
+                                fill=(255, 224, 0, 255))  # #FFE000 yellow
+
+        img.convert("RGB").save(str(output_path))
     return output_path
 
 
@@ -141,6 +172,7 @@ def build_scene_clip(
     subtitle: str,
     camera_effect: str,
     config: dict,
+    hook_title: str = "",
 ) -> Path:
     """Render a single scene: image + subtitle (PIL) + Ken Burns + audio → MP4."""
     w, h, fps = config["width"], config["height"], config["fps"]
@@ -153,10 +185,10 @@ def build_scene_clip(
     scale_w = int(w * zoom_max)
     scale_h = int(h * zoom_max)
 
-    # Burn subtitle into a temp image copy
+    # Burn subtitle (+ optional hook title) into a temp image copy
     with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
         tmp_image = Path(tmp.name)
-    _burn_subtitle(image_path, subtitle, tmp_image)
+    _burn_subtitle(image_path, subtitle, tmp_image, hook_title=hook_title)
 
     video_filter = (
         f"[0:v]scale={scale_w}:{scale_h}:force_original_aspect_ratio=increase,"
@@ -186,62 +218,44 @@ def build_scene_clip(
     return output_path
 
 
-def _create_subtitle_overlay(subtitle: str, w: int, h: int, output_path: Path) -> Path:
-    """Create a transparent PNG with subtitle text for overlay onto video."""
+def _create_subtitle_overlay(subtitle: str, w: int, h: int, output_path: Path,
+                              hook_title: str = "") -> Path:
+    """Create a transparent PNG with subtitle (+ optional hook title) for overlay onto video."""
     img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
+    font_path = _find_font()
 
-    font_paths = [
-        "/System/Library/Fonts/ヒラギノ角ゴシック W9.ttc",
-        "/System/Library/Fonts/ヒラギノ角ゴシック W8.ttc",
-        "/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc",
-        "/System/Library/Fonts/Supplemental/Impact.ttf",
-        "/System/Library/Fonts/Helvetica.ttc",
-    ]
-    font_path_found = None
-    for fp in font_paths:
-        try:
-            ImageFont.truetype(fp, 10)
-            font_path_found = fp
-            break
-        except Exception:
-            pass
-
-    if all(ord(c) < 128 for c in subtitle):
-        subtitle = subtitle.upper()
-
-    max_text_width = int(w * 0.90)
-    font_size = max(36, h // 26)
-    font = ImageFont.load_default()
-    while font_size >= 28:
-        if font_path_found:
-            try:
-                font = ImageFont.truetype(font_path_found, font_size)
-            except Exception:
-                pass
+    if subtitle:
+        if all(ord(c) < 128 for c in subtitle):
+            subtitle = subtitle.upper()
+        font = _fit_font(draw, subtitle, int(w * 0.88),
+                         start_size=max(80, h // 18), min_size=40, font_path=font_path)
         bbox = draw.textbbox((0, 0), subtitle, font=font)
-        if bbox[2] - bbox[0] <= max_text_width:
-            break
-        font_size -= 4
+        tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
+        x = (w - tw) // 2
+        y = int(h * 0.84) - th // 2
+        _draw_outlined_text(draw, (x, y), subtitle, font, fill=(255, 255, 255, 255))
 
-    bbox = draw.textbbox((0, 0), subtitle, font=font)
-    tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
-    x = (w - tw) // 2
-    y = int(h * 0.80)
-    padding = 18
-
-    box = Image.new("RGBA", (w, h), (0, 0, 0, 0))
-    box_draw = ImageDraw.Draw(box)
-    box_draw.rectangle(
-        [x - padding, y - padding, x + tw + padding, y + th + padding],
-        fill=(0, 0, 0, 160),
-    )
-    img = Image.alpha_composite(img, box)
-    draw = ImageDraw.Draw(img)
-
-    for ox, oy in [(-3, -3), (3, -3), (-3, 3), (3, 3)]:
-        draw.text((x + ox, y + oy), subtitle, font=font, fill=(0, 0, 0, 255))
-    draw.text((x, y), subtitle, font=font, fill=(255, 255, 255, 255))
+    if hook_title:
+        if all(ord(c) < 128 for c in hook_title):
+            hook_title = hook_title.upper()
+        hfont = _fit_font(draw, hook_title, int(w * 0.88),
+                          start_size=max(90, h // 14), min_size=50, font_path=font_path)
+        hbbox = draw.textbbox((0, 0), hook_title, font=hfont)
+        htw, hth = hbbox[2] - hbbox[0], hbbox[3] - hbbox[1]
+        hx = (w - htw) // 2
+        hy = int(h * 0.09)
+        padding = 20
+        band = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        band_draw = ImageDraw.Draw(band)
+        band_draw.rectangle(
+            [hx - padding, hy - padding, hx + htw + padding, hy + hth + padding],
+            fill=(0, 0, 0, 180),
+        )
+        img = Image.alpha_composite(img, band)
+        draw = ImageDraw.Draw(img)
+        _draw_outlined_text(draw, (hx, hy), hook_title, hfont,
+                            fill=(255, 224, 0, 255))
 
     img.save(str(output_path))
     return output_path

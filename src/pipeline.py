@@ -157,6 +157,7 @@ def run(
                 subtitle=scene.subtitle if subtitle else "",
                 camera_effect=scene.camera_effect,
                 config=config["video"],
+                hook_title=storyboard.topic if scene.scene_id == 1 else "",
             )
             clip_paths.append(clip_path)
 

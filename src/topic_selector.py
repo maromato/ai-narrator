@@ -65,12 +65,17 @@ _GENRE_HINTS: dict[str, str] = {
         "Must feel immediately useful and aspirationally elite — knowledge that gives viewers a real edge.\n"
     ),
     "finance": (
-        "- Topics must be about wealth-building, investor mindsets, and billionaire habits — "
-        "'the one habit self-made billionaires share', 'what rich people do with their first ¥1M that others don't', "
-        "'the investment move most beginners make too late'. "
-        "Make viewers feel they are getting secret access to how the wealthy actually think and act. "
-        "Be specific with numbers and real investor names where possible. "
-        "Do NOT suggest ふるさと納税 or basic savings tips — focus on wealth creation, not frugality.\n"
+        "- Topics must feel like 週刊SPA の爆益・一攫千金特集 — real stories of ordinary Japanese people who made serious money "
+        "through unconventional, edgy, or surprising methods. Make viewers think 'え、これで稼げるの？'.\n"
+        "- Target: Japanese men and women in their 20s-40s who dream of escaping salary life.\n"
+        "- Think: 競馬AIで年収超えた会社員の実話, 仮想通貨で1000万作った人が最初にやったこと一つ, "
+        "副業で本業を超えた瞬間にやめた習慣, シン富裕層が絶対に持たないもの, "
+        "NFTで失敗した人と成功した人の唯一の違い, 元手10万から始めたFX専業トレーダーの最初の1年.\n"
+        "- Stories of real (or realistic-sounding) people, specific numbers, surprising reversals.\n"
+        "- Energy: aspirational, slightly dangerous, 'I shouldn't be telling you this' — not responsible financial advice.\n"
+        "- STRICT PROHIBITION: Do NOT suggest anything about 株・四季報・日経・個別銘柄・外国人保有比率・PER・チャート分析・セクターローテーション "
+        "— those belong to the 'investor' genre, not this one.\n"
+        "- Write topics in Japanese.\n"
     ),
     "psychology": (
         "- Topics must be about surprising human behaviors or cognitive biases that viewers recognize in themselves — "
@@ -108,7 +113,19 @@ _GENRE_HINTS: dict[str, str] = {
         "Think 'guys who do X are instantly more likeable' not abstract life philosophy. "
         "Make it the kind of content men forward to their group chat.\n"
     ),
-    "finance2": (
+    "religion2": (
+        "- Topics must radiate pure positive energy — 開運, 金運, 引き寄せ, 豊かさ, スピリチュアル, パワーストーン, 満月の儀式.\n"
+        "- Every topic must feel UPLIFTING and HOPEFUL — 'これをやると運気が上がる' not 'これをやると運気が下がる'.\n"
+        "- Target: Japanese women in their 20s-40s who want to invite abundance, love, and good fortune into their lives.\n"
+        "- Think: 朝起きてすぐやると一日の運気が変わる3つの習慣, "
+        "持つだけで金運が上がるパワーストーンと正しい浄化方法, "
+        "満月の夜に紙に書いて燃やすと願いが叶う理由, "
+        "玄関をこの色にするだけで良い縁が舞い込んでくる風水の法則, "
+        "引き寄せが加速する『感謝日記』の書き方——豊かさを呼ぶ言葉の選び方.\n"
+        "- STRICTLY POSITIVE: No scary warnings, no 'NG', no 'これをやると運気が下がる' angles — only light, abundance, and hope.\n"
+        "- Write topics in Japanese.\n"
+    ),
+    "investor": (
         "- Topics must be advanced, expert-level investment strategies that serious investors actually use — "
         "NOT beginner tips. Target: experienced traders and investors aged 30-50 who already know the basics.\n"
         "- Think: セクターローテーションの実践タイミング、空売りの仕掛け方と損切りライン、"
@@ -253,7 +270,7 @@ class LLMTopicSelector:
             try:
                 response = self.client.messages.create(
                     model=self.model,
-                    max_tokens=512,
+                    max_tokens=1024,
                     messages=[{"role": "user", "content": prompt}],
                 )
                 raw = response.content[0].text.strip()

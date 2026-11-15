@@ -80,6 +80,20 @@ GENRE_STYLES: dict[str, str] = {
         "deeply atmospheric and spiritual, genuine human devotion or awe, "
         "looks like a real photograph — not VFX or illustration"
     ),
+    "religion2": (
+        "ultra-photorealistic 8K real photograph, "
+        "overflowing with warm luminous positive energy — "
+        "clear quartz crystals exploding with rainbow light on a white linen surface, "
+        "a sunlit altar of fresh flowers, gold coins and citrine in full bloom, "
+        "god-rays streaming through a Japanese shrine torii gate onto golden moss, "
+        "a hand cradling a glowing rose quartz sphere with soft bokeh behind it, "
+        "cherry blossom petals raining down on a stone path at first light, "
+        "or a full moon rising over a calm ocean scattering golden light — "
+        "palette: radiant gold, warm ivory, soft rose, luminous lavender — NEVER dark or ominous, "
+        "the entire frame should feel like sunshine on skin, abundant and overflowing with good fortune, "
+        "no faces, no text in image, "
+        "the kind of image that makes viewers feel: '見ただけで運気が上がった気がする'"
+    ),
     "lifestyle": (
         "ultra-photorealistic 8K lifestyle photography, "
         "real person in a beautiful everyday moment, "
@@ -88,10 +102,17 @@ GENRE_STYLES: dict[str, str] = {
         "the kind of real photo that stops you while scrolling"
     ),
     "selfhelp": (
-        "ultra-photorealistic 8K real outdoor photograph, "
-        "lone real person against a vast natural landscape — mountain summit, open road, wide ocean, "
-        "genuine golden hour or dawn light, powerful emotional atmosphere, "
-        "looks like an actual photograph taken on location — not illustration or compositing"
+        "ultra-photorealistic 8K real photograph, "
+        "capturing the exact TURNING POINT moment of personal transformation — "
+        "a lone silhouette cresting a mountain summit at first light (the breakthrough), "
+        "a hand releasing a bird into open sky (letting go), "
+        "a single door swinging open to flood a dark room with golden light (the decision to change), "
+        "broken chain links on stone ground (freedom from a habit), "
+        "a seed cracking through dry earth toward sunlight (growth against resistance) — "
+        "figure always in pure backlit silhouette — no facial features visible, "
+        "warm dawn orange and gold palette, strong backlight, dramatic sense of forward momentum, "
+        "no faces, no text in image, looks like a real photograph — "
+        "the kind of image that makes viewers feel: 'this is the moment everything changes'"
     ),
     "workplace": (
         "ultra-photorealistic 8K real workplace photograph, "
@@ -138,7 +159,7 @@ GENRE_STYLES: dict[str, str] = {
     "kdrama_intro": (
         "ultra-cinematic 8K Korean drama promotional still, "
         "iconic K-drama visual aesthetic — Han River night view, luxury penthouse rooftop, "
-        "rain-soaked Seoul streets with neon reflections, cherry blossom campus paths, "
+        "Seoul streets with neon reflections, cherry blossom campus paths, "
         "or a chaebol's modern minimalist office — "
         "rich teal-and-orange cinematic color grade, anamorphic lens flare, "
         "the kind of frame that stops you mid-scroll and makes you search for the show immediately — "
@@ -170,37 +191,49 @@ GENRE_STYLES: dict[str, str] = {
     ),
     "finance": (
         "ultra-photorealistic 8K real photograph, "
-        "visually striking money metaphor — hands holding cash, stock ticker screens reflecting on a face, "
-        "contrast between wealthy and ordinary life captured candidly, "
-        "dramatic urban financial district lighting or intimate home budget scene, "
-        "the kind of real image that makes viewers immediately think about their own money"
+        "the visual language of sudden, unexpected wealth — "
+        "a smartphone screen exploding with green crypto candles in a dark room, "
+        "stacks of ¥10,000 bills fanned out on a desk next to a racing form, "
+        "a lone trader's silhouette against multiple glowing screens at night, "
+        "gold coins and a cracked phone showing a brokerage account balance that just changed everything, "
+        "or a hand holding a racetrack ticket surrounded by confetti — "
+        "dramatic high-contrast lighting, electric green or gold against deep black, "
+        "no faces, no text in image, "
+        "the kind of image that makes viewers think: '俺も、私も——もしかしたらいけるんじゃないか'"
     ),
     "psychology": (
         "ultra-photorealistic 8K real photograph, "
-        "a single human face or gesture expressing a complex emotion — surprise, realization, vulnerability, "
-        "intimate shallow depth of field, dramatic side-lighting revealing texture and feeling, "
-        "the kind of real portrait that makes viewers feel seen and understood — "
-        "not clinical, deeply human and emotionally resonant"
+        "a single object or scene that makes the INVISIBLE workings of the mind suddenly VISIBLE — "
+        "a glass brain model lit by cold blue light casting complex shadows, "
+        "two diverging paths in a fog-covered forest (the moment of a decision), "
+        "a hand holding a cracked mirror reflecting distorted light (cognitive bias), "
+        "neural-like patterns in frost on glass, a chess piece standing alone on an empty board, "
+        "or a closed door with warm light leaking underneath (repressed thought) — "
+        "dramatic high-contrast lighting, deep blue-violet or slate-grey palette with one warm accent, "
+        "shallow depth of field, no faces, no text in image, "
+        "the kind of image that makes viewers think: 'my brain is doing this right now and I never noticed'"
     ),
     "general": (
         "ultra-photorealistic 8K real photograph, "
         "dramatic natural lighting, vivid colors, emotionally compelling real-world scene"
     ),
-    "finance2": (
+    "investor": (
         "ultra-photorealistic 8K real photograph, "
-        "expert trader or institutional investor in their element — "
-        "multiple Bloomberg terminal screens glowing with charts and data, "
-        "trading floor at market open, hedge fund war room, "
-        "or a lone analyst at 2am surrounded by candlestick charts and research reports — "
-        "dramatic high-contrast lighting, teal screen glow on focused face, "
-        "the kind of image that makes viewers feel they are inside a world most people never see"
+        "the cold, clinical world of professional finance — "
+        "multiple Bloomberg terminal screens casting teal light on empty chairs at 2am, "
+        "a Financial Times front page on a mahogany desk, "
+        "macro data printouts annotated in red pen, a chess board with only two pieces remaining, "
+        "a hand drawing a contrarian arrow on a whiteboard full of charts — "
+        "dramatic high-contrast lighting, deep navy and teal palette, cold authoritative atmosphere, "
+        "no faces, no text in image, "
+        "the kind of image that makes viewers feel they just stepped inside a world most people are never allowed to see"
     ),
     "drama_kdrama": (
         "ultra-cinematic 8K Korean drama still frame, "
         "exceptionally handsome Korean male lead and strikingly beautiful Korean female lead — "
         "visually stunning faces with flawless skin, strong jawline, expressive eyes — "
-        "in emotionally charged scenes: rain-soaked streets at night, luxury penthouse with Han River view, "
-        "rooftop under neon signs, tearful close-ups in golden hour backlight, "
+        "in emotionally charged scenes: luxury penthouse with Han River view, "
+        "rooftop under neon signs, tearful close-ups in golden hour backlight, dim library at closing time, "
         "occasionally an achingly beautiful first kiss — lips barely touching, eyes fluttering closed, "
         "anamorphic lens flare, shallow depth of field, desaturated teal-and-orange color grade, "
         "every frame looks like a drama poster shot — vertical portrait 9:16 cinematic composition"
@@ -233,9 +266,9 @@ GENRE_STYLES: dict[str, str] = {
         "two beautiful Korean men in their twenties (20-29 years old) — "
         "one powerfully handsome with sharp jawline, smoldering eyes and commanding presence, "
         "the other adorably cute with doe eyes, soft features, and an endearing flustered expression — "
-        "in intensely sensual scenes: pinned against a rain-streaked window after a heated kiss, "
+        "in intensely sensual scenes: pinned against a window after a heated kiss, "
         "shirt collar pulled open and chest flushed, the smaller one looking up with parted lips, "
-        "tangled together in the backseat of a car under neon light — tastefully suggestive, never explicit — "
+        "tangled together in the backseat of a car, or forehead pressed against forehead under streetlight — tastefully suggestive, never explicit — "
         "desaturated teal-and-rose color grade, anamorphic lens flare, "
         "every frame crackles with barely restrained desire — vertical portrait 9:16 cinematic composition"
     ),
@@ -351,12 +384,12 @@ _NARRATIVE_STRUCTURES: dict[str, str] = {
         "- Scene 6 (CTA): 'Save this and try it this week' or 'share with someone who wants to level up'."
     ),
     "finance": (
-        "- Scene 1 (HOOK): Open with a money fact that makes viewers feel urgent — 'most people lose $X doing this without knowing'.\n"
-        "- Scene 2 (SETUP): The relatable financial situation — specific, not generic.\n"
-        "- Scene 3 (THE TRICK): One concrete, actionable money move — simple enough to do today.\n"
-        "- Scene 4 (THE MATH): Show the numbers — make the impact real and tangible.\n"
-        "- Scene 5 (RESULT): What changes when you apply this — be specific about the outcome.\n"
-        "- Scene 6 (CTA): 'Save this before you forget' or 'send to someone who needs this'."
+        "- Scene 1 (一攫千金フック): 普通の人が普通じゃない方法で稼いだ実話を一行で掴む。「競馬AIで年収超えた会社員」「仮想通貨で元手30万が3000万になった日」——視聴者が「え、マジ？」と止まる瞬間。\n"
+        "- Scene 2 (その人のリアル): 主人公はどんな普通の人だったか。職業・状況・きっかけ。リアルなほど刺さる。\n"
+        "- Scene 3 (一つの転換点): 何をどう変えたのか——ツール・考え方・タイミング。再現できそうな具体性。\n"
+        "- Scene 4 (シン富裕層の思考): 成功した人が持つ、普通の人と根本的に違う金に対する考え方・行動原則。\n"
+        "- Scene 5 (リスクとリアル): 夢を壊さず、でも正直に——失敗した人との違い、やるなら知っておくべき一点。\n"
+        "- Scene 6 (CTA): 「興味ある人は保存して」「試してみたい人に送って」と背中を押す。"
     ),
     "psychology": (
         "- Scene 1 (HOOK): Open with a behavior or feeling viewers recognize in themselves — 'you've done this without realizing why'.\n"
@@ -414,47 +447,85 @@ _NARRATIVE_STRUCTURES: dict[str, str] = {
         "- Scene 5 (WHY IT HITS): What makes this BL special — the writing, the performances, the emotional depth, what makes it different.\n"
         "- Scene 6 (CTA): 'Read/watch this immediately' or 'tag your BL partner in crime'."
     ),
-    "finance2": (
-        "- Scene 1 (HOOK): 機関投資家・ヘッジファンド・億り人だけが知っている衝撃の事実で掴む。『99%の個人投資家が知らない』角度から入る。\n"
-        "- Scene 2 (SETUP): その手法・戦略の背景と仕組みを簡潔に説明。なぜ機能するのか、なぜ一般に知られていないのか。\n"
-        "- Scene 3 (MECHANICS): 具体的な数字・銘柄・タイミング・指標を使って戦略の核心を解説。抽象論NG、実戦レベルの具体性。\n"
-        "- Scene 4 (PROOF): 実際の事例、歴史的データ、著名投資家の実績で裏付ける。バフェット・ソロス・レイ・ダリオ等の具体的な動きを引用。\n"
-        "- Scene 5 (RISK/EDGE): この手法のリスクと、それでも使う理由（エッジ）を正直に伝える。プロが実際に使う条件と撤退ライン。\n"
-        "- Scene 6 (CTA): 今すぐ確認・実行できる具体的なアクション。保存必須の内容で締める。"
+    "investor": (
+        "- Scene 1 (CONTRARIAN HOOK): マーケットの通説を真っ向否定する一行で掴む。FT・WSJ・The Economistのヘッドライン感覚——『市場が間違っている理由』『誰も言わない中央銀行の矛盾』『バフェットが今売っているもの』。\n"
+        "- Scene 2 (MACRO CONTEXT): なぜ今この話が重要か。マクロ経済・地政学・金融サイクルのどこにいるかを冷静に俯瞰する。\n"
+        "- Scene 3 (THE EDGE): プロだけが使う指標・シグナル・フレームワーク。具体的な数字・データ・チャートパターンで論証する。抽象論NG。\n"
+        "- Scene 4 (CONTRARIAN CASE): 一般投資家が信じている通説の何が間違いか。コントラリアンな視点と、それを支持する歴史的証拠。\n"
+        "- Scene 5 (RISK/POSITION): このテーゼのリスクと、それでもポジションを取る理由。プロが実際に使う条件・撤退ライン・サイズ感。\n"
+        "- Scene 6 (CTA): 今すぐ確認すべき具体的な指標・銘柄・ニュースソース。知的好奇心を刺激して保存させる締め。"
     ),
+    "religion2": (
+        "- Scene 1 (光のフック): 見ただけで運気が上がりそうな、ポジティブなエネルギーで掴む。禁忌や恐怖ではなく『これを知ったら今日から運が変わる』という希望の角度から入る。\n"
+        "- Scene 2 (宇宙の仕組み): なぜそれが運気・引き寄せに繋がるのか。難しくなく、温かく、『なるほど、そういうことか』と腑に落ちる説明。\n"
+        "- Scene 3 (今すぐできる開運アクション): 一つの具体的で簡単な行動——置く・持つ・唱える・整える。やった瞬間から気持ちが上がるもの。\n"
+        "- Scene 4 (宇宙からのサイン): 運気が上がっているときに起こる出来事・変化・シンクロニシティ。『これ、最近あった！』と視聴者が思わず頷く内容。\n"
+        "- Scene 5 (豊かさのビジョン): それを続けた先にある明るい未来。金運・人間関係・健康——どれでも良い。希望と豊かさで満たす。\n"
+        "- Scene 6 (CTA): 「運気を上げたい人に送って」「保存して今日から試して」と温かく明るく締める。ネガティブな言葉は一切使わない。"
+    ),
+    # Drama genres store only the tone/character note here.
+    # The actual arc-selection structure is injected by build_prompt() via _DRAMA_ARCS.
     "drama_kdrama": (
-        "- Scene 1 (運命の出会い): 二人が初めて交差する瞬間。偶然か必然か——読者が息を呑む出会いの瞬間を描く。\n"
-        "- Scene 2 (惹かれる心): 距離が縮まる場面。言葉ではなく、視線・仕草・沈黙で気持ちを伝える。\n"
-        "- Scene 3 (すれ違い): 誤解・秘密・身分差など、二人を引き裂く葛藤が表面化する。\n"
-        "- Scene 4 (転換点): 感情が爆発する瞬間——雨の中の言葉、病院の廊下、屋上での叫び。\n"
-        "- Scene 5 (クライマックス): 告白・抱擁・キス・別れ——どれでもよい。二人の関係が決定的に変わる感情の頂点を描く。キスシーンは必須ではない。\n"
-        "- Scene 6 (余韻): 次の展開を予感させる余韻。セリフや表情で視聴者の心を引き留める。"
+        "スタイル：韓国ドラマ。財閥・身分差・雨のシーン・漢江の夜景が似合う。感情表現は大きく、"
+        "色彩豊か。キスシーンは映画的に、ドラマポスターのような構図で。"
     ),
     "drama_romance": (
-        "- Scene 1 (出会い直し): すでに知っている二人が、ある瞬間に「特別な人」として見え始める場面。\n"
-        "- Scene 2 (距離が縮まる): 偶然の接触、共有する時間——言葉より先に体が反応する。指が触れた瞬間、心臓が跳ねる。\n"
-        "- Scene 3 (迷い): 好きだと気づいた瞬間に生まれる躊躇。傷つくのが怖い、でも体が引き寄せられる。\n"
-        "- Scene 4 (限界): 抑えていた感情と欲望がついにあふれ出す——気づけば彼の腕の中にいた。\n"
-        "- Scene 5 (キス・クライマックス): 唇が重なり、腰に回る腕の力が増す。甘く、熱く、息ができない——世界が二人だけになる瞬間。直接的な描写は避けつつ、官能的な緊張感を最大限に高める。\n"
-        "- Scene 6 (余韻): 乱れた髪、上気した頬、明け方の光。言葉より雄弁な沈黙と、その先への予感。"
+        "スタイル：日本のロマンティックドラマ。繊細な日本的感性、抑制された感情、"
+        "言葉より「間」が大切。官能的な緊張感は直接的な描写を避けつつ最大限に高める。"
     ),
     "drama_bl": (
-        "- Scene 1 (気づき): 何度も会っているのに、今日だけ違って見えた——その視線が、肌に触れるみたいだった。\n"
-        "- Scene 2 (近づく): 触れそうで触れない距離。吐息が届く近さで目が合う——心臓が、うるさい。\n"
-        "- Scene 3 (葛藤): これは友情か、それとも——気づいてしまったら、もう戻れない。\n"
-        "- Scene 4 (亀裂と転換): 第三者の影、すれ違い——そして限界が来る。もう隠せなかった。\n"
-        "- Scene 5 (キス・クライマックス): 壁に押し当てられて、唇が重なる——思ったより、ずっと熱かった。シャツの裾を握る手が震えている。直接的な描写は避けつつ、甘く官能的な緊張感を描く。\n"
-        "- Scene 6 (余韻): 乱れた息、離れない視線——夜明けの光の中で、二人の間に新しい距離感が生まれた。"
+        "スタイル：日本BLドラマ。20代の日本人男性二人。甘く柔らかい感情表現、"
+        "パステル・淡い光の映像美。胸が痛くなるほどの繊細さと、抑えきれない引力。"
     ),
     "drama_korean_bl": (
-        "- Scene 1 (対立する二人): 反目し合う二人。だが視線が絡むたびに、妙な熱が残る。\n"
-        "- Scene 2 (隙を見せる瞬間): 強い男が、一瞬だけ崩れる——その瞬間に何かが火花を散らす。\n"
-        "- Scene 3 (距離が消える): 状況が二人を密着させる。触れた体温の濃さに、息が詰まる。\n"
-        "- Scene 4 (引き裂かれる): 感情を認めた瞬間に障壁が現れる。でも体はもう、正直だった。\n"
-        "- Scene 5 (キス・クライマックス): 壁に追い詰め、雨の中で引き寄せ——唇が激しく重なる。シャツの胸元が乱れ、吐息が混ざり合う——直接的な描写は避けつつ、ギリギリまで官能的な緊張感を描く。\n"
-        "- Scene 6 (余韻): 嵐の後の静寂。上気した肌、乱れた呼吸——そして、次の嵐への予感。"
+        "スタイル：韓国BLドラマ。20代の韓国人男性二人。強くクールな一方と、可愛らしく"
+        "ドギマギする一方。ネオン・雨・煙草・ジャケット——激しくギリギリまで官能的に。"
     ),
 }
+
+_DRAMA_ARCS = """\
+トピックのプレミスを読み、最も合うアークを一つ選んで、そのシーン構成に従うこと。
+
+━━ ARC A: 急速接近型 ━━ (運命の出会い・一目惚れ・身分差の禁断愛・契約から始まる関係)
+- Scene 1 (出会いの衝撃): 二人が初めて交差する瞬間——偶然か必然か、息を呑む出会い。
+- Scene 2 (惹かれる瞬間): 距離が縮まる場面。言葉より先に、視線と仕草が語る。
+- Scene 3 (すれ違い): 誤解・秘密・身分差——二人を引き裂く葛藤が表面化する。
+- Scene 4 (転換点): 感情が爆発する瞬間——場所・天気・状況はトピックに合わせて自由に選ぶ。どこかで何かが決壊する。
+- Scene 5 (クライマックス): 告白・抱擁・キス——関係が決定的に変わる感情の頂点。
+- Scene 6 (余韻): 次を予感させる余韻。セリフか沈黙で視聴者の心を引き留める。
+
+━━ ARC B: スローバーン型 ━━ (幼馴染・同僚・ずっと側にいた人・気づかなかった感情)
+- Scene 1 (いつもの日常): 二人の当たり前の距離感——でも今日だけ、何かが違って見える。
+- Scene 2 (小さな違和感): 触れた指・交わった視線・無意識の行動——心臓が、少しだけうるさい。
+- Scene 3 (認めたくない): 「これは友情だ」と言い聞かせる内面。でも体は正直だった。
+- Scene 4 (限界の手前): 誰かの一言・別れの予感・第三者の存在——気持ちが溢れそうになる。
+- Scene 5 (ようやく届く): 言葉にならなかった感情が、ついに相手に届く瞬間。
+- Scene 6 (余韻): 変わった距離感、変わらない声——でも全てが変わった。静かな幸福。
+
+━━ ARC C: 再会型 ━━ (別れた恋人・忘れられない初恋・記憶喪失・数年後の再会)
+- Scene 1 (再会の瞬間): もう会わないと思っていた人が、目の前にいる。
+- Scene 2 (過去の影): 二人の間にある歴史——喜びか痛みか、あの頃の記憶がよみがえる。
+- Scene 3 (変わったもの、変わらないもの): 時間が二人に何を与え、何を奪ったか。
+- Scene 4 (感情の再燃): 消えたはずの気持ちが、まだそこにあった。
+- Scene 5 (選択): もう一度向き合うか、離れるか——どちらを選んでも、痛い。
+- Scene 6 (余韻): 答えより感情を残す。視聴者の胸に問いかけて終わる。
+
+━━ ARC D: 悲恋型 ━━ (叶わない愛・別れで終わる話・片想いの完結・身分差で結ばれない)
+- Scene 1 (美しい始まり): 二人が最も近かった瞬間——幸福で、だからこそ切ない。
+- Scene 2 (忍び寄る影): 別れの理由・障壁・タイムリミットが見え始める。
+- Scene 3 (それでも): わかっていても離れられない——愛することをやめられない。
+- Scene 4 (最後の時間): 終わりが近いと知りながら過ごす、密度の高い瞬間。
+- Scene 5 (別れ): 言葉か沈黙か——どちらにせよ、胸が痛い別れ。
+- Scene 6 (余韻): 残されたもの——物・言葉・記憶。悲しくて、でも美しい。
+
+━━ ARC E: 敵から恋へ型 ━━ (ライバル・反目・嫌いなはずの相手・強制同居・契約)
+- Scene 1 (火花): 二人の対立——言葉が刃のように交わされる。でも視線が離せない。
+- Scene 2 (崩れる瞬間): 強がりの向こうに見えた本当の顔——その一瞬で何かが変わる。
+- Scene 3 (認めたくない引力): 「嫌いだ」と言い聞かせるほど、頭から離れない。
+- Scene 4 (共に立つ瞬間): 二人が同じ方向を向く——敵ではなく、味方だと気づく。
+- Scene 5 (クライマックス): もう嘘はつけない——感情が、全てを上書きする。
+- Scene 6 (余韻): 変わった関係の新しい始まり——または、まだ言えない感情の続き。
+"""
 
 _DEFAULT_NARRATIVE = (
     "- Scene 1 (HOOK): Open with a shocking fact, provocative question, or dramatic visual. Must grab attention in the first 2 seconds.\n"
@@ -470,7 +541,11 @@ def build_prompt(topic: str, genre: str = "general", lang: str = "en") -> str:
     is_drama = genre.startswith("drama_")
     style = GENRE_STYLES.get(genre, GENRE_STYLES["general"])
     genre_label = genre.upper()
-    narrative_structure = _NARRATIVE_STRUCTURES.get(genre, _DEFAULT_NARRATIVE)
+    if is_drama:
+        genre_tone = _NARRATIVE_STRUCTURES.get(genre, "")
+        narrative_structure = genre_tone + "\n\n" + _DRAMA_ARCS
+    else:
+        narrative_structure = _NARRATIVE_STRUCTURES.get(genre, _DEFAULT_NARRATIVE)
 
     if lang == "ja":
         lang_instruction = (

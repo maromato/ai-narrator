@@ -31,7 +31,7 @@ DEFAULT_GENRE = "general"
 DEFAULT_LANG = "en"
 CONFIG_PATH = Path(__file__).parent / "config.json"
 
-GENRES = ["general", "history", "science", "animals", "religion", "lifestyle", "selfhelp", "workplace", "japan_travel", "japan_zen", "romance", "mens_life", "academia", "elite_edu", "finance", "finance2", "psychology", "beauty", "drama_kdrama", "drama_romance", "drama_bl", "drama_korean_bl", "kdrama_intro", "bl_intro"]
+GENRES = ["general", "history", "science", "animals", "religion", "religion2", "lifestyle", "selfhelp", "workplace", "japan_travel", "japan_zen", "romance", "mens_life", "academia", "elite_edu", "finance", "investor", "psychology", "beauty", "drama_kdrama", "drama_romance", "drama_bl", "drama_korean_bl", "kdrama_intro", "bl_intro"]
 LANGS = ["en", "ja"]
 
 
