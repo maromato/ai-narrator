@@ -226,7 +226,7 @@ def _burn_subtitle(image_path: Path, subtitle: str, output_path: Path,
             line_h = draw.textbbox((0, 0), "あ", font=hfont)[3] + 10
             total_h = line_h * len(lines)
             padding = 16
-            hy_start = int(h * 0.09)
+            hy_start = (h - total_h) // 2
 
             # Full-width dark band behind all lines
             band = Image.new("RGBA", img.size, (0, 0, 0, 0))
