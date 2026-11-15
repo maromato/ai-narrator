@@ -124,7 +124,10 @@ def run(
         clip_paths: list[Path] = []
         for scene, raw_path, audio_path in zip(storyboard.scenes, raw_video_paths, audio_paths):
             clip_path = out_dir / f"clip_{scene.scene_id}.mp4"
-            vid.mux_video_audio(raw_path, audio_path, clip_path, config["video"], subtitle=scene.subtitle if subtitle else "")
+            vid.mux_video_audio(raw_path, audio_path, clip_path, config["video"],
+                               subtitle=scene.subtitle if subtitle else "",
+                               hook_title=storyboard.topic if scene.scene_id == 1 else "",
+                               genre=genre)
             clip_paths.append(clip_path)
 
     else:
@@ -158,6 +161,7 @@ def run(
                 camera_effect=scene.camera_effect,
                 config=config["video"],
                 hook_title=storyboard.topic if scene.scene_id == 1 else "",
+                genre=genre,
             )
             clip_paths.append(clip_path)
 

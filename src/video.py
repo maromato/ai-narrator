@@ -80,6 +80,46 @@ _OUTLINE_OFFSETS = [
     (-4, -4), (4, -4), (-4, 4), (4, 4),
 ]
 
+# Genre → hook title text color (R, G, B, A)
+_GENRE_TITLE_COLORS: dict[str, tuple[int, int, int, int]] = {
+    # Finance / money
+    "finance":      (255, 224,   0, 255),  # #FFE000 yellow  — 一攫千金/Alex Hormozi
+    "investor":     (  0, 180, 255, 255),  # #00B4FF electric blue — FT/Bloomberg
+    # Education
+    "academia":     (245, 222, 179, 255),  # #F5DEB3 cream/wheat — academic warmth
+    "elite_edu":    (255, 224,   0, 255),  # #FFE000 yellow — aspirational
+    # Science / knowledge
+    "science":      (  0, 229, 255, 255),  # #00E5FF cyan — scientific/space
+    "history":      (245, 222, 179, 255),  # #F5DEB3 cream — documentary
+    # Psychology / self
+    "psychology":   (212, 176, 255, 255),  # #D4B0FF soft lavender — mind/introspective
+    "selfhelp":     (255, 140,   0, 255),  # #FF8C00 amber — inspirational energy
+    # Spiritual
+    "religion":     (255, 215,   0, 255),  # #FFD700 gold — sacred
+    "religion2":    (255, 215,   0, 255),  # #FFD700 gold — fortune/abundance
+    # Lifestyle / beauty
+    "beauty":       (255, 112, 192, 255),  # #FF70C0 hot pink — K/J-beauty
+    "lifestyle":    (255, 160, 122, 255),  # #FFA07A light salmon — warm lifestyle
+    "mens_life":    (255, 255, 255, 255),  # white — clean/masculine
+    # Travel / Japan
+    "japan_travel": (255, 122,  69, 255),  # #FF7A45 coral orange — cheerful travel
+    "japan_zen":    (255, 255, 255, 255),  # white — zen/minimal
+    # Romance / drama
+    "romance":      (255, 176, 200, 255),  # #FFB0C8 rose pink — romantic
+    "drama_kdrama": (255, 255, 255, 255),  # white — cinematic
+    "drama_romance":(255, 176, 200, 255),  # rose pink
+    "drama_bl":     (220, 180, 255, 255),  # #DCB4FF soft lavender — BL tender
+    "drama_korean_bl": (255, 255, 255, 255),  # white — intense cinematic
+    "kdrama_intro": (255, 255, 255, 255),  # white — cinematic
+    "bl_intro":     (220, 180, 255, 255),  # lavender
+    # Animals / fun
+    "animals":      (255, 230,   0, 255),  # bright yellow — fun/cute
+    # Workplace
+    "workplace":    (  0, 180, 255, 255),  # electric blue — professional
+    # Default
+    "general":      (255, 224,   0, 255),  # yellow fallback
+}
+
 
 def _find_font() -> str | None:
     for fp in _FONT_PATHS:
@@ -147,7 +187,7 @@ def _wrap_text(draw: ImageDraw.ImageDraw, text: str, font, max_width: int) -> li
 
 
 def _burn_subtitle(image_path: Path, subtitle: str, output_path: Path,
-                   hook_title: str = "") -> Path:
+                   hook_title: str = "", genre: str = "general") -> Path:
     """Burn subtitle (and optional hook title) onto image — TikTok viral style."""
     with Image.open(image_path).convert("RGBA") as img:
         w, h = img.size
@@ -167,13 +207,14 @@ def _burn_subtitle(image_path: Path, subtitle: str, output_path: Path,
             y = int(h * 0.84) - th // 2
             _draw_outlined_text(draw, (x, y), subtitle, font, fill=(255, 255, 255, 255))
 
-        # ── Hook title card (top area, yellow + thick black outline, wrapped) ──
+        # ── Hook title card (top area, genre-colored text, wrapped) ─────────
         if hook_title:
             if all(ord(c) < 128 for c in hook_title):
                 hook_title = hook_title.upper()
 
-            max_w = int(w * 0.88)
-            hfont_size = max(72, h // 17)
+            title_color = _GENRE_TITLE_COLORS.get(genre, _GENRE_TITLE_COLORS["general"])
+            max_w = int(w * 0.86)
+            hfont_size = max(52, h // 22)  # smaller = less cramped
             hfont = ImageFont.load_default()
             if font_path:
                 try:
@@ -182,18 +223,17 @@ def _burn_subtitle(image_path: Path, subtitle: str, output_path: Path,
                     pass
 
             lines = _wrap_text(draw, hook_title, hfont, max_w)
-            # Measure total block height
-            line_h = draw.textbbox((0, 0), "あ", font=hfont)[3] + 8
+            line_h = draw.textbbox((0, 0), "あ", font=hfont)[3] + 10
             total_h = line_h * len(lines)
-            padding = 20
+            padding = 16
             hy_start = int(h * 0.09)
 
-            # Dark band covering all lines
+            # Full-width dark band behind all lines
             band = Image.new("RGBA", img.size, (0, 0, 0, 0))
             band_draw = ImageDraw.Draw(band)
             band_draw.rectangle(
                 [0, hy_start - padding, w, hy_start + total_h + padding],
-                fill=(0, 0, 0, 180),
+                fill=(0, 0, 0, 200),
             )
             img = Image.alpha_composite(img, band)
             draw = ImageDraw.Draw(img)
@@ -203,8 +243,7 @@ def _burn_subtitle(image_path: Path, subtitle: str, output_path: Path,
                 lw = lbbox[2] - lbbox[0]
                 lx = (w - lw) // 2
                 ly = hy_start + i * line_h
-                _draw_outlined_text(draw, (lx, ly), line, hfont,
-                                    fill=(255, 224, 0, 255))  # #FFE000 yellow
+                _draw_outlined_text(draw, (lx, ly), line, hfont, fill=title_color)
 
         img.convert("RGB").save(str(output_path))
     return output_path
@@ -218,6 +257,7 @@ def build_scene_clip(
     camera_effect: str,
     config: dict,
     hook_title: str = "",
+    genre: str = "general",
 ) -> Path:
     """Render a single scene: image + subtitle (PIL) + Ken Burns + audio → MP4."""
     w, h, fps = config["width"], config["height"], config["fps"]
@@ -233,7 +273,7 @@ def build_scene_clip(
     # Burn subtitle (+ optional hook title) into a temp image copy
     with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
         tmp_image = Path(tmp.name)
-    _burn_subtitle(image_path, subtitle, tmp_image, hook_title=hook_title)
+    _burn_subtitle(image_path, subtitle, tmp_image, hook_title=hook_title, genre=genre)
 
     video_filter = (
         f"[0:v]scale={scale_w}:{scale_h}:force_original_aspect_ratio=increase,"
@@ -264,7 +304,7 @@ def build_scene_clip(
 
 
 def _create_subtitle_overlay(subtitle: str, w: int, h: int, output_path: Path,
-                              hook_title: str = "") -> Path:
+                              hook_title: str = "", genre: str = "general") -> Path:
     """Create a transparent PNG with subtitle (+ optional hook title) for overlay onto video."""
     img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
@@ -284,8 +324,9 @@ def _create_subtitle_overlay(subtitle: str, w: int, h: int, output_path: Path,
     if hook_title:
         if all(ord(c) < 128 for c in hook_title):
             hook_title = hook_title.upper()
-        max_w = int(w * 0.88)
-        hfont_size = max(72, h // 17)
+        title_color = _GENRE_TITLE_COLORS.get(genre, _GENRE_TITLE_COLORS["general"])
+        max_w = int(w * 0.86)
+        hfont_size = max(52, h // 22)
         hfont = ImageFont.load_default()
         if font_path:
             try:
@@ -293,15 +334,15 @@ def _create_subtitle_overlay(subtitle: str, w: int, h: int, output_path: Path,
             except Exception:
                 pass
         lines = _wrap_text(draw, hook_title, hfont, max_w)
-        line_h = draw.textbbox((0, 0), "あ", font=hfont)[3] + 8
+        line_h = draw.textbbox((0, 0), "あ", font=hfont)[3] + 10
         total_h = line_h * len(lines)
-        padding = 20
+        padding = 16
         hy_start = int(h * 0.09)
         band = Image.new("RGBA", (w, h), (0, 0, 0, 0))
         band_draw = ImageDraw.Draw(band)
         band_draw.rectangle(
             [0, hy_start - padding, w, hy_start + total_h + padding],
-            fill=(0, 0, 0, 180),
+            fill=(0, 0, 0, 200),
         )
         img = Image.alpha_composite(img, band)
         draw = ImageDraw.Draw(img)
@@ -310,7 +351,7 @@ def _create_subtitle_overlay(subtitle: str, w: int, h: int, output_path: Path,
             lw = lbbox[2] - lbbox[0]
             lx = (w - lw) // 2
             ly = hy_start + i * line_h
-            _draw_outlined_text(draw, (lx, ly), line, hfont, fill=(255, 224, 0, 255))
+            _draw_outlined_text(draw, (lx, ly), line, hfont, fill=title_color)
 
     img.save(str(output_path))
     return output_path
@@ -322,6 +363,8 @@ def mux_video_audio(
     output_path: Path,
     config: dict,
     subtitle: str = "",
+    hook_title: str = "",
+    genre: str = "general",
 ) -> Path:
     """Mux a Kling-generated video with TTS audio → scene clip MP4."""
     duration = get_audio_duration(audio_path)
@@ -330,7 +373,7 @@ def mux_video_audio(
     if subtitle:
         with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
             overlay_path = Path(tmp.name)
-        _create_subtitle_overlay(subtitle, w, h, overlay_path)
+        _create_subtitle_overlay(subtitle, w, h, overlay_path, hook_title=hook_title, genre=genre)
 
         cmd = [
             "ffmpeg", "-y",
