@@ -116,6 +116,36 @@ def _draw_outlined_text(draw: ImageDraw.ImageDraw, pos: tuple[int, int], text: s
     draw.text((x, y), text, font=font, fill=fill)
 
 
+def _wrap_text(draw: ImageDraw.ImageDraw, text: str, font, max_width: int) -> list[str]:
+    """Wrap text to fit within max_width. Japanese: char boundary. English: word boundary."""
+    is_ascii = all(ord(c) < 128 for c in text)
+    lines: list[str] = []
+    current = ""
+
+    if is_ascii:
+        for word in text.split():
+            test = (current + " " + word).strip()
+            if draw.textbbox((0, 0), test, font=font)[2] <= max_width:
+                current = test
+            else:
+                if current:
+                    lines.append(current)
+                current = word
+    else:
+        for char in text:
+            test = current + char
+            if draw.textbbox((0, 0), test, font=font)[2] <= max_width:
+                current = test
+            else:
+                if current:
+                    lines.append(current)
+                current = char
+
+    if current:
+        lines.append(current)
+    return lines or [text]
+
+
 def _burn_subtitle(image_path: Path, subtitle: str, output_path: Path,
                    hook_title: str = "") -> Path:
     """Burn subtitle (and optional hook title) onto image — TikTok viral style."""
@@ -137,29 +167,44 @@ def _burn_subtitle(image_path: Path, subtitle: str, output_path: Path,
             y = int(h * 0.84) - th // 2
             _draw_outlined_text(draw, (x, y), subtitle, font, fill=(255, 255, 255, 255))
 
-        # ── Hook title card (top area, yellow + thick black outline) ─────────
+        # ── Hook title card (top area, yellow + thick black outline, wrapped) ──
         if hook_title:
             if all(ord(c) < 128 for c in hook_title):
                 hook_title = hook_title.upper()
 
-            hfont = _fit_font(draw, hook_title, int(w * 0.88),
-                              start_size=max(90, h // 14), min_size=50, font_path=font_path)
-            hbbox = draw.textbbox((0, 0), hook_title, font=hfont)
-            htw, hth = hbbox[2] - hbbox[0], hbbox[3] - hbbox[1]
-            hx = (w - htw) // 2
-            hy = int(h * 0.09)
+            max_w = int(w * 0.88)
+            hfont_size = max(72, h // 17)
+            hfont = ImageFont.load_default()
+            if font_path:
+                try:
+                    hfont = ImageFont.truetype(font_path, hfont_size)
+                except Exception:
+                    pass
+
+            lines = _wrap_text(draw, hook_title, hfont, max_w)
+            # Measure total block height
+            line_h = draw.textbbox((0, 0), "あ", font=hfont)[3] + 8
+            total_h = line_h * len(lines)
             padding = 20
-            # Tight dark band behind title
+            hy_start = int(h * 0.09)
+
+            # Dark band covering all lines
             band = Image.new("RGBA", img.size, (0, 0, 0, 0))
             band_draw = ImageDraw.Draw(band)
             band_draw.rectangle(
-                [hx - padding, hy - padding, hx + htw + padding, hy + hth + padding],
+                [0, hy_start - padding, w, hy_start + total_h + padding],
                 fill=(0, 0, 0, 180),
             )
             img = Image.alpha_composite(img, band)
             draw = ImageDraw.Draw(img)
-            _draw_outlined_text(draw, (hx, hy), hook_title, hfont,
-                                fill=(255, 224, 0, 255))  # #FFE000 yellow
+
+            for i, line in enumerate(lines):
+                lbbox = draw.textbbox((0, 0), line, font=hfont)
+                lw = lbbox[2] - lbbox[0]
+                lx = (w - lw) // 2
+                ly = hy_start + i * line_h
+                _draw_outlined_text(draw, (lx, ly), line, hfont,
+                                    fill=(255, 224, 0, 255))  # #FFE000 yellow
 
         img.convert("RGB").save(str(output_path))
     return output_path
@@ -239,23 +284,33 @@ def _create_subtitle_overlay(subtitle: str, w: int, h: int, output_path: Path,
     if hook_title:
         if all(ord(c) < 128 for c in hook_title):
             hook_title = hook_title.upper()
-        hfont = _fit_font(draw, hook_title, int(w * 0.88),
-                          start_size=max(90, h // 14), min_size=50, font_path=font_path)
-        hbbox = draw.textbbox((0, 0), hook_title, font=hfont)
-        htw, hth = hbbox[2] - hbbox[0], hbbox[3] - hbbox[1]
-        hx = (w - htw) // 2
-        hy = int(h * 0.09)
+        max_w = int(w * 0.88)
+        hfont_size = max(72, h // 17)
+        hfont = ImageFont.load_default()
+        if font_path:
+            try:
+                hfont = ImageFont.truetype(font_path, hfont_size)
+            except Exception:
+                pass
+        lines = _wrap_text(draw, hook_title, hfont, max_w)
+        line_h = draw.textbbox((0, 0), "あ", font=hfont)[3] + 8
+        total_h = line_h * len(lines)
         padding = 20
+        hy_start = int(h * 0.09)
         band = Image.new("RGBA", (w, h), (0, 0, 0, 0))
         band_draw = ImageDraw.Draw(band)
         band_draw.rectangle(
-            [hx - padding, hy - padding, hx + htw + padding, hy + hth + padding],
+            [0, hy_start - padding, w, hy_start + total_h + padding],
             fill=(0, 0, 0, 180),
         )
         img = Image.alpha_composite(img, band)
         draw = ImageDraw.Draw(img)
-        _draw_outlined_text(draw, (hx, hy), hook_title, hfont,
-                            fill=(255, 224, 0, 255))
+        for i, line in enumerate(lines):
+            lbbox = draw.textbbox((0, 0), line, font=hfont)
+            lw = lbbox[2] - lbbox[0]
+            lx = (w - lw) // 2
+            ly = hy_start + i * line_h
+            _draw_outlined_text(draw, (lx, ly), line, hfont, fill=(255, 224, 0, 255))
 
     img.save(str(output_path))
     return output_path
