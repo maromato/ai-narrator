@@ -44,5 +44,10 @@
     "retry_wait_min": 2,
     "retry_wait_max": 10,
     "output_dir": "output"
+  },
+  "cloud": {
+    "enabled": true,
+    "remote": "gdrive:ai_narrator",
+    "cleanup_intermediates": true
   }
 }

@@ -188,4 +188,13 @@ def run(
 
     report.save(out_dir / "report.json")
     logger.info("Done. Video: %s (%.1fs)", final_path, total_duration)
+
+    # ── Cloud upload + cleanup (optional) ────────────────────────────────────
+    cloud_cfg = config.get("cloud", {})
+    if cloud_cfg.get("enabled"):
+        from src.adapters.cloud_upload import cleanup_intermediates, upload_run
+        success = upload_run(out_dir, cloud_cfg["remote"])
+        if success and cloud_cfg.get("cleanup_intermediates", True):
+            cleanup_intermediates(out_dir)
+
     return final_path, report
